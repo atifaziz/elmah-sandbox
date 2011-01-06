@@ -1,7 +1,5 @@
 syntax: glob
 bin/**
-*.dll
-*.pdb
 *.user
 *.cache
 *.suo
