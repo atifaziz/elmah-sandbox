@@ -1,7 +1,7 @@
 ﻿#region License, Terms and Author(s)
 //
-// ELMAH - Error Logging Modules and Handlers for ASP.NET
-// Copyright (c) 2004-9 Atif Aziz. All rights reserved.
+// ELMAH Sandbox
+// Copyright (c) 2010-11 Atif Aziz. All rights reserved.
 //
 //  Author(s):
 //
