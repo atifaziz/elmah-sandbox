@@ -41,9 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorResponseLogModule.cs" />
+    <Compile Include="IpAddressExtentions.cs" />
     <Compile Include="LinqBridge-1.2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HttpSynthesizedException.cs" />
+    <Compile Include="NetworkAuthorizationModule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
