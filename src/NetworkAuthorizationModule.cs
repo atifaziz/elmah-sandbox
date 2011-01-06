@@ -22,7 +22,7 @@
 //
 #endregion
 
-namespace Elmah
+namespace Elmah.Sandbox
 {
     #region Imports
 

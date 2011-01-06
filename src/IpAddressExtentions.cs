@@ -1,4 +1,4 @@
-﻿namespace Elmah
+﻿namespace Elmah.Sandbox
 {
     using System;
     using System.Net;

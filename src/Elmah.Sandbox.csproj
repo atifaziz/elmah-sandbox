@@ -8,7 +8,7 @@
     <ProjectGuid>{4ECE273D-21E1-4366-923B-6DBA92299FD4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Elmah</RootNamespace>
+    <RootNamespace>Elmah.Sandbox</RootNamespace>
     <AssemblyName>Elmah.Sandbox</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
