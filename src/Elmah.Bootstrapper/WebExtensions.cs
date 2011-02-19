@@ -33,7 +33,14 @@ namespace Elmah.Bootstrapper
 
     static class WebExtensions
     {
-        public static void Subscribe(this HttpApplication application, Action<EventHandler> subscriber, Action<HttpContextBase> handler)
+        /// <summary>
+        /// Helps with subscribing to <see cref="HttpApplication"/> events
+        /// but where the handler 
+        /// </summary>
+
+        public static void Subscribe(this HttpApplication application, 
+            Action<EventHandler> subscriber, 
+            Action<HttpContextBase> handler)
         {
             if (application == null) throw new ArgumentNullException("application");
             if (subscriber == null) throw new ArgumentNullException("subscriber");
@@ -42,15 +49,33 @@ namespace Elmah.Bootstrapper
             subscriber((sender, _) => handler(new HttpContextWrapper(((HttpApplication) sender).Context)));
         }
 
-        public static IHttpHandler GetHandler(this IHttpHandlerFactory factory, HttpContextBase context, string requestType, string url, string pathTranslated)
+        /// <summary>
+        /// Same as <see cref="IHttpHandlerFactory.GetHandler"/> except the
+        /// HTTP context is typed as <see cref="HttpContextBase"/> instead
+        /// of <see cref="HttpContext"/>.
+        /// </summary>
+
+        public static IHttpHandler GetHandler(this IHttpHandlerFactory factory, 
+            HttpContextBase context, string requestType, 
+            string url, string pathTranslated)
         {
             if (factory == null) throw new ArgumentNullException("factory");
-            return factory.GetHandler(context.GetWrappedContext(), requestType, url, pathTranslated);
+            return factory.GetHandler(context.GetRuntimeContext(), requestType, url, pathTranslated);
         }
-        
-        public static HttpContext GetWrappedContext(this HttpContextBase context)
+
+        /// <summary>
+        /// Gets the <see cref="HttpContext"/> object that may be associated
+        /// with a given <see cref="HttpContextBase"/> object.
+        /// </summary>
+        /// <remarks>
+        /// An exception is thrown if <paramref name="context"/> does not
+        /// support a query for <see cref="HttpApplication"/> as a service.
+        /// </remarks>
+
+        public static HttpContext GetRuntimeContext(this HttpContextBase context)
         {
-            if (context == null) throw new ArgumentNullException("context");
+            if (context == null) throw new ArgumentNullException("context");            
+            // http://stackoverflow.com/questions/1992141/how-do-i-get-an-httpcontext-object-from-httpcontextbase-in-asp-net-mvc-1/4567707#4567707
             return context.GetRequiredService<HttpApplication>().Context;
         }
     }
