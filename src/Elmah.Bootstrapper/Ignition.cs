@@ -129,23 +129,4 @@ namespace Elmah.Bootstrapper
             return container;
         }
     }
-
-    /*
-    class ErrorFilterModule : Elmah.ErrorFilterModule
-    {
-        protected override void OnErrorModuleFiltering(object sender, ExceptionFilterEventArgs args)
-        {
-            base.OnErrorModuleFiltering(sender, args);
-
-            if (args.Dismissed)
-                return;
-
-            var type = BuildManager.GetType("", false, true);
-            var assertion = Activator.CreateInstance(type) as IAssertion;
-            if (assertion == null)
-                return;
-            if (assertion.Test(args.Context))
-                args.Dismiss();
-        }
-    }*/
 }
