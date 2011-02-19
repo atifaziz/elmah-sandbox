@@ -1,0 +1,57 @@
+﻿#region License, Terms and Author(s)
+//
+// ELMAH Sandbox
+// Copyright (c) 2010-11 Atif Aziz. All rights reserved.
+//
+//  Author(s):
+//
+//      Atif Aziz, http://www.raboof.com
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+#endregion
+
+namespace Elmah.Bootstrapper
+{
+    #region Imports
+
+    using System;
+    using System.Web;
+    using Mannex;
+
+    #endregion
+
+    static class WebExtensions
+    {
+        public static void Subscribe(this HttpApplication application, Action<EventHandler> subscriber, Action<HttpContextBase> handler)
+        {
+            if (application == null) throw new ArgumentNullException("application");
+            if (subscriber == null) throw new ArgumentNullException("subscriber");
+            if (handler == null) throw new ArgumentNullException("handler");
+        
+            subscriber((sender, _) => handler(new HttpContextWrapper(((HttpApplication) sender).Context)));
+        }
+
+        public static IHttpHandler GetHandler(this IHttpHandlerFactory factory, HttpContextBase context, string requestType, string url, string pathTranslated)
+        {
+            if (factory == null) throw new ArgumentNullException("factory");
+            return factory.GetHandler(context.GetWrappedContext(), requestType, url, pathTranslated);
+        }
+        
+        public static HttpContext GetWrappedContext(this HttpContextBase context)
+        {
+            if (context == null) throw new ArgumentNullException("context");
+            return context.GetRequiredService<HttpApplication>().Context;
+        }
+    }
+}
