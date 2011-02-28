@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.Sandbox", "Sandbox\El
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Elmah.Export", "Export\Elmah.Export.fsproj", "{0B5D9A27-DC97-483F-A779-13C0546C6FDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.Bootstrapper", "Elmah.Bootstrapper\Elmah.Bootstrapper.csproj", "{BA4487F4-AD1B-4743-B08B-D8BEE1789EB8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.Bootstrapper", "Bootstrapper\Elmah.Bootstrapper.csproj", "{BA4487F4-AD1B-4743-B08B-D8BEE1789EB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
