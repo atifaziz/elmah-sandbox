@@ -1,0 +1,9 @@
+syntax: glob
+bin/**
+*.user
+*.cache
+*.suo
+obj/**
+_ReSharper.*
+*.orig
+dist/**
