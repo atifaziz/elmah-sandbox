@@ -1,17 +1,31 @@
 @echo off
 
+setlocal
+pushd "%~dp0"
+
+echo.
+echo Building ELMAH-Sandbox
+echo.
+
+call build
+
+IF ERRORLEVEL 1 GOTO :EOF
+
 echo.
 echo Making sure that NuGet.exe is up to date...
 echo.
-NuSpecs\Tools\nuget.exe update
+
+pkg\Tools\nuget.exe update
+
+IF ERRORLEVEL 1 GOTO :EOF
 
 if NOT EXIST "NuGet-Packages" md "NuGet-Packages"
 
-for /f %%F in ('dir /a-d /b NuSpecs\*.nuspec') DO CALL :PACKAGE NuSpecs\%%F
+for /f %%F in ('dir /a-d /b pkg\*.nuspec') DO CALL :PACKAGE pkg\%%F
 GOTO :EOF
 
 :PACKAGE
 echo -------------------------------------------------------------------------------
 echo Packaging %1
-NuSpecs\Tools\nuget.exe pack "%1" -v -o "NuGet-Packages"
+pkg\Tools\nuget.exe pack "%1" -v -o "NuGet-Packages"
 GOTO :EOF

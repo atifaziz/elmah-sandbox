@@ -31,7 +31,7 @@ namespace Elmah
     {
         public static void Start()
         {
-            ControllerBuilder.Current.SetControllerFactory(new ErrorHandlingControllerFactory());
+            GlobalFilters.Filters.Add(new HandleErrorWithElmahAttribute());
         }
     }
 }
