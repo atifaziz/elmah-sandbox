@@ -46,8 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ElmahEnabledMvcApplication.cs" />
-    <Compile Include="ErrorHandlingActionInvoker.cs" />
-    <Compile Include="ErrorHandlingControllerFactory.cs" />
     <Compile Include="HandleErrorWithElmahAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
