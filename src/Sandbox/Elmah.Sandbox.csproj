@@ -40,6 +40,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorMailModule.cs" />
     <Compile Include="ErrorResponseLogModule.cs" />
     <Compile Include="IpAddressExtentions.cs" />
     <Compile Include="LinqBridge-1.2.cs" />
