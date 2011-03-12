@@ -27,5 +27,5 @@ GOTO :EOF
 :PACKAGE
 echo -------------------------------------------------------------------------------
 echo Packaging %1
-pkg\Tools\nuget.exe pack "%1" -v -o "NuGet-Packages"
+pkg\Tools\nuget.exe pack "%1" -verbose -o "NuGet-Packages"
 GOTO :EOF
