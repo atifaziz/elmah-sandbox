@@ -31,26 +31,27 @@ namespace Elmah
     using System.Web.Mvc;
     #endregion
 
-    public class HandleErrorWithElmahAttribute : HandleErrorAttribute
+    public class HandleErrorAttribute : System.Web.Mvc.HandleErrorAttribute
     {
         public override void OnException(ExceptionContext context)
         {
             base.OnException(context);
 
-            var e = context.Exception;
-            if (!context.ExceptionHandled   // if unhandled, will be logged anyhow
-                    || RaiseErrorSignal(e)      // prefer signaling, if possible
-                    || IsFiltered(context))     // filtered?
+            if (!context.ExceptionHandled) // if unhandled, will be logged anyhow
                 return;
 
-            LogException(e);
+            var e = context.Exception;
+            var httpContext = GetCurrentHttpContext(context.HttpContext);
+            if (httpContext != null && 
+                (RaiseErrorSignal(e, httpContext) // prefer signaling, if possible
+                 || IsFiltered(e, httpContext))) // filtered?
+                return;
+
+            LogException(e, httpContext);
         }
 
-        private static bool RaiseErrorSignal(Exception e)
+        private static bool RaiseErrorSignal(Exception e, HttpContext context)
         {
-            var context = HttpContext.Current;
-            if (context == null)
-                return false;
             var signal = ErrorSignal.FromContext(context);
             if (signal == null)
                 return false;
@@ -58,24 +59,27 @@ namespace Elmah
             return true;
         }
 
-        private static Lazy<ErrorFilterConfiguration> _config;
-        private static bool IsFiltered(ExceptionContext context)
+        private static ErrorFilterConfiguration _config;
+        private static bool IsFiltered(Exception e, HttpContext context)
         {
             if (_config == null)
-                _config = new Lazy<ErrorFilterConfiguration>(() => context.HttpContext.GetSection("elmah/errorFilter") as ErrorFilterConfiguration);
+                _config = context.GetSection("elmah/errorFilter") as ErrorFilterConfiguration ??
+                          new ErrorFilterConfiguration();
 
-            if (_config.Value == null)
-                return false;
-
-            var testContext = new ErrorFilterModule.AssertionHelperContext(context.Exception, HttpContext.Current);
-
-            return _config.Value.Assertion.Test(testContext);
+            var testContext = new ErrorFilterModule.AssertionHelperContext(e, context);
+            return _config.Assertion.Test(testContext);
         }
 
-        private static void LogException(Exception e)
+        private static void LogException(Exception e, HttpContext context)
         {
-            var context = HttpContext.Current;
             ErrorLog.GetDefault(context).Log(new Error(e, context));
+        }
+
+        private static HttpContext GetCurrentHttpContext(HttpContextBase contextBase)
+        {
+            // http://stackoverflow.com/questions/1992141/how-do-i-get-an-httpcontext-object-from-httpcontextbase-in-asp-net-mvc-1/4567707#4567707
+            var application = (HttpApplication)contextBase.GetService(typeof(HttpApplication));
+            return application.Context;
         }
     }
 }

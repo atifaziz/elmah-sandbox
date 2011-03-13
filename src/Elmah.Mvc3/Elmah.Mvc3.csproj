@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ElmahEnabledMvcApplication.cs" />
-    <Compile Include="HandleErrorWithElmahAttribute.cs" />
+    <Compile Include="HandleErrorAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
