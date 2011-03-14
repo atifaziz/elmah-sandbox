@@ -6,7 +6,6 @@
 //  Author(s):
 //
 //      Atif Aziz, http://www.raboof.com
-//                 http://stackoverflow.com/questions/766610/how-to-get-elmah-to-work-with-asp-net-mvc-handleerror-attribute
 //      James Driscoll
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,13 +25,17 @@
 namespace Elmah
 {
     #region Imports
+
     using System;
     using System.Web;
     using System.Web.Mvc;
+    
     #endregion
 
     public class HandleErrorAttribute : System.Web.Mvc.HandleErrorAttribute
     {
+        private static ErrorFilterConfiguration _config;
+
         public override void OnException(ExceptionContext context)
         {
             base.OnException(context);
@@ -41,7 +44,7 @@ namespace Elmah
                 return;
 
             var e = context.Exception;
-            var httpContext = GetCurrentHttpContext(context.HttpContext);
+            var httpContext = context.HttpContext.GetImplementation();
             if (httpContext != null && 
                 (RaiseErrorSignal(e, httpContext) // prefer signaling, if possible
                  || IsFiltered(e, httpContext))) // filtered?
@@ -59,12 +62,13 @@ namespace Elmah
             return true;
         }
 
-        private static ErrorFilterConfiguration _config;
         private static bool IsFiltered(Exception e, HttpContext context)
         {
             if (_config == null)
-                _config = context.GetSection("elmah/errorFilter") as ErrorFilterConfiguration ??
-                          new ErrorFilterConfiguration();
+            {
+                _config = context.GetSection("elmah/errorFilter") as ErrorFilterConfiguration 
+                          ?? new ErrorFilterConfiguration();
+            }
 
             var testContext = new ErrorFilterModule.AssertionHelperContext(e, context);
             return _config.Assertion.Test(testContext);
@@ -73,13 +77,6 @@ namespace Elmah
         private static void LogException(Exception e, HttpContext context)
         {
             ErrorLog.GetDefault(context).Log(new Error(e, context));
-        }
-
-        private static HttpContext GetCurrentHttpContext(HttpContextBase contextBase)
-        {
-            // http://stackoverflow.com/questions/1992141/how-do-i-get-an-httpcontext-object-from-httpcontextbase-in-asp-net-mvc-1/4567707#4567707
-            var application = (HttpApplication)contextBase.GetService(typeof(HttpApplication));
-            return application.Context;
         }
     }
 }
