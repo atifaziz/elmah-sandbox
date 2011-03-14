@@ -20,6 +20,6 @@
   </metadata>
   <files>
     <file src="Content\App_Start\Elmah.Mvc3.cs.pp" target="content\App_Start" />
-    <file src="..\bin\Release\Elmah.Mvc3.dll" target="lib" />
+    <file src="..\bin\Mvc\Release\Elmah.Mvc3.dll" target="lib" />
   </files>
 </package>
