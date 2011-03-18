@@ -38,7 +38,6 @@ namespace Elmah.Bootstrapper
     using System.Security.Permissions;
     using System.Web;
     using System.Web.Compilation;
-    using Elmah.Assertions;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
     #endregion
