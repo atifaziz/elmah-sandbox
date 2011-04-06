@@ -33,9 +33,10 @@ namespace Elmah.Sandbox.Assertions
 
     public sealed class AssertionFactory
     {
-
         public static IAssertion assert_throttle(XmlElement config)
         {
+            if (config == null) throw new ArgumentNullException("config");
+
             var attribute = config.GetAttributeNode("delayTimeSpan");
             var delay = attribute != null
                       ? TimeSpan.Parse(attribute.Value)

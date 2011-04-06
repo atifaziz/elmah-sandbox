@@ -79,6 +79,9 @@ namespace Elmah.Sandbox.Assertions
 
         protected virtual bool TestExceptionMatch(Exception currentException, Exception previousException)
         {
+            if (currentException == null) throw new ArgumentNullException("currentException");
+            if (previousException == null) throw new ArgumentNullException("previousException");
+
             return currentException.Message    == previousException.Message 
                 && currentException.Source     == previousException.Source 
                 && currentException.TargetSite == previousException.TargetSite;
