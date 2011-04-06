@@ -67,7 +67,7 @@ namespace Elmah.Sandbox.Assertions
             // if the exception should be filtered.
 
             var result = _previousException != null 
-                         && TestExceptionMatch(currentException, _previousException) 
+                         && CompareSimilar(currentException, _previousException) 
                          && (_throttleDelay == TimeSpan.Zero 
                              || DateTime.Now - _timeOfLastUnfilteredException <= _throttleDelay);
             
@@ -83,7 +83,7 @@ namespace Elmah.Sandbox.Assertions
             return result;
         }
 
-        protected virtual bool TestExceptionMatch(Exception currentException, Exception previousException)
+        protected virtual bool CompareSimilar(Exception currentException, Exception previousException)
         {
             if (currentException == null) throw new ArgumentNullException("currentException");
             if (previousException == null) throw new ArgumentNullException("previousException");
