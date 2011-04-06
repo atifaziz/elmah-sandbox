@@ -35,8 +35,7 @@ namespace Elmah.Sandbox.Assertions
     {
         private readonly TimeSpan _throttleDelay;
         private readonly bool _traceThrottledExceptions;
-
-        private DateTime timeOfLastUnfilteredException;
+        private DateTime _timeOfLastUnfilteredException;
         private Exception _previousException;
 
         public ThrottleAssertion() : 
@@ -67,7 +66,7 @@ namespace Elmah.Sandbox.Assertions
                 // Otherwise, check to see if the elapsed time exceeds the throttle delay to determine
                 // if the exception should be filtered.
                 if (_throttleDelay.TotalMilliseconds > 0 &&
-                    DateTime.Now.Subtract(timeOfLastUnfilteredException) > _throttleDelay)
+                    DateTime.Now.Subtract(_timeOfLastUnfilteredException) > _throttleDelay)
                 {
                     throttled = false;
                 }
@@ -78,7 +77,7 @@ namespace Elmah.Sandbox.Assertions
 
             // reset throttle delay timer
             if (!testResult)
-                timeOfLastUnfilteredException = DateTime.Now;
+                _timeOfLastUnfilteredException = DateTime.Now;
             
             Trace.WriteIf(testResult, currentException);
 
