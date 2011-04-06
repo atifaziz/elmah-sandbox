@@ -26,9 +26,6 @@ namespace Elmah.Sandbox.Assertions
     #region Imports
 
     using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Globalization;
     using Elmah.Assertions;
     using System.Diagnostics;
 
