@@ -70,8 +70,9 @@ namespace Elmah.Sandbox.Assertions
             // reset throttle delay timer
             if (!result)
                 _timeOfLastUnfilteredException = DateTime.Now;
-            
-            Trace.WriteIf(result, currentException);
+
+            if (_traceThrottledExceptions)
+                Trace.WriteIf(result, currentException);
 
             return result;
         }
