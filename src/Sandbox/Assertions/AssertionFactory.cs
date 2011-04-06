@@ -37,13 +37,13 @@ namespace Elmah.Sandbox.Assertions
         {
             if (config == null) throw new ArgumentNullException("config");
 
-            var attribute = config.GetAttributeNode("delayTimeSpan");
-            var delay = attribute != null
-                      ? TimeSpan.Parse(attribute.Value)
-                      : TimeSpan.Zero;
+            var attribute = config.GetAttribute("delayTimeSpan");
+            var delay = string.IsNullOrEmpty(attribute)
+                      ? TimeSpan.Zero
+                      : TimeSpan.Parse(attribute);
 
-            attribute = config.GetAttributeNode("traceThrottledExceptions");
-            var trace = attribute != null && bool.Parse(attribute.Value);
+            attribute = config.GetAttribute("traceThrottledExceptions");
+            var trace = !string.IsNullOrEmpty(attribute) && bool.Parse(attribute);
             
             return new ThrottleAssertion(delay, trace);
         }
