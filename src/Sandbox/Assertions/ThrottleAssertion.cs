@@ -47,8 +47,6 @@ namespace Elmah.Sandbox.Assertions
             _traceThrottledExceptions = traceThrottledExceptions;
         }
 
-        #region IAssertion Members
-
         public bool Test(object context)
         {
             if (context == null) throw new ArgumentNullException("context");
@@ -92,7 +90,5 @@ namespace Elmah.Sandbox.Assertions
                 && currentException.Source     == previousException.Source 
                 && currentException.TargetSite == previousException.TargetSite;
         }
-
-        #endregion
     }
 }
