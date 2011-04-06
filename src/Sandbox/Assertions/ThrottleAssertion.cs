@@ -39,10 +39,8 @@ namespace Elmah.Sandbox.Assertions
         private DateTime timeOfLastUnfilteredException;
         private Exception _previousException;
 
-        public ThrottleAssertion() : this(new TimeSpan(), false)
-        {
-
-        }
+        public ThrottleAssertion() : 
+            this(TimeSpan.Zero, false) {}
 
         public ThrottleAssertion(TimeSpan delay, bool traceThrottledExceptions)
         {
