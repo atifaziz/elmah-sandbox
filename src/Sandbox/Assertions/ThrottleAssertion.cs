@@ -51,11 +51,17 @@ namespace Elmah.Sandbox.Assertions
 
         public bool Test(object context)
         {
-            if (context == null)
-                throw new ArgumentNullException("context");
+            if (context == null) throw new ArgumentNullException("context");
+            return Test(context as ErrorFilterModule.AssertionHelperContext);
+        }
 
-            var currentException = ((ErrorFilterModule.AssertionHelperContext) context).BaseException;
+        private bool Test(ErrorFilterModule.AssertionHelperContext context)
+        {
+            return context != null && Test(context.BaseException);
+        }
 
+        private bool Test(Exception currentException)
+        {
             // If the throttle delay is not specified, this will throttle all repeated exceptions.
             // Otherwise, check to see if the elapsed time exceeds the throttle delay to determine
             // if the exception should be filtered.
