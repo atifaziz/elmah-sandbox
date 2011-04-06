@@ -21,7 +21,6 @@
 //
 #endregion
 
-
 namespace Elmah.Sandbox.Assertions
 {
     #region Imports
@@ -37,20 +36,14 @@ namespace Elmah.Sandbox.Assertions
 
         public static IAssertion assert_throttle(XmlElement config)
         {
-            TimeSpan delay = new TimeSpan();
-            XmlAttribute attribute = config.GetAttributeNode("delayTimeSpan");
-            if (attribute != null)
-            {
-                delay = TimeSpan.Parse(attribute.Value);
-            }
+            var attribute = config.GetAttributeNode("delayTimeSpan");
+            var delay = attribute != null
+                      ? TimeSpan.Parse(attribute.Value)
+                      : TimeSpan.Zero;
 
-            bool trace = false;
             attribute = config.GetAttributeNode("traceThrottledExceptions");
-            if (attribute != null)
-            {
-                trace = bool.Parse(attribute.Value);
-            }
-
+            var trace = attribute != null && bool.Parse(attribute.Value);
+            
             return new ThrottleAssertion(delay, trace);
         }
     }
