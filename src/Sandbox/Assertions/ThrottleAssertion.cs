@@ -54,43 +54,33 @@ namespace Elmah.Sandbox.Assertions
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            Exception currentException = ((Elmah.ErrorFilterModule.AssertionHelperContext)context).BaseException;
-            bool testResult = false;
+            var currentException = ((ErrorFilterModule.AssertionHelperContext) context).BaseException;
 
-            if (_previousException != null)
-            {
-                bool match = TestExceptionMatch(currentException);
-                bool throttled = true;
+            // If the throttle delay is not specified, this will throttle all repeated exceptions.
+            // Otherwise, check to see if the elapsed time exceeds the throttle delay to determine
+            // if the exception should be filtered.
 
-                // If the throttle delay is not specified, this will throttle all repeated exceptions.
-                // Otherwise, check to see if the elapsed time exceeds the throttle delay to determine
-                // if the exception should be filtered.
-                if (_throttleDelay.TotalMilliseconds > 0 &&
-                    DateTime.Now.Subtract(_timeOfLastUnfilteredException) > _throttleDelay)
-                {
-                    throttled = false;
-                }
-
-                testResult = match && throttled;
-            }
+            var result = _previousException != null 
+                         && TestExceptionMatch(currentException) 
+                         && (_throttleDelay == TimeSpan.Zero 
+                             || DateTime.Now - _timeOfLastUnfilteredException <= _throttleDelay);
+            
             _previousException = currentException;
 
             // reset throttle delay timer
-            if (!testResult)
+            if (!result)
                 _timeOfLastUnfilteredException = DateTime.Now;
             
-            Trace.WriteIf(testResult, currentException);
+            Trace.WriteIf(result, currentException);
 
-            return testResult;
+            return result;
         }
 
         protected virtual bool TestExceptionMatch(Exception currentException)
         {
-            return (
-                currentException.Message == _previousException.Message &&
-                currentException.Source == _previousException.Source &&
-                currentException.TargetSite == _previousException.TargetSite
-                );
+            return currentException.Message    == _previousException.Message 
+                && currentException.Source     == _previousException.Source 
+                && currentException.TargetSite == _previousException.TargetSite;
         }
 
         #endregion
