@@ -41,19 +41,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Elmah">
-      <HintPath>lib\Elmah.dll</HintPath>
+      <HintPath>..\..\lib\Elmah.dll</HintPath>
     </Reference>
     <Reference Include="Fizzler">
-      <HintPath>lib\Fizzler.dll</HintPath>
+      <HintPath>..\..\lib\Fizzler.dll</HintPath>
     </Reference>
     <Reference Include="Fizzler.Systems.HtmlAgilityPack">
-      <HintPath>lib\Fizzler.Systems.HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\..\lib\Fizzler.Systems.HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>lib\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\..\lib\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Mannex">
-      <HintPath>lib\Mannex.dll</HintPath>
+      <HintPath>..\..\lib\Mannex.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="mscorlib" />
