@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using MongoDB;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Collections;
 
 namespace Elmah.MongoDb
