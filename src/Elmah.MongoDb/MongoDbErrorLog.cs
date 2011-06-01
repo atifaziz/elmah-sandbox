@@ -65,7 +65,7 @@ namespace Elmah.MongoDb
             //
 
             if (connectionString.Length == 0)
-                throw new ApplicationException("Connection string is missing for the SQL error log.");
+                throw new ApplicationException("Connection string is missing for the MongoDB error log.");
 
             _connectionString = connectionString;
 
@@ -107,7 +107,7 @@ namespace Elmah.MongoDb
         /// </summary>
         public override string Name
         {
-            get { return "MongoDb Error Log"; }
+            get { return "MongoDB Error Log"; }
         }
 
         /// <summary>
