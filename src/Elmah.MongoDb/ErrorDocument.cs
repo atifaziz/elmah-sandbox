@@ -27,6 +27,7 @@ namespace Elmah.MongoDb
 
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using MongoDB;
     using System.Collections.Specialized;
     using System.Collections;
@@ -34,81 +35,85 @@ namespace Elmah.MongoDb
     #endregion
     
     /// <summary>
-    /// Converts an <see cref="ErrorLog"/> implementation into a MongoDB document
+    /// Converts an <see cref="Error"/> implementation into a MongoDB document.
     /// </summary>
-    public class ErrorDocument
+    public static class ErrorDocument
     {
         public static Document EncodeDocument(Error error)
         {
-            var document = new Document();
-            document.Add("host", error.HostName);
-            document.Add("type", error.Type);
-            document.Add("message", error.Message);
-            document.Add("source", error.Source);
-            document.Add("detail", error.Detail);
-            document.Add("user", error.User);
-            document.Add("time", error.Time);
-            document.Add("statusCode", error.StatusCode);
-            document.Add("webHostHtmlMessage", error.WebHostHtmlMessage);
+            if (error == null) throw new ArgumentNullException("error");
 
-            if (error.ServerVariables.Count > 0)
+            var document = new Document
             {
-                document.Add("serverVariables", GetCollection(error.ServerVariables));
-            }
-            
-            if(error.QueryString.Count > 0)
-                document.Add("queryString", GetCollection(error.QueryString));
-            
-            if(error.Form.Count > 0)
-                document.Add("form", GetCollection(error.Form));
-            
-            if(error.Cookies.Count > 0)
-                document.Add("cookies", GetCollection(error.Cookies));
+                { "host",               error.HostName           },
+                { "type",               error.Type               },
+                { "message",            error.Message            },
+                { "source",             error.Source             },
+                { "detail",             error.Detail             },
+                { "user",               error.User               },
+                { "time",               error.Time               },
+                { "statusCode",         error.StatusCode         },
+                { "webHostHtmlMessage", error.WebHostHtmlMessage },
+            };
+
+            SaveCollection(error.ServerVariables, document, "serverVariables");
+            SaveCollection(error.QueryString, document, "queryString");
+            SaveCollection(error.Form, document, "form");
+            SaveCollection(error.Cookies, document, "cookies");
 
             return document;
         }
 
+        private static void SaveCollection(NameValueCollection collection, Document document, string name)
+        {
+            if (collection.Count > 0)
+            {
+                var items = from key in collection.AllKeys
+                            select new { name = key, value = collection[key] };
+                document.Add(name, items);
+            }
+        }
+
         public static Error DecodeError(Document document)
         {
-            var error = new Error();
-            
-            error.HostName = (string)document["host"];
-            error.Type = (string)document["type"];
-            error.Message = (string)document["message"];
-            error.Source = (string)document["source"];
-            error.Detail = (string)document["detail"];
-            error.User = (string)document["user"];
-            error.Time = (DateTime)document["time"];
-            error.StatusCode = (int)document["statusCode"];
-            error.WebHostHtmlMessage = (string)document["webHostHtmlMessage"];
+            if (document == null) throw new ArgumentNullException("document");
 
-            AddDocumentItemsToCollection((List<Document>)document["serverVariables"], error.ServerVariables);
-            AddDocumentItemsToCollection((List<Document>)document["queryString"], error.QueryString);
-            AddDocumentItemsToCollection((List<Document>)document["form"], error.Form);
-            AddDocumentItemsToCollection((List<Document>)document["cookies"], error.Cookies);
+            var error = new Error
+            {
+                HostName            = (string)   document["host"],
+                Type                = (string)   document["type"],
+                Message             = (string)   document["message"],
+                Source              = (string)   document["source"],
+                Detail              = (string)   document["detail"],
+                User                = (string)   document["user"],
+                Time                = (DateTime) document["time"],
+                StatusCode          = (int)      document["statusCode"],
+                WebHostHtmlMessage  = (string)   document["webHostHtmlMessage"]
+            };
+
+            AddDocumentItemsToCollection(document["serverVariables"], error.ServerVariables);
+            AddDocumentItemsToCollection(document["queryString"], error.QueryString);
+            AddDocumentItemsToCollection(document["form"], error.Form);
+            AddDocumentItemsToCollection(document["cookies"], error.Cookies);
 
             return error;
         }
 
-        private static IEnumerable GetCollection(NameValueCollection collection)
+        private static void AddDocumentItemsToCollection(object documents, NameValueCollection collection)
         {
-            foreach (var key in collection.AllKeys)
-            {
-                yield return new { name = key, value = collection[key] };
-            }
+            AddDocumentItemsToCollection((IEnumerable<Document>) documents, collection);
         }
 
-        private static void AddDocumentItemsToCollection(List<Document> documents, NameValueCollection collection)
+        private static void AddDocumentItemsToCollection(IEnumerable<Document> documents, NameValueCollection collection)
         {
-            if (documents != null)
-            {
-                foreach (var document in documents)
-                {
-                    var key = (string)document["name"];
-                    var value = (string)document["value"];
+            if (documents == null) 
+                return;
 
-                    collection.Add(key, value);
-                }
+            foreach (var document in documents)
+            {
+                var key = (string) document["name"];
+                var value = (string) document["value"];
+                collection.Add(key, value);
             }
         }
     }
