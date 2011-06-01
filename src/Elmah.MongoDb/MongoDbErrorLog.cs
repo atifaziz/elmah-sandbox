@@ -27,10 +27,9 @@ namespace Elmah.MongoDb
 
     using System;
     using System.Linq;
-    using System.Threading;
-    using MongoDB;
     using System.Configuration;
     using System.Collections;
+    using MongoDB;
 
     using IDictionary = System.Collections.IDictionary;
 
@@ -204,40 +203,6 @@ namespace Elmah.MongoDb
         }
 
         /// <summary>
-        /// Begins an asynchronous version of <see cref="GetErrors"/>.
-        /// </summary>
-        public override IAsyncResult BeginGetErrors(int pageIndex, int pageSize, IList errorEntryList,
-            AsyncCallback asyncCallback, object asyncState)
-        {
-            if (pageIndex < 0) throw new ArgumentOutOfRangeException("pageIndex", pageIndex, null);
-            if (pageSize < 0) throw new ArgumentOutOfRangeException("pageSize", pageSize, null);
-
-            //The MongoDb driver implementation does not support async calls
-            //so the sync version is used
-            var count = GetErrors(pageIndex, pageSize, errorEntryList);
-
-            var asyncResult = new AsyncResultWrapper(errorEntryList, count);
-            
-            return asyncResult;
-        }
-
-        /// <summary>
-        /// Ends an asynchronous version of <see cref="ErrorLog.GetErrors"/>.
-        /// </summary>
-        public override int EndGetErrors(IAsyncResult asyncResult)
-        {
-            if (asyncResult == null)
-                throw new ArgumentNullException("asyncResult");
-
-            var wrapper = asyncResult as AsyncResultWrapper;
-
-            if (wrapper == null)
-                throw new ArgumentException("Unexepcted IAsyncResult type.", "asyncResult");
-
-            return wrapper.Count;
-        }
-
-        /// <summary>
         /// Returns the specified error from the database, or null 
         /// if it does not exist.
         /// </summary>
@@ -310,40 +275,6 @@ namespace Elmah.MongoDb
             return !string.IsNullOrEmpty(connectionStringAppKey)
                  ? ConfigurationManager.AppSettings[connectionStringAppKey]
                  : string.Empty;
-        }
-
-        /// <summary>
-        /// An <see cref="IAsyncResult"/> implementation that wraps another.
-        /// </summary>
-
-        private sealed class AsyncResultWrapper : IAsyncResult
-        {
-            public AsyncResultWrapper(IList entries, int count)
-            {
-                this.Count = count;
-                this.Entries = entries;
-            }
-
-            public int Count { get; private set; }
-
-            public IList Entries { get; private set; }
-
-            public bool IsCompleted
-            {
-                get { return true; }
-            }
-
-            public WaitHandle AsyncWaitHandle
-            {
-                get { throw new NotSupportedException("Not supported"); }
-            }
-
-            public object AsyncState { get; private set; }
-
-            public bool CompletedSynchronously
-            {
-                get { return true; }
-            }
         }
     }
 }
