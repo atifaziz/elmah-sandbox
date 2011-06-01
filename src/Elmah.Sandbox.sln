@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.Bootstrapper", "Boots
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.Mvc3", "Elmah.Mvc3\Elmah.Mvc3.csproj", "{40749E0E-D3FA-4EE1-B51C-1F9A9B57CF82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.MongoDb", "Elmah.MongoDb\Elmah.MongoDb.csproj", "{BC83F1F6-93F8-4224-AB66-506683F87947}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,16 @@ Global
 		{40749E0E-D3FA-4EE1-B51C-1F9A9B57CF82}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{40749E0E-D3FA-4EE1-B51C-1F9A9B57CF82}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{40749E0E-D3FA-4EE1-B51C-1F9A9B57CF82}.Release|x86.ActiveCfg = Release|Any CPU
+		{BC83F1F6-93F8-4224-AB66-506683F87947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC83F1F6-93F8-4224-AB66-506683F87947}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC83F1F6-93F8-4224-AB66-506683F87947}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BC83F1F6-93F8-4224-AB66-506683F87947}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BC83F1F6-93F8-4224-AB66-506683F87947}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BC83F1F6-93F8-4224-AB66-506683F87947}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC83F1F6-93F8-4224-AB66-506683F87947}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC83F1F6-93F8-4224-AB66-506683F87947}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BC83F1F6-93F8-4224-AB66-506683F87947}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BC83F1F6-93F8-4224-AB66-506683F87947}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
