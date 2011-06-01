@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using MongoDB;
-using System.Collections.Specialized;
-using System.Collections;
-
-namespace Elmah.MongoDb
+﻿namespace Elmah.MongoDb
 {
-	/// <summary>
+    #region Imports
+
+    using System;
+    using System.Collections.Generic;
+    using MongoDB;
+    using System.Collections.Specialized;
+    using System.Collections;
+
+    #endregion
+    
+    /// <summary>
 	/// Converts an <see cref="ErrorLog"/> implementation into a MongoDB document
 	/// </summary>
 	public class ErrorDocument
