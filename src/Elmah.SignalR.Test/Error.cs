@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Elmah.SignalR.Test
 {
     #region Imports
@@ -14,7 +16,17 @@ namespace Elmah.SignalR.Test
 
     public class Error
     {
-        public string   host, type, message;
-        public DateTime time;
+        public string                       host, 
+                                            type, 
+                                            message, 
+                                            source, 
+                                            detail, 
+                                            user, 
+                                            statusCode, 
+                                            webHostHtmlMessage;
+        public Dictionary<string, string>   serverVariables = new Dictionary<string, string>(),
+                                            form = new Dictionary<string, string>(),
+                                            cookies = new Dictionary<string, string>();
+        public DateTime                     time;
     }
 }
