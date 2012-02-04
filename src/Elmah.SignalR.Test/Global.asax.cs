@@ -10,7 +10,10 @@ namespace Elmah.SignalR.Test
             ErrorsStore.Store
                 .AddSource(
                     "Wasp is doing ElmahR", 
-                    "The fool on the hill");
+                    "The fool on the hill")
+                .AddSource(
+                    "Wasp is doing ElmahR again",
+                    "Strawberry fields forever");
         }
 
         protected void Session_Start(object sender, EventArgs e)
