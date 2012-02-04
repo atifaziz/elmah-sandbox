@@ -12,7 +12,7 @@
         <script type="text/javascript">
 
             //knockout
-            
+
             function keyValuePair(key, value) {
                 var self = this;
 
@@ -32,7 +32,8 @@
                         webHostHtmlMessage,
                         serverVariables,
                         form,
-                        cookies) {
+                        cookies,
+                        url) {
                 var self = this;
 
                 self.id = id;
@@ -45,6 +46,7 @@
                 self.user = user;
                 self.statusCode = statusCode;
                 self.webHostHtmlMessage = webHostHtmlMessage;
+                self.url = url;
 
                 self.serverVariables = ko.observableArray([]);
                 self.form = ko.observableArray([]);
@@ -80,7 +82,8 @@
                         webHostHtmlMessage,
                         serverVariables,
                         form,
-                        cookies) {
+                        cookies,
+                        url) {
                     self.errors.push(new errorDescriptor(id,
                         message,
                         time,
@@ -93,7 +96,8 @@
                         webHostHtmlMessage,
                         serverVariables,
                         form,
-                        cookies));
+                        cookies,
+                        url));
                 };
             }
 
@@ -150,7 +154,8 @@
                                 e.webHostHtmlMessage,
                                 e.serverVariables,
                                 e.form,
-                                e.cookies);
+                                e.cookies,
+                                e.url);
                         }
                     }
                 };
@@ -167,14 +172,20 @@
                 <p data-bind="text: applicationName">
                 </p>
                 <ol data-bind="foreach: errors">
-                    <li>[<span data-bind="text: time"></span>] Error on <span data-bind="text: host"></span>
-                        of type <span data-bind="text: type"></span>: <strong data-bind="text: message"></strong>
-                        <h4>Form</h4>
+                    <li>
+                        <p>
+                            [<span data-bind="text: time"></span>] Error on <span data-bind="text: host"></span>
+                            of type <span data-bind="text: type"></span>: <strong data-bind="text: message">
+                            </strong>
+                        </p>
+                        <a data-bind="attr: { href: url, title: message }">Yellow screen of death</a>
+                        <h4>
+                            Form</h4>
                         <ul data-bind="foreach: form">
                             <li><span data-bind="text: key"></span>: <span data-bind="text: value"></span></li>
                         </ul>
                     </li>
-                </ol> 
+                </ol>
             </li>
         </ul>
     </div>

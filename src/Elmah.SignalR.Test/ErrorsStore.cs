@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Elmah.SignalR.Test
 {
@@ -53,6 +56,12 @@ namespace Elmah.SignalR.Test
         {
             return this[handshakeToken] != null;
         }
+
+        public Error GetError(string id)
+        {
+            return _sources.Values.Select(source => source.GetError(id))
+                                  .FirstOrDefault(error => error != null);
+        }
     }
 
     public class ErrorsSource : IEnumerable<Error>
@@ -61,6 +70,7 @@ namespace Elmah.SignalR.Test
         private readonly string _handshakeToken;
         private readonly int _id;
         private readonly List<Error> _errors = new List<Error>();
+        private readonly Dictionary<string, Error> _errorsByHash = new Dictionary<string, Error>();
 
         public ErrorsSource(string applicationName, string handshakeToken, int id)
         {
@@ -84,9 +94,11 @@ namespace Elmah.SignalR.Test
             get { return _applicationName; }
         }
 
-        public ErrorsSource AppendError(Error error)
+        public ErrorsSource AppendError(Error error, string hash)
         {
+            error.url = "YellowScreenOfDeath.ashx?id=" + hash;
             _errors.Add(error);
+            _errorsByHash.Add(hash, error);
             return this;
         }
 
@@ -98,6 +110,13 @@ namespace Elmah.SignalR.Test
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public Error GetError(string id)
+        {
+            if (_errorsByHash.ContainsKey(id))
+                return _errorsByHash[id];
+            return null;
         }
     }
 }
