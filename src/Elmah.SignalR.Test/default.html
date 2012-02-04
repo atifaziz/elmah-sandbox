@@ -13,6 +13,10 @@
 
                 var elmahr = $.connection.elmahr;
 
+                $.connection.hub.start(function () {
+                    elmahr.connect();
+                });
+                
                 elmahr.notifyError = function (envelope) {
                     var d = new Date(parseFloat(envelope.error.time.slice(6, 19))).toLocaleString();
                     var e = envelope.error;
@@ -27,10 +31,6 @@
 
                     $('#' + messagesId).prepend('<li>[' + d + '] Error on ' + e.host + ' of type <b>' + e.type + '</b>: ' + e.message + '</li>');
                 };
-
-                $.connection.hub.start(function () {
-                    elmahr.connect();
-                });
 
             });
         </script>
