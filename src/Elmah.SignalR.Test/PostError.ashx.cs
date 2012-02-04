@@ -13,13 +13,19 @@ namespace Elmah.SignalR.Test
     {
         public void ProcessRequest(HttpContext context)
         {
-            var error = Decode(context.Request.Params["error"]);
+            var error           = Decode(context.Request.Params["error"]);
+            var applicationName = context.Request.Params["applicationName"];
+            var handshakeToken  = context.Request.Params["handshakeToken"];
+
+            var source = ErrorsStore.Store[handshakeToken];
+            if (source == null) 
+                return;
 
             var js = new JavaScriptSerializer();
 
             var e = js.Deserialize<Error>(error);
-
-            Hub.GetClients<ElmahRHub>().notifyError(e);
+            var a = new Application {id = source.Id, name = applicationName, error = e};
+            Hub.GetClients<ElmahRHub>().notifyError(a);
         }
 
         public bool IsReusable
