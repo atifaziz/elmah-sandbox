@@ -26,6 +26,8 @@ namespace Elmah.SignalR.Test
             var e = js.Deserialize<Error>(error);
             var a = new Envelope {id = source.Id, applicationName = applicationName, error = e};
             Hub.GetClients<ElmahRHub>().notifyError(a);
+
+            source.AppendError(e);
         }
 
         public bool IsReusable

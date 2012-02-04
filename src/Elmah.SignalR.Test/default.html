@@ -16,22 +16,31 @@
                 elmahr.notifyError = function (envelope) {
                     var d = new Date(parseFloat(envelope.error.time.slice(6, 19))).toLocaleString();
                     var e = envelope.error;
-                    
-                    $('#messages').prepend('<li>[' + d + '] (' + envelope.id + ':' + envelope.applicationName + ') Error on ' + e.host + ' of type <b>' + e.type + '</b>: ' + e.message + '</li>');
+                    var id = envelope.id;
+                    var messagesId = 'messages' + id;
+                    var containerId = 'container' + id;
+
+                    if (!$("#messages" + id).is('*')) {
+                        $('#applications').append('<ul id="' + containerId + '"></ul>');
+                        $('#' + containerId).html('<div><h3>' + envelope.applicationName + ' (' + id + ')</h3><ol id="' + messagesId + '"></ol></div>');
+                    }
+
+                    $('#' + messagesId).prepend('<li>[' + d + '] Error on ' + e.host + ' of type <b>' + e.type + '</b>: ' + e.message + '</li>');
                 };
 
-                $.connection.hub.start();
+                $.connection.hub.start(function () {
+                    elmahr.connect();
+                });
 
             });
         </script>
             
         <h2>SignalR-ed Unhandled exceptions</h2>
-        <ul>
-            
+        
+        <ul id="applications">
         </ul>
-        <ol id="messages">
-        </ol>
-
+        
     </div>
 </body>
 </html>
+
