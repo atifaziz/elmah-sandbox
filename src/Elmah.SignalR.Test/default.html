@@ -12,25 +12,88 @@
         <script type="text/javascript">
 
             //knockout
-
-            function errorDescriptor(id, description, time, host, type) {
+            
+            function keyValuePair(key, value) {
                 var self = this;
-                
+
+                self.key = key;
+                self.value = value;
+            }
+
+            function errorDescriptor(id,
+                        message,
+                        time,
+                        host,
+                        type,
+                        source,
+                        detail,
+                        user,
+                        statusCode,
+                        webHostHtmlMessage,
+                        serverVariables,
+                        form,
+                        cookies) {
+                var self = this;
+
                 self.id = id;
-                self.description = description;
+                self.message = message;
                 self.time = time;
                 self.host = host;
                 self.type = type;
+                self.source = source;
+                self.detail = detail;
+                self.user = user;
+                self.statusCode = statusCode;
+                self.webHostHtmlMessage = webHostHtmlMessage;
+
+                self.serverVariables = ko.observableArray([]);
+                self.form = ko.observableArray([]);
+                self.cookies = ko.observableArray([]);
+
+                for (var sv in serverVariables) {
+                    self.serverVariables.push(new keyValuePair(sv, serverVariables[sv]));
+                };
+                for (var f in form) {
+                    self.form.push(new keyValuePair(f, form[f]));
+                };
+                for (var c in cookies) {
+                    self.cookies.push(new keyValuePair(c, cookies[c]));
+                };
+
             }
-            
+
             function applicationDescriptor(applicationName) {
                 var self = this;
 
                 self.applicationName = applicationName;
                 self.errors = ko.observableArray([]);
 
-                self.addError = function (id, description, time, host, type) {
-                    self.errors.push(new errorDescriptor(id, description, time, host, type));
+                self.addError = function (id,
+                        message,
+                        time,
+                        host,
+                        type,
+                        source,
+                        detail,
+                        user,
+                        statusCode,
+                        webHostHtmlMessage,
+                        serverVariables,
+                        form,
+                        cookies) {
+                    self.errors.push(new errorDescriptor(id,
+                        message,
+                        time,
+                        host,
+                        type,
+                        source,
+                        detail,
+                        user,
+                        statusCode,
+                        webHostHtmlMessage,
+                        serverVariables,
+                        form,
+                        cookies));
                 };
             }
 
@@ -75,7 +138,19 @@
                     for (a in apps) {
                         var appName = apps[a].applicationName;
                         if (appName == envelope.applicationName) {
-                            model.applications()[a].addError(id, e.message, d, e.host, e.type);
+                            model.applications()[a].addError(id,
+                                e.message,
+                                d,
+                                e.host,
+                                e.type,
+                                e.source,
+                                e.detail,
+                                e.user,
+                                e.statusCode,
+                                e.webHostHtmlMessage,
+                                e.serverVariables,
+                                e.form,
+                                e.cookies);
                         }
                     }
                 };
@@ -87,19 +162,21 @@
         </script>
         <h2>
             SignalR-ed Unhandled exceptions</h2>
-            
         <ul data-bind="foreach: applications">
             <li>
-                <p data-bind="text: applicationName"></p>
+                <p data-bind="text: applicationName">
+                </p>
                 <ol data-bind="foreach: errors">
-                    <li>
-                        [<span data-bind="text: time"></span>] Error on <span data-bind="text: host"></span> 
-                        of type <span data-bind="text: type"></span>: <strong data-bind="text: description"></strong>
+                    <li>[<span data-bind="text: time"></span>] Error on <span data-bind="text: host"></span>
+                        of type <span data-bind="text: type"></span>: <strong data-bind="text: message"></strong>
+                        <h4>Form</h4>
+                        <ul data-bind="foreach: form">
+                            <li><span data-bind="text: key"></span>: <span data-bind="text: value"></span></li>
+                        </ul>
                     </li>
-                </ol>
+                </ol> 
             </li>
         </ul>
-
     </div>
 </body>
 </html>
