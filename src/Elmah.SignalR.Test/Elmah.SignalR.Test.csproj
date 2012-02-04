@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ElmahRHub.cs" />
+    <Compile Include="Envelope.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="ErrorsStore.cs" />
     <Compile Include="Global.asax.cs">

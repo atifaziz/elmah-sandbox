@@ -17,12 +17,4 @@ namespace Elmah.SignalR.Test
         public string   host, type, message;
         public DateTime time;
     }
-
-    public class Application
-    {
-        public int id;
-        public string name;
-        public Error error;
-    }
-
 }
