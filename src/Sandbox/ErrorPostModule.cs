@@ -23,6 +23,8 @@ namespace Elmah.Sandbox
     public class ErrorPostModule : HttpModuleBase
     {
         private Uri _url;
+        private string _applicationName;
+        private string _handshakeToken;
 
         protected override void OnInit(HttpApplication application)
         {
@@ -37,13 +39,20 @@ namespace Elmah.Sandbox
             if (config == null)
                 return;
 
-            // The module so far is just expecting one parameter,
+            // The module so far is  expecting one parameter,
             // caller 'url', which identifies the destination
             // of the HTTP POST that the module will perform.
+            // It also requires an application name and a handshake
+            // token which 'authorizes' the application to post
+            // to the destination. This is a simple authorization
+            // mechanism which does not replace available
+            // authentication/authorizations systems.
 
-            _url = new Uri(GetSetting(config, "url"), UriKind.Absolute);
+            _url               = new Uri(GetSetting(config, "url"), UriKind.Absolute);
+            _applicationName   = GetOptionalSetting(config, "applicationName");
+            _handshakeToken    = GetOptionalSetting(config, "handshakeToken");
 
-            var modules = application.Modules;
+            var modules        = application.Modules;
             var errorLogModule = Enumerable.Range(0, modules.Count)
                                            .Select(i => modules[i])
                                            .OfType<ErrorLogModule>()
@@ -77,19 +86,22 @@ namespace Elmah.Sandbox
                 // of the intercepted error. We do a base 64 encoding
                 // to fool the other side just in case some sort of
                 // automated post validation is performed (do we have a 
-                // better way to do this?)
+                // better way to do this?). We post also the application
+                // name and the handshaking token.
 
                 using (var writer = new StringWriter())
                 {
                     ErrorJson.Encode(e, writer);
 
-                    var encodedForm = string.Format("error={0}", 
-                                                    HttpUtility.UrlEncode(Base64Encode(writer.ToString())));
+                    var form = string.Format("error={0}&applicationName={1}&handshakeToken={2}", 
+                        HttpUtility.UrlEncode(Base64Encode(writer.ToString())),
+                        _applicationName != null ? HttpUtility.UrlEncode(_applicationName) : string.Empty,
+                        _handshakeToken != null  ? HttpUtility.UrlEncode(_handshakeToken)  : string.Empty);
 
                     // Get the bytes to determine
                     // and set the content length.
 
-                    var data = Encoding.ASCII.GetBytes(encodedForm);
+                    var data = Encoding.ASCII.GetBytes(form);
                     Debug.Assert(data.Length > 0);
                     request.ContentLength = data.Length;
 
@@ -204,6 +216,19 @@ namespace Elmah.Sandbox
                 throw new Elmah.ApplicationException(string.Format(
                     "The required configuration setting '{0}' is missing for the error tweeting module.", name));
             }
+
+            return value;
+        }
+
+        private static string GetOptionalSetting(IDictionary config, string name, string defaultValue = null)
+        {
+            Debug.Assert(config != null);
+            Debug.Assert(!string.IsNullOrEmpty(name));
+
+            var value = ((string)config[name]) ?? string.Empty;
+
+            if (value.Length == 0)
+                return defaultValue;
 
             return value;
         }
