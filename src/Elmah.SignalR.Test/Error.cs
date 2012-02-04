@@ -28,5 +28,7 @@ namespace Elmah.SignalR.Test
                                             form = new Dictionary<string, string>(),
                                             cookies = new Dictionary<string, string>();
         public DateTime                     time;
+
+        public string                       url;
     }
 }

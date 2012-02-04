@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Web;
 using System.Text;
 using System.Web.Script.Serialization;
@@ -11,6 +12,18 @@ namespace Elmah.SignalR.Test
 
     public class PostError : IHttpHandler
     {
+        static readonly HashAlgorithm _hash = new MD5CryptoServiceProvider();
+
+        string HashData(string data)
+        {
+            byte[] bytes = (new UnicodeEncoding()).GetBytes(data);
+            byte[] hashed = _hash.ComputeHash(bytes);
+            var sb = new StringBuilder(64);
+            foreach (var b in hashed)
+                sb.AppendFormat("{0:x2}", b);
+            return sb.ToString();
+        }
+
         public void ProcessRequest(HttpContext context)
         {
             var error           = Decode(context.Request.Params["error"]);
@@ -27,7 +40,7 @@ namespace Elmah.SignalR.Test
             var a = new Envelope {id = source.Id, applicationName = applicationName, error = e};
             Hub.GetClients<ElmahRHub>().notifyError(a);
 
-            source.AppendError(e);
+            source.AppendError(e, HashData(error));
         }
 
         public bool IsReusable
