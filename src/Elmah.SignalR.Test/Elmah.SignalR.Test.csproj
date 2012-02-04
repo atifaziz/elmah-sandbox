@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="default.html" />
+    <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -75,6 +76,10 @@
   <ItemGroup>
     <Compile Include="ElmahRHub.cs" />
     <Compile Include="Error.cs" />
+    <Compile Include="ErrorsStore.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="PostError.ashx.cs">
       <DependentUpon>PostError.ashx</DependentUpon>
     </Compile>
