@@ -24,7 +24,7 @@ namespace Elmah.SignalR.Test
             var js = new JavaScriptSerializer();
 
             var e = js.Deserialize<Error>(error);
-            var a = new Application {id = source.Id, name = applicationName, error = e};
+            var a = new Envelope {id = source.Id, applicationName = applicationName, error = e};
             Hub.GetClients<ElmahRHub>().notifyError(a);
         }
 
