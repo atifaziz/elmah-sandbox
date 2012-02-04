@@ -13,9 +13,11 @@
 
                 var elmahr = $.connection.elmahr;
 
-                elmahr.notifyError = function (error) {
-                    var d = new Date(parseFloat(error.time.slice(6, 19))).toLocaleString();
-                    $('#messages').prepend('<li>[' + d + '] Error on ' + error.host + ' of type <b>' + error.type + '</b>: ' + error.message + '</li>');
+                elmahr.notifyError = function (application) {
+                    var d = new Date(parseFloat(application.error.time.slice(6, 19))).toLocaleString();
+                    var e = application.error;
+                    
+                    $('#messages').prepend('<li>[' + d + '] (' + application.id + ':' + application.name + ') Error on ' + e.host + ' of type <b>' + e.type + '</b>: ' + e.message + '</li>');
                 };
 
                 $.connection.hub.start();
@@ -24,6 +26,9 @@
         </script>
             
         <h2>SignalR-ed Unhandled exceptions</h2>
+        <ul>
+            
+        </ul>
         <ol id="messages">
         </ol>
 
