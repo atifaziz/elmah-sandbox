@@ -55,7 +55,7 @@ namespace Elmah.SignalR.Test
         }
     }
 
-    public class ErrorsSource
+    public class ErrorsSource : IEnumerable<Error>
     {
         private readonly string _applicationName;
         private readonly string _handshakeToken;
@@ -88,6 +88,16 @@ namespace Elmah.SignalR.Test
         {
             _errors.Add(error);
             return this;
+        }
+
+        public IEnumerator<Error> GetEnumerator()
+        {
+            return _errors.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

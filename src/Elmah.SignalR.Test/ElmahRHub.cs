@@ -1,4 +1,6 @@
-﻿namespace Elmah.SignalR.Test
+﻿using System.Linq;
+
+namespace Elmah.SignalR.Test
 {
     #region Imports
 
@@ -11,5 +13,19 @@
     [HubName("elmahr")]
     public class ElmahRHub : Hub
     {
+        public void Connect()
+        {
+            var envs = from source in ErrorsStore.Store
+                       from error in source
+                       select new Envelope
+                       {
+                           id = source.Id,
+                           applicationName = source.ApplicationName,
+                           error = error
+                       };
+
+            foreach (var env in envs)
+                Caller.notifyError(env);
+        }
     }
 }
