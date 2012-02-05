@@ -6,6 +6,11 @@
     <script src="Scripts/jquery.signalR.min.js" type="text/javascript"></script>
     <script src="Scripts/knockout-2.0.0.js" type="text/javascript"></script>
     <script src="signalr/hubs" type="text/javascript"></script>
+    <style type="text/css">        body        {            background-color: white;        }        body, td, th, input, select        {            font-family: Arial, Sans-Serif;            font-size: small;        }        li        {            margin-bottom: 0.5em;        }        h1        {            font-size: large;        }        h2        {            font-size: medium;        }        h3
+        {
+            font-size: small;
+        }
+    </style>
 </head>
 <body>
     <div>
@@ -172,12 +177,12 @@
             });
 
         </script>
-        <h2>
-            SignalR-ed Unhandled exceptions</h2>
+        <h1>
+            SignalR-ed Unhandled exceptions</h1>
         <ul data-bind="foreach: applications">
             <li>
-                <h3 data-bind="text: applicationName">
-                </h3>
+                <h2 data-bind="text: applicationName">
+                </h2>
                 <p>Info: <a data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">Info</a></p>
                 <ol data-bind="foreach: errors">
                     <li>
@@ -187,8 +192,8 @@
                             </strong>
                         </p>
                         <a data-bind="attr: { href: url, title: message }">Yellow screen of death</a>
-                        <h4>
-                            Form</h4>
+                        <h3>
+                            Form</h3>
                         <ul data-bind="foreach: form">
                             <li><span data-bind="text: key"></span>: <span data-bind="text: value"></span></li>
                         </ul>
