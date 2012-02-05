@@ -27,7 +27,6 @@ namespace Elmah.SignalR.Test
         public void ProcessRequest(HttpContext context)
         {
             var error           = Decode(context.Request.Params["error"]);
-            var applicationName = context.Request.Params["applicationName"];
             var handshakeToken  = context.Request.Params["handshakeToken"];
 
             var source = ErrorsStore.Store[handshakeToken];
@@ -37,7 +36,7 @@ namespace Elmah.SignalR.Test
             var js = new JavaScriptSerializer();
 
             var e = js.Deserialize<Error>(error);
-            var a = new Envelope {id = source.Id, applicationName = applicationName, error = e};
+            var a = new Envelope {id = source.Id, applicationName = source.ApplicationName, error = e};
             Hub.GetClients<ElmahRHub>().notifyError(a);
 
             source.AppendError(e, HashData(error));
