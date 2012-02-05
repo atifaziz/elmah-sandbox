@@ -93,9 +93,8 @@ namespace Elmah.Sandbox
                 {
                     ErrorJson.Encode(e, writer);
 
-                    var form = string.Format("error={0}&applicationName={1}&handshakeToken={2}", 
+                    var form = string.Format("error={0}&handshakeToken={1}", 
                         HttpUtility.UrlEncode(Base64Encode(writer.ToString())),
-                        _applicationName != null ? HttpUtility.UrlEncode(_applicationName) : string.Empty,
                         _handshakeToken != null  ? HttpUtility.UrlEncode(_handshakeToken)  : string.Empty);
 
                     // Get the bytes to determine
