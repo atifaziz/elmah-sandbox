@@ -99,6 +99,10 @@
                         form,
                         cookies,
                         url));
+                    self.errors.sort(function (l, r) {
+                        //descending by time
+                        return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
+                    });
                 };
             }
 
@@ -117,8 +121,9 @@
                             break;
                         }
                     }
-                    if (!found)
+                    if (!found) {
                         self.applications.push(new applicationDescriptor(applicationName, infoUrl));
+                    }
                 };
             }
 
