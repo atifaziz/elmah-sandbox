@@ -28,15 +28,18 @@ namespace Elmah.SignalR.Test
         {
             var error           = Decode(context.Request.Params["error"]);
             var handshakeToken  = context.Request.Params["handshakeToken"];
+            var infoUrl         = context.Request.Params["infoUrl"];
 
             var source = ErrorsStore.Store[handshakeToken];
             if (source == null) 
                 return;
 
+            source.SetInfoUrl(infoUrl);
+
             var js = new JavaScriptSerializer();
 
             var e = js.Deserialize<Error>(error);
-            var a = new Envelope {id = source.Id, applicationName = source.ApplicationName, error = e};
+            var a = new Envelope {id = source.Id, applicationName = source.ApplicationName, error = e, infoUrl = infoUrl};
             Hub.GetClients<ElmahRHub>().notifyError(a);
 
             source.AppendError(e, HashData(error));
