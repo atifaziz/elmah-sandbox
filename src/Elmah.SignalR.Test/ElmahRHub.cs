@@ -21,7 +21,8 @@ namespace Elmah.SignalR.Test
                        {
                            id = source.Id,
                            applicationName = source.ApplicationName,
-                           error = error
+                           error = error,
+                           infoUrl = source.InfoUrl
                        };
 
             foreach (var env in envs)

@@ -69,6 +69,8 @@ namespace Elmah.SignalR.Test
         private readonly string _applicationName;
         private readonly string _handshakeToken;
         private readonly int _id;
+        private string _infoUrl;
+
         private readonly List<Error> _errors = new List<Error>();
         private readonly Dictionary<string, Error> _errorsByHash = new Dictionary<string, Error>();
 
@@ -94,6 +96,11 @@ namespace Elmah.SignalR.Test
             get { return _applicationName; }
         }
 
+        public string InfoUrl
+        {
+            get { return _infoUrl; }
+        }
+
         public ErrorsSource AppendError(Error error, string hash)
         {
             error.url = "YellowScreenOfDeath.ashx?id=" + hash;
@@ -117,6 +124,11 @@ namespace Elmah.SignalR.Test
             if (_errorsByHash.ContainsKey(id))
                 return _errorsByHash[id];
             return null;
+        }
+
+        public void SetInfoUrl(string infoUrl)
+        {
+            _infoUrl = infoUrl;
         }
     }
 }

@@ -23,8 +23,8 @@ namespace Elmah.Sandbox
     public class ErrorPostModule : HttpModuleBase
     {
         private Uri _url;
-        private string _applicationName;
-        private string _handshakeToken;
+        private string _handshakeToken; 
+        private Uri _infoUrl;
 
         protected override void OnInit(HttpApplication application)
         {
@@ -42,15 +42,19 @@ namespace Elmah.Sandbox
             // The module so far is  expecting one parameter,
             // caller 'url', which identifies the destination
             // of the HTTP POST that the module will perform.
-            // It also requires an application name and a handshake
+            // It also requires a handshake
             // token which 'authorizes' the application to post
             // to the destination. This is a simple authorization
             // mechanism which does not replace available
             // authentication/authorizations systems.
+            // You can also optionally supply an info url.
 
-            _url               = new Uri(GetSetting(config, "url"), UriKind.Absolute);
-            _applicationName   = GetOptionalSetting(config, "applicationName");
-            _handshakeToken    = GetOptionalSetting(config, "handshakeToken");
+            _url                = new Uri(GetSetting(config, "url"), UriKind.Absolute);
+            _handshakeToken     = GetOptionalSetting(config, "handshakeToken");
+            var infoUrlSetting  = GetOptionalSetting(config, "infoUrl", "");
+            _infoUrl            = !string.IsNullOrEmpty(infoUrlSetting) 
+                                  ? new Uri(infoUrlSetting, UriKind.Absolute) 
+                                  : null;
 
             var modules        = application.Modules;
             var errorLogModule = Enumerable.Range(0, modules.Count)
@@ -93,9 +97,10 @@ namespace Elmah.Sandbox
                 {
                     ErrorJson.Encode(e, writer);
 
-                    var form = string.Format("error={0}&handshakeToken={1}", 
+                    var form = string.Format("error={0}&handshakeToken={1}&infoUrl={2}", 
                         HttpUtility.UrlEncode(Base64Encode(writer.ToString())),
-                        _handshakeToken != null  ? HttpUtility.UrlEncode(_handshakeToken)  : string.Empty);
+                        _handshakeToken != null  ? HttpUtility.UrlEncode(_handshakeToken)  : string.Empty,
+                        _infoUrl != null ? HttpUtility.UrlEncode(_infoUrl.ToString()) : string.Empty);
 
                     // Get the bytes to determine
                     // and set the content length.

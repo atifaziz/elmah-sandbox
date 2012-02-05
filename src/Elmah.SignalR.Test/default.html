@@ -64,10 +64,11 @@
 
             }
 
-            function applicationDescriptor(applicationName) {
+            function applicationDescriptor(applicationName, infoUrl) {
                 var self = this;
 
                 self.applicationName = applicationName;
+                self.infoUrl = infoUrl;
                 self.errors = ko.observableArray([]);
 
                 self.addError = function (id,
@@ -106,7 +107,7 @@
 
                 self.applications = ko.observableArray([]);
 
-                self.addApplication = function (applicationName) {
+                self.addApplication = function (applicationName, infoUrl) {
                     var found = false;
                     var apps = self.applications();
                     for (a in apps) {
@@ -117,7 +118,7 @@
                         }
                     }
                     if (!found)
-                        self.applications.push(new applicationDescriptor(applicationName));
+                        self.applications.push(new applicationDescriptor(applicationName, infoUrl));
                 };
             }
 
@@ -135,8 +136,9 @@
                     var d = new Date(parseFloat(envelope.error.time.slice(6, 19))).toLocaleString();
                     var e = envelope.error;
                     var id = envelope.id;
+                    var infoUrl = envelope.infoUrl;
 
-                    model.addApplication(envelope.applicationName);
+                    model.addApplication(envelope.applicationName, infoUrl);
 
                     var apps = model.applications();
                     for (a in apps) {
@@ -169,8 +171,9 @@
             SignalR-ed Unhandled exceptions</h2>
         <ul data-bind="foreach: applications">
             <li>
-                <p data-bind="text: applicationName">
-                </p>
+                <h3 data-bind="text: applicationName">
+                </h3>
+                <p>Info: <a data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">Info</a></p>
                 <ol data-bind="foreach: errors">
                     <li>
                         <p>
