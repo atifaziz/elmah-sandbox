@@ -19,7 +19,7 @@
             self.value = value;
         }
 
-        function errorDescriptor(envelope) {
+        function errorViewModel(envelope) {
             var self = this;
 
             var time = new Date(parseFloat(envelope.error.time.slice(6, 19))).toLocaleString();
@@ -52,7 +52,7 @@
             };
         }
 
-        function applicationDescriptor(applicationName, infoUrl) {
+        function applicationViewModel(applicationName, infoUrl) {
             var self = this;
 
             self.applicationName = applicationName;
@@ -61,7 +61,7 @@
 
             self.addError = function (envelope) {
 
-                self.errors.push(new errorDescriptor(envelope));
+                self.errors.push(new errorViewModel(envelope));
                 self.errors.sort(function (l, r) {
                     //descending by time
                     return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
@@ -87,7 +87,7 @@
                     }
                 }
                 if (!found) {
-                    self.applications.push(new applicationDescriptor(applicationName, infoUrl));
+                    self.applications.push(new applicationViewModel(applicationName, infoUrl));
                 }
             };
         }
@@ -160,8 +160,7 @@
             </h2>
             <p>
                 Info: <a data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">Info</a></p>
-            <ol data-bind="template: {  foreach: errors,
-                                        afterAdd:   fadeIn }">
+            <ul data-bind="template: { foreach: errors, afterAdd: fadeIn }">
                 <li>
                     <p>
                         [<span data-bind="text: time"></span>] Error on <span data-bind="text: host"></span>
@@ -175,7 +174,7 @@
                         <li><span data-bind="text: key"></span>: <span data-bind="text: value"></span></li>
                     </ul>
                 </li>
-            </ol>
+            </ul>
         </li>
     </ul>
 </body>
