@@ -67,6 +67,8 @@
                     return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
                 });
             };
+
+            this.fadeIn = function (elem) { if (elem.nodeType === 1) $(elem).hide().slideDown(2000); };
         }
 
         function errorsViewModel() {
@@ -158,7 +160,8 @@
             </h2>
             <p>
                 Info: <a data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">Info</a></p>
-            <ol data-bind="foreach: errors">
+            <ol data-bind="template: {  foreach: errors,
+                                        afterAdd:   fadeIn }">
                 <li>
                     <p>
                         [<span data-bind="text: time"></span>] Error on <span data-bind="text: host"></span>
