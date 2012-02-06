@@ -19,48 +19,37 @@
             self.value = value;
         }
 
-        function errorDescriptor(id,
-            message,
-            time,
-            host,
-            type,
-            source,
-            detail,
-            user,
-            statusCode,
-            webHostHtmlMessage,
-            serverVariables,
-            form,
-            cookies,
-            url) {
+        function errorDescriptor(envelope) {
             var self = this;
 
-            self.id = id;
-            self.message = message;
+            var time = new Date(parseFloat(envelope.error.time.slice(6, 19))).toLocaleString();
+            var e = envelope.error;
+
+            self.id = envelope.id;
+            self.message = e.message;
             self.time = time;
-            self.host = host;
-            self.type = type;
-            self.source = source;
-            self.detail = detail;
-            self.user = user;
-            self.statusCode = statusCode;
-            self.webHostHtmlMessage = webHostHtmlMessage;
-            self.url = url;
+            self.host = e.host;
+            self.type = e.type;
+            self.source = e.source;
+            self.detail = e.detail;
+            self.user = e.user;
+            self.statusCode = e.statusCode;
+            self.webHostHtmlMessage = e.webHostHtmlMessage;
+            self.url = e.url;
 
             self.serverVariables = ko.observableArray([]);
             self.form = ko.observableArray([]);
             self.cookies = ko.observableArray([]);
 
-            for (var sv in serverVariables) {
-                self.serverVariables.push(new keyValuePair(sv, serverVariables[sv]));
+            for (var sv in e.serverVariables) {
+                self.serverVariables.push(new keyValuePair(sv, e.serverVariables[sv]));
             };
-            for (var f in form) {
-                self.form.push(new keyValuePair(f, form[f]));
+            for (var f in e.form) {
+                self.form.push(new keyValuePair(f, e.form[f]));
             };
-            for (var c in cookies) {
-                self.cookies.push(new keyValuePair(c, cookies[c]));
+            for (var c in e.cookies) {
+                self.cookies.push(new keyValuePair(c, e.cookies[c]));
             };
-
         }
 
         function applicationDescriptor(applicationName, infoUrl) {
@@ -70,34 +59,9 @@
             self.infoUrl = infoUrl;
             self.errors = ko.observableArray([]);
 
-            self.addError = function (id,
-                message,
-                time,
-                host,
-                type,
-                source,
-                detail,
-                user,
-                statusCode,
-                webHostHtmlMessage,
-                serverVariables,
-                form,
-                cookies,
-                url) {
-                self.errors.push(new errorDescriptor(id,
-                    message,
-                    time,
-                    host,
-                    type,
-                    source,
-                    detail,
-                    user,
-                    statusCode,
-                    webHostHtmlMessage,
-                    serverVariables,
-                    form,
-                    cookies,
-                    url));
+            self.addError = function (envelope) {
+
+                self.errors.push(new errorDescriptor(envelope));
                 self.errors.sort(function (l, r) {
                     //descending by time
                     return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
@@ -137,9 +101,6 @@
             });
 
             elmahr.notifyError = function (envelope) {
-                var d = new Date(parseFloat(envelope.error.time.slice(6, 19))).toLocaleString();
-                var e = envelope.error;
-                var id = envelope.id;
                 var infoUrl = envelope.infoUrl;
 
                 model.addApplication(envelope.applicationName, infoUrl);
@@ -148,20 +109,7 @@
                 for (a in apps) {
                     var appName = apps[a].applicationName;
                     if (appName == envelope.applicationName) {
-                        model.applications()[a].addError(id,
-                            e.message,
-                            d,
-                            e.host,
-                            e.type,
-                            e.source,
-                            e.detail,
-                            e.user,
-                            e.statusCode,
-                            e.webHostHtmlMessage,
-                            e.serverVariables,
-                            e.form,
-                            e.cookies,
-                            e.url);
+                        model.applications()[a].addError(envelope);
                     }
                 }
             };
