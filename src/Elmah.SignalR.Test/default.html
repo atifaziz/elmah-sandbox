@@ -68,7 +68,7 @@
                 });
             };
 
-            this.fadeIn = function (elem) { if (elem.nodeType === 1) $(elem).hide().slideDown(2000); };
+            this.fadeIn = function (elem) { if (elem.nodeType === 1) $(elem).hide().slideDown(1200); };
         }
 
         function errorsViewModel() {
@@ -159,7 +159,9 @@
             <h2 data-bind="text: applicationName">
             </h2>
             <p>
-                Info: <a data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">Info</a></p>
+                Info: <a target="_blank"
+                         data-bind="attr: { href: infoUrl, title: 'Info' }, 
+                                            text: infoUrl" >Info</a></p>
             <ul data-bind="template: { foreach: errors, afterAdd: fadeIn }">
                 <li>
                     <p>
@@ -167,7 +169,8 @@
                         of type <span data-bind="text: type"></span>: <strong data-bind="text: message">
                         </strong>
                     </p>
-                    <a data-bind="attr: { href: url, title: message }">Yellow screen of death</a>
+                    <a  data-bind="attr: { href: url, title: message }"
+                        target="_blank">Yellow screen of death</a>
                     <h3>
                         Form</h3>
                     <ul data-bind="foreach: form">
