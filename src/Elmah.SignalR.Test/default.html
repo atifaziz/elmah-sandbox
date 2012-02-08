@@ -2,12 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-
     <script src="Scripts/jquery-1.6.4.min.js" type="text/javascript"></script>
     <script src="Scripts/jquery.signalR.min.js" type="text/javascript"></script>
     <script src="Scripts/knockout-2.0.0.js" type="text/javascript"></script>
+    <script src="Scripts/underscore.js" type="text/javascript"></script>
     <script src="signalr/hubs" type="text/javascript"></script>
-    
     <script type="text/javascript">
 
         //knockout
@@ -52,12 +51,14 @@
             };
         }
 
-        function applicationViewModel(applicationName, infoUrl) {
+        function applicationViewModel(applicationName, infoUrl, doStats) {
             var self = this;
 
             self.applicationName = applicationName;
             self.infoUrl = infoUrl;
             self.errors = ko.observableArray([]);
+
+            self.doStats = doStats;
 
             self.addError = function (envelope) {
 
@@ -66,6 +67,8 @@
                     //descending by time
                     return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
                 });
+
+                doStats(self.errors());
             };
 
             this.fadeIn = function (elem) { if (elem.nodeType === 1) $(elem).hide().slideDown(1200); };
@@ -75,6 +78,10 @@
             var self = this;
 
             self.applications = ko.observableArray([]);
+            self.stats = ko.observableArray([]);
+
+            self.doStats = function (data) {
+            };
 
             self.addApplication = function (applicationName, infoUrl) {
                 var found = false;
@@ -87,7 +94,7 @@
                     }
                 }
                 if (!found) {
-                    self.applications.push(new applicationViewModel(applicationName, infoUrl));
+                    self.applications.push(new applicationViewModel(applicationName, infoUrl, self.doStats));
                 }
             };
         }
@@ -121,7 +128,6 @@
         });
 
     </script>
-    
     <style type="text/css">
         body
         {
@@ -149,19 +155,61 @@
             font-size: small;
         }
     </style>
+    <script type="text/javascript">
 
+        model.doStats = function (errors) {
+
+            //errors count
+            var total = _.chain(errors)
+                .reduce(function (acc, e) { return acc + 1; }, 0)
+                .value();
+            $('#total').text(total);
+
+            //error types count
+            var types = _.chain(errors)
+                .groupBy(function (e) { return e.type; })
+                .reduce(function (acc, e) { return acc + 1; }, 0)
+                .value();
+            $('#types').text(types);
+
+            //types stats
+            model.stats.removeAll();
+            _.chain(errors)
+                .groupBy(function (q) { return q.type; })
+                .map(function (val, key) { return new keyValuePair(key, val.length); })
+                .sortBy(function (kvp) {
+                    return kvp.key;
+                })
+                .each(function (kvp) {
+                    model.stats.push(kvp);
+                });
+        };
+        
+    </script>
 </head>
 <body>
     <h1>
         SignalR-ed Unhandled exceptions</h1>
+    <h2>
+        Stats</h2>
+    <p>
+        Total errors: <span id="total"></span>
+    </p>
+    <p>
+        Error types: <span id="types"></span>
+    </p>
+    <ul data-bind="foreach: stats">
+        <li><span data-bind="text: key"></span>: <span data-bind="text: value"></span></li>
+    </ul>
+    <h2>
+        Errors</h2>
     <ul data-bind="foreach: applications">
         <li>
             <h2 data-bind="text: applicationName">
             </h2>
             <p>
-                Info: <a target="_blank"
-                         data-bind="attr: { href: infoUrl, title: 'Info' }, 
-                                            text: infoUrl" >Info</a></p>
+                Info: <a target="_blank" data-bind="attr: { href: infoUrl, title: 'Info' }, 
+                                            text: infoUrl">Info</a></p>
             <ul data-bind="template: { foreach: errors, afterAdd: fadeIn }">
                 <li>
                     <p>
@@ -169,8 +217,8 @@
                         of type <span data-bind="text: type"></span>: <strong data-bind="text: message">
                         </strong>
                     </p>
-                    <a  data-bind="attr: { href: url, title: message }"
-                        target="_blank">Yellow screen of death</a>
+                    <a data-bind="attr: { href: url, title: message }" target="_blank">Yellow screen of
+                        death</a>
                     <h3>
                         Form</h3>
                     <ul data-bind="foreach: form">
