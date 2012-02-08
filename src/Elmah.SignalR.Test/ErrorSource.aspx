@@ -32,7 +32,11 @@
     {
         try
         {
-            ThrowSampleException();
+            // To have different error types I change this
+            // to throw a NullReferenceException
+
+            string dummy = null;
+            dummy.Trim();
         }
         catch (Exception ex)
         {
