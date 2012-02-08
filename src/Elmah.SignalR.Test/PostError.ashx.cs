@@ -3,7 +3,10 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Text;
 using System.Web.Script.Serialization;
+using SignalR;
+using SignalR.Hosting.AspNet;
 using SignalR.Hubs;
+using SignalR.Infrastructure;
 
 namespace Elmah.SignalR.Test
 {
@@ -40,7 +43,9 @@ namespace Elmah.SignalR.Test
 
             var e = js.Deserialize<Error>(error);
             var a = new Envelope {id = source.Id, applicationName = source.ApplicationName, error = e, infoUrl = infoUrl};
-            Hub.GetClients<ElmahRHub>().notifyError(a);
+
+            var connectionManager = AspNetHost.DependencyResolver.Resolve<IConnectionManager>();
+            connectionManager.GetClients<ElmahRHub>().notifyError(a);
 
             source.AppendError(e, HashData(error));
         }
