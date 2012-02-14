@@ -54,8 +54,6 @@ function applicationViewModel(applicationName, infoUrl, doStats) {
             //descending by time
             return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
         });
-
-        doStats(self.errors());
     };
 
     this.fadeIn = function (elem) { if (elem.nodeType === 1) $(elem).hide().slideDown(1200); };
@@ -65,9 +63,10 @@ function errorsViewModel() {
     var self = this;
 
     self.applications = ko.observableArray([]);
+    self.allErrors = ko.observableArray([]);
     self.stats = ko.observableArray([]);
 
-    self.doStats = function (data) {
+    self.doStats = function (errors) {
     };
 
     self.addApplication = function (applicationName, infoUrl) {
@@ -83,6 +82,17 @@ function errorsViewModel() {
         if (!found) {
             self.applications.push(new applicationViewModel(applicationName, infoUrl, self.doStats));
         }
+    };
+
+    self.addError = function (envelope) {
+
+        self.allErrors.push(new errorViewModel(envelope));
+        self.allErrors.sort(function (l, r) {
+            //descending by time
+            return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
+        });
+
+        self.doStats(self.allErrors());
     };
 }
 
@@ -108,6 +118,8 @@ $(function () {
                 model.applications()[a].addError(envelope);
             }
         }
+
+        model.addError(envelope);
     };
 
     ko.applyBindings(model);
