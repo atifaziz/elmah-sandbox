@@ -72,6 +72,7 @@
     <Content Include="ErrorSource.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\elmahr.core.js" />
+    <Content Include="Scripts\elmahr.stats.js" />
     <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -81,6 +82,7 @@
     <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Styles\elmahr.basic.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
