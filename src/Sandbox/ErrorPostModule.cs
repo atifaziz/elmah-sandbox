@@ -1,9 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Text;
-
-namespace Elmah.Sandbox
+﻿namespace Elmah.Sandbox
 {
     #region Imports
     
@@ -12,6 +7,10 @@ namespace Elmah.Sandbox
     using System.Configuration;
     using System.Linq;
     using System.Web;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Net;
+    using System.Text;
 
     #endregion
 
@@ -23,8 +22,8 @@ namespace Elmah.Sandbox
     public class ErrorPostModule : HttpModuleBase
     {
         private Uri _url;
-        private string _handshakeToken; 
         private Uri _infoUrl;
+        private string _handshakeToken; 
 
         protected override void OnInit(HttpApplication application)
         {
@@ -51,6 +50,7 @@ namespace Elmah.Sandbox
 
             _url                = new Uri(GetSetting(config, "url"), UriKind.Absolute);
             _handshakeToken     = GetOptionalSetting(config, "handshakeToken");
+
             var infoUrlSetting  = GetOptionalSetting(config, "infoUrl", "");
             _infoUrl            = !string.IsNullOrEmpty(infoUrlSetting) 
                                   ? new Uri(infoUrlSetting, UriKind.Absolute) 
@@ -97,9 +97,11 @@ namespace Elmah.Sandbox
                 {
                     ErrorJson.Encode(e, writer);
 
+                    var token = GetHandshakeToken();
+
                     var form = string.Format("error={0}&handshakeToken={1}&infoUrl={2}", 
                         HttpUtility.UrlEncode(Base64Encode(writer.ToString())),
-                        _handshakeToken != null  ? HttpUtility.UrlEncode(_handshakeToken)  : string.Empty,
+                        HttpUtility.UrlEncode(token),
                         _infoUrl != null ? HttpUtility.UrlEncode(_infoUrl.ToString()) : string.Empty);
 
                     // Get the bytes to determine
@@ -130,6 +132,11 @@ namespace Elmah.Sandbox
 
                 OnWebPostError(/* request, */ localException);
             }
+        }
+
+        protected virtual string GetHandshakeToken()
+        {
+            return _handshakeToken ?? string.Empty;
         }
 
         private static object[] AsyncArgs(params object[] args)
