@@ -1,0 +1,25 @@
+﻿body
+{
+    background-color: white;
+}
+body, td, th, input, select
+{
+    font-family: Arial, Sans-Serif;
+    font-size: small;
+}
+li
+{
+    margin-bottom: 0.5em;
+}
+h1
+{
+    font-size: large;
+}
+h2
+{
+    font-size: medium;
+}
+h3
+{
+    font-size: small;
+}
