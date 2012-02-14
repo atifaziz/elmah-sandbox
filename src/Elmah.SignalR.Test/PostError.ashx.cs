@@ -30,6 +30,7 @@ namespace Elmah.SignalR.Test
         public void ProcessRequest(HttpContext context)
         {
             var error           = Decode(context.Request.Params["error"]);
+            var errorId         = context.Request.Params["errorId"];
             var handshakeToken  = context.Request.Params["handshakeToken"];
             var infoUrl         = context.Request.Params["infoUrl"];
 
@@ -47,7 +48,7 @@ namespace Elmah.SignalR.Test
             var connectionManager = AspNetHost.DependencyResolver.Resolve<IConnectionManager>();
             connectionManager.GetClients<ElmahRHub>().notifyError(a);
 
-            source.AppendError(e, HashData(error));
+            source.AppendError(e, errorId);
         }
 
         public bool IsReusable
