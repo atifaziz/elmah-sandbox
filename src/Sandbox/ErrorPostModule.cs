@@ -69,13 +69,15 @@
         protected virtual void OnErrorLogged(object sender, ErrorLoggedEventArgs args)
         {
             if (args == null) throw new ArgumentNullException("args");
-            SetError(/* HttpContext.Current, */ args.Entry.Error);
+            SetError(/* HttpContext.Current, */ args.Entry);
         }
 
-        private void SetError(/* HttpContext context, */ Error e)
+        private void SetError(/* HttpContext context, */ ErrorLogEntry entry)
         {
-            if (e == null)
-                throw new ArgumentNullException("e");
+            if (entry == null)
+                throw new ArgumentNullException("entry");
+
+            var e = entry.Error;
 
             try
             {
@@ -99,8 +101,9 @@
 
                     var token = GetHandshakeToken();
 
-                    var form = string.Format("error={0}&handshakeToken={1}&infoUrl={2}", 
+                    var form = string.Format("error={0}&errorId={1}&handshakeToken={2}&infoUrl={3}", 
                         HttpUtility.UrlEncode(Base64Encode(writer.ToString())),
+                        HttpUtility.UrlEncode(entry.Id),
                         HttpUtility.UrlEncode(token),
                         _infoUrl != null ? HttpUtility.UrlEncode(_infoUrl.ToString()) : string.Empty);
 
