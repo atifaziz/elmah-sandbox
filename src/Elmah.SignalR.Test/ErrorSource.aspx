@@ -32,11 +32,7 @@
     {
         try
         {
-            // To have different error types I change this
-            // to throw a NullReferenceException
-
-            string dummy = null;
-            dummy.Trim();
+            ThrowSampleException();
         }
         catch (Exception ex)
         {
@@ -50,7 +46,19 @@
 
     private static void ThrowSampleException()
     {
-        throw new System.ApplicationException();
+        var exceptions = new Action[]
+            {
+                () => { throw new System.ApplicationException(); }, 
+                () => { throw new ArgumentException(); }, 
+                () => { throw new ArgumentNullException(); }, 
+                () => { throw new InvalidCastException(); }, 
+                () => { throw new NullReferenceException(); }, 
+                () => { throw new AccessViolationException(); }, 
+                () => { throw new HttpException(); }, 
+            };
+
+        var r = new Random(DateTime.Now.Millisecond);
+        exceptions[r.Next(exceptions.Length)]();
     }
 
 </script>
