@@ -9,15 +9,14 @@ namespace Elmah.SignalR.Test
         {
             ErrorsStore.Store
                 .AddSource(
-                    "Wasp is doing ElmahR", 
-                    "The fool on the hill")
+                    "ElmahR sample erratic application 1",
+                    "The Fool on the Hill")
                 .AddSource(
-                    "Wasp is doing ElmahR with self-hosting",
+                    "ElmahR sample erratic application 2",
                     "Lucy in the Sky with Diamonds")
                 .AddSource(
-                    "Wasp is doing ElmahR again",
-                    "Strawberry fields forever");
+                    "ElmahR sample erratic application 3",
+                    "Strawberry Fields Forever");
         }
-
     }
 }
