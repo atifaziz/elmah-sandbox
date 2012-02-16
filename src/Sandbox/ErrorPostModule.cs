@@ -85,19 +85,18 @@ namespace Elmah.Sandbox
                                            .OfType<ErrorLogModule>()
                                            .SingleOrDefault();
 
-            if (errorLogModule == null) return;
+            if (errorLogModule == null) 
+                return;
 
-            errorLogModule.Logged += OnErrorLogged;
+            errorLogModule.Logged += (_, args) =>
+            {
+                if (args == null) throw new ArgumentNullException("args");
+                SetError(/* HttpContext.Current, */ args.Entry);
+            };
 
             _url = url;
             _handshakeToken = handshakeToken;
             _infoUrl = infoUrl;
-        }
-
-        protected virtual void OnErrorLogged(object sender, ErrorLoggedEventArgs args)
-        {
-            if (args == null) throw new ArgumentNullException("args");
-            SetError(/* HttpContext.Current, */ args.Entry);
         }
 
         private void SetError(/* HttpContext context, */ ErrorLogEntry entry)
