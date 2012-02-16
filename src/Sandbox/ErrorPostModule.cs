@@ -31,7 +31,6 @@ namespace Elmah.Sandbox
     using System.Linq;
     using System.Web;
     using System.Diagnostics;
-    using System.IO;
     using System.Net;
     using System.Text;
 
@@ -122,34 +121,29 @@ namespace Elmah.Sandbox
                 // better way to do this?). We post also the application
                 // name and the handshaking token.
 
-                using (var writer = new StringWriter())
+                var token = GetHandshakeToken();
+
+                var form = string.Format("error={0}&errorId={1}&handshakeToken={2}&infoUrl={3}", 
+                    HttpUtility.UrlEncode(Base64Encode(ErrorJson.EncodeString(e))),
+                    HttpUtility.UrlEncode(entry.Id),
+                    HttpUtility.UrlEncode(token),
+                    _infoUrl != null ? HttpUtility.UrlEncode(_infoUrl.ToString()) : string.Empty);
+
+                // Get the bytes to determine
+                // and set the content length.
+
+                var data = Encoding.ASCII.GetBytes(form);
+                Debug.Assert(data.Length > 0);
+                request.ContentLength = data.Length;
+
+                // Post it! (asynchronously)
+
+                request.BeginGetRequestStream(ar =>
                 {
-                    ErrorJson.Encode(e, writer);
-
-                    var token = GetHandshakeToken();
-
-                    var form = string.Format("error={0}&errorId={1}&handshakeToken={2}&infoUrl={3}", 
-                        HttpUtility.UrlEncode(Base64Encode(writer.ToString())),
-                        HttpUtility.UrlEncode(entry.Id),
-                        HttpUtility.UrlEncode(token),
-                        _infoUrl != null ? HttpUtility.UrlEncode(_infoUrl.ToString()) : string.Empty);
-
-                    // Get the bytes to determine
-                    // and set the content length.
-
-                    var data = Encoding.ASCII.GetBytes(form);
-                    Debug.Assert(data.Length > 0);
-                    request.ContentLength = data.Length;
-
-                    // Post it! (asynchronously)
-
-                    request.BeginGetRequestStream(ar =>
-                    {
-                        if (ar == null) throw new ArgumentNullException("ar");
-                        var args = (object[])ar.AsyncState;
-                        OnGetRequestStreamCompleted(ar, (WebRequest)args[0], (byte[])args[1]);                                             
-                    }, AsyncArgs(request, data));
-                }
+                    if (ar == null) throw new ArgumentNullException("ar");
+                    var args = (object[])ar.AsyncState;
+                    OnGetRequestStreamCompleted(ar, (WebRequest)args[0], (byte[])args[1]);                                             
+                }, AsyncArgs(request, data));
             }
             catch (Exception localException)
             {
