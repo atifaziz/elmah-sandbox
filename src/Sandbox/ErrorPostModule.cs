@@ -71,13 +71,13 @@ namespace Elmah.Sandbox
             // authentication/authorizations systems.
             // You can also optionally supply an info url.
 
-            _url                = new Uri(GetSetting(config, "url"), UriKind.Absolute);
-            _handshakeToken     = GetOptionalSetting(config, "handshakeToken");
+            var url             = new Uri(GetSetting(config, "url"), UriKind.Absolute);
+            var handshakeToken  = GetOptionalSetting(config, "handshakeToken");
 
             var infoUrlSetting  = GetOptionalSetting(config, "infoUrl", "");
-            _infoUrl            = !string.IsNullOrEmpty(infoUrlSetting) 
-                                  ? new Uri(infoUrlSetting, UriKind.Absolute) 
-                                  : null;
+            var infoUrl         = !string.IsNullOrEmpty(infoUrlSetting) 
+                                ? new Uri(infoUrlSetting, UriKind.Absolute) 
+                                : null;
 
             var modules        = application.Modules;
             var errorLogModule = Enumerable.Range(0, modules.Count)
@@ -85,8 +85,13 @@ namespace Elmah.Sandbox
                                            .OfType<ErrorLogModule>()
                                            .SingleOrDefault();
 
-            if (errorLogModule != null)
-                errorLogModule.Logged += OnErrorLogged;
+            if (errorLogModule == null) return;
+
+            errorLogModule.Logged += OnErrorLogged;
+
+            _url = url;
+            _handshakeToken = handshakeToken;
+            _infoUrl = infoUrl;
         }
 
         protected virtual void OnErrorLogged(object sender, ErrorLoggedEventArgs args)
