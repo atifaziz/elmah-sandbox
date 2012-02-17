@@ -1,11 +1,11 @@
-﻿function keyValuePair(key, value) {
+﻿function KeyValuePair(key, value) {
     var self = this;
 
     self.key = key;
     self.value = value;
 }
 
-function errorViewModel(envelope) {
+function ErrorViewModel(envelope) {
     var self = this;
 
     var time = new Date(parseFloat(envelope.error.time.slice(6, 19))).toLocaleString();
@@ -28,17 +28,17 @@ function errorViewModel(envelope) {
     self.cookies = ko.observableArray([]);
 
     for (var sv in e.serverVariables) {
-        self.serverVariables.push(new keyValuePair(sv, e.serverVariables[sv]));
+        self.serverVariables.push(new KeyValuePair(sv, e.serverVariables[sv]));
     };
     for (var f in e.form) {
-        self.form.push(new keyValuePair(f, e.form[f]));
+        self.form.push(new KeyValuePair(f, e.form[f]));
     };
     for (var c in e.cookies) {
-        self.cookies.push(new keyValuePair(c, e.cookies[c]));
+        self.cookies.push(new KeyValuePair(c, e.cookies[c]));
     };
 }
 
-function applicationViewModel(applicationName, infoUrl, doStats) {
+function ApplicationViewModel(applicationName, infoUrl, doStats) {
     var self = this;
 
     self.applicationName = applicationName;
@@ -49,7 +49,7 @@ function applicationViewModel(applicationName, infoUrl, doStats) {
 
     self.addError = function (envelope) {
 
-        self.errors.push(new errorViewModel(envelope));
+        self.errors.push(new ErrorViewModel(envelope));
         self.errors.sort(function (l, r) {
             //descending by time
             return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
@@ -59,7 +59,7 @@ function applicationViewModel(applicationName, infoUrl, doStats) {
     this.fadeIn = function (elem) { if (elem.nodeType === 1) $(elem).hide().slideDown(1200); };
 }
 
-function errorsViewModel() {
+function ElmahrViewModel() {
     var self = this;
 
     self.applications = ko.observableArray([]);
@@ -80,13 +80,13 @@ function errorsViewModel() {
             }
         }
         if (!found) {
-            self.applications.push(new applicationViewModel(applicationName, infoUrl, self.doStats));
+            self.applications.push(new ApplicationViewModel(applicationName, infoUrl, self.doStats));
         }
     };
 
     self.addError = function (envelope) {
 
-        self.allErrors.push(new errorViewModel(envelope));
+        self.allErrors.push(new ErrorViewModel(envelope));
         self.allErrors.sort(function (l, r) {
             //descending by time
             return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
@@ -96,31 +96,31 @@ function errorsViewModel() {
     };
 }
 
-var model = new errorsViewModel();
+var elmahr = new ElmahrViewModel();
 
 $(function () {
 
-    var elmahr = $.connection.elmahr;
+    var elmahrConnector = $.connection.elmahr;
 
     $.connection.hub.start(function () {
-        elmahr.connect();
+        elmahrConnector.connect();
     });
 
-    elmahr.notifyError = function (envelope) {
+    elmahrConnector.notifyError = function (envelope) {
         var infoUrl = envelope.infoUrl;
 
-        model.addApplication(envelope.applicationName, infoUrl);
+        elmahr.addApplication(envelope.applicationName, infoUrl);
 
-        var apps = model.applications();
+        var apps = elmahr.applications();
         for (a in apps) {
             var appName = apps[a].applicationName;
             if (appName == envelope.applicationName) {
-                model.applications()[a].addError(envelope);
+                elmahr.applications()[a].addError(envelope);
             }
         }
 
-        model.addError(envelope);
+        elmahr.addError(envelope);
     };
 
-    ko.applyBindings(model);
+    ko.applyBindings(elmahr);
 });
