@@ -1,17 +1,20 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Web;
-using System.Text;
-using System.Web.Script.Serialization;
-using SignalR;
-using SignalR.Hosting.AspNet;
-using SignalR.Hubs;
-using SignalR.Infrastructure;
-
-namespace Elmah.SignalR.Test
+﻿namespace Elmah.SignalR.Test
 {
     // PostError is a handler which expects a base64-encoded
     // json representation of an error. 
+
+    #region Imports
+
+    using System;
+    using System.Security.Cryptography;
+    using System.Web;
+    using System.Text;
+    using System.Web.Script.Serialization;
+    using global::SignalR;
+    using global::SignalR.Hosting.AspNet;
+    using global::SignalR.Infrastructure;
+
+    #endregion
 
     public class PostError : IHttpHandler
     {
