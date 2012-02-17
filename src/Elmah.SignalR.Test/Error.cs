@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-
 namespace Elmah.SignalR.Test
 {
     #region Imports
 
     using System;
+    using System.Collections.Generic;
 
     #endregion
 
