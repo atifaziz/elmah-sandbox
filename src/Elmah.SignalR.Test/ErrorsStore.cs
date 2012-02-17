@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace Elmah.SignalR.Test
+﻿namespace Elmah.SignalR.Test
 {
+    #region Imports
+
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    #endregion
+
     // Implementing an errors store, where things
     // like errors persistence and sources activation
     // are handled. This implementation draft works

@@ -1,10 +1,9 @@
-﻿using System.Linq;
-
-namespace Elmah.SignalR.Test
+﻿namespace Elmah.SignalR.Test
 {
     #region Imports
 
     using global::SignalR.Hubs;
+    using System.Linq;
 
     #endregion
 
