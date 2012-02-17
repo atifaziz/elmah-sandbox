@@ -27,12 +27,14 @@ namespace Elmah.Sandbox
     
     using System;
     using System.Collections;
+    using System.Collections.Specialized;
     using System.Configuration;
     using System.Linq;
     using System.Web;
     using System.Diagnostics;
     using System.Net;
     using System.Text;
+    using Mannex.Web;
 
     #endregion
 
@@ -123,16 +125,18 @@ namespace Elmah.Sandbox
 
                 var token = GetHandshakeToken();
 
-                var form = string.Format("error={0}&errorId={1}&handshakeToken={2}&infoUrl={3}", 
-                    HttpUtility.UrlEncode(Base64Encode(ErrorJson.EncodeString(e))),
-                    HttpUtility.UrlEncode(entry.Id),
-                    HttpUtility.UrlEncode(token),
-                    _infoUrl != null ? HttpUtility.UrlEncode(_infoUrl.ToString()) : string.Empty);
+                var form = new NameValueCollection
+                {
+                    { "error",          Base64Encode(ErrorJson.EncodeString(e)) },
+                    { "errorId",        entry.Id },
+                    { "handshakeToken", token },
+                    { "infoUrl",        _infoUrl != null ? _infoUrl.AbsoluteUri : null },
+                };
 
                 // Get the bytes to determine
                 // and set the content length.
 
-                var data = Encoding.ASCII.GetBytes(form);
+                var data = Encoding.ASCII.GetBytes(form.ToW3FormEncoded());
                 Debug.Assert(data.Length > 0);
                 request.ContentLength = data.Length;
 
