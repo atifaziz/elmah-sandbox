@@ -105,7 +105,7 @@ namespace Elmah.Sandbox
             if (entry == null)
                 throw new ArgumentNullException("entry");
 
-            var e = entry.Error;
+            var error = entry.Error;
 
             try
             {
@@ -127,7 +127,7 @@ namespace Elmah.Sandbox
 
                 var form = new NameValueCollection
                 {
-                    { "error",          Base64Encode(ErrorJson.EncodeString(e)) },
+                    { "error",          Base64Encode(ErrorJson.EncodeString(error)) },
                     { "errorId",        entry.Id },
                     { "handshakeToken", token },
                     { "infoUrl",        _infoUrl != null ? _infoUrl.AbsoluteUri : null },
@@ -142,14 +142,14 @@ namespace Elmah.Sandbox
 
                 // Post it! (asynchronously)
 
-                request.BeginGetRequestStream(ar =>
+                request.BeginGetRequestStream(ErrorReportingAsyncCallback(ar =>
                 {
-                    if (ar == null) throw new ArgumentNullException("ar");
-                    var args = (object[])ar.AsyncState;
-                    OnGetRequestStreamCompleted(ar, (WebRequest)args[0], (byte[])args[1]);                                             
-                }, AsyncArgs(request, data));
+                    using (var output = request.EndGetRequestStream(ar))
+                        output.Write(data, 0, data.Length);
+                    request.BeginGetResponse(ErrorReportingAsyncCallback(rar => request.EndGetResponse(rar).Close() /* Not interested; assume OK */), null);
+                }), null);
             }
-            catch (Exception localException)
+            catch (Exception e)
             {
                 // IMPORTANT! We swallow any exception raised during the 
                 // logging and send them out to the trace . The idea 
@@ -158,57 +158,30 @@ namespace Elmah.Sandbox
                 // The bad thing is that we catch ANY kind of exception, 
                 // even system ones and potentially let them slip by.
 
-                OnWebPostError(/* request, */ localException);
+                OnWebPostError(/* request, */ e);
             }
+        }
+
+        private static AsyncCallback ErrorReportingAsyncCallback(AsyncCallback callback)
+        {
+            return ar =>
+            {
+                if (ar == null) throw new ArgumentNullException("ar");
+
+                try
+                {
+                    callback(ar);
+                }
+                catch (Exception e)
+                {
+                    OnWebPostError(e);
+                }
+            };
         }
 
         protected virtual string GetHandshakeToken()
         {
             return _handshakeToken ?? string.Empty;
-        }
-
-        private static object[] AsyncArgs(params object[] args)
-        {
-            return args;
-        }
-
-        private static void OnGetRequestStreamCompleted(IAsyncResult ar, WebRequest request, byte[] data)
-        {
-            Debug.Assert(ar != null);
-            Debug.Assert(request != null);
-            Debug.Assert(data != null);
-            Debug.Assert(data.Length > 0);
-
-            try
-            {
-                using (var output = request.EndGetRequestStream(ar))
-                    output.Write(data, 0, data.Length);
-                request.BeginGetResponse(rar =>
-                {
-                    if (rar == null) throw new ArgumentNullException("rar");
-                    OnGetResponseCompleted(rar, (WebRequest)rar.AsyncState);        
-                }, request);
-            }
-            catch (Exception e)
-            {
-                OnWebPostError(/* request, */ e);
-            }
-        }
-
-        private static void OnGetResponseCompleted(IAsyncResult ar, WebRequest request)
-        {
-            Debug.Assert(ar != null);
-            Debug.Assert(request != null);
-
-            try
-            {
-                Debug.Assert(request != null);
-                request.EndGetResponse(ar).Close(); // Not interested; assume OK
-            }
-            catch (Exception e)
-            {
-                OnWebPostError(/* request, */ e);
-            }
         }
 
         public static string Base64Encode(string str)
