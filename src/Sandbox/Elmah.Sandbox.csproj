@@ -45,7 +45,6 @@
     <Compile Include="Assertions\ThrottleAssertion.cs" />
     <Compile Include="ErrorPostModule.cs" />
     <Compile Include="ErrorResponseLogModule.cs" />
-    <Compile Include="FakeLoadErrorPostModule.cs" />
     <Compile Include="IpAddressExtentions.cs" />
     <Compile Include="LinqBridge-1.2.cs" />
     <Compile Include="Mannex.cs" />

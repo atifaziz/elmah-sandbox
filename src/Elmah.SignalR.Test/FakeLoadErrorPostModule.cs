@@ -1,8 +1,9 @@
-﻿namespace Elmah.Sandbox
+﻿namespace Elmah.SignalR.Test
 {
     #region Imports
 
     using System;
+    using Sandbox;    
 
     #endregion
 

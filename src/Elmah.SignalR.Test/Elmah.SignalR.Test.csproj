@@ -96,6 +96,7 @@
     <Compile Include="Envelope.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="ErrorsStore.cs" />
+    <Compile Include="FakeLoadErrorPostModule.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
