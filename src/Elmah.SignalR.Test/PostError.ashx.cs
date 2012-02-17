@@ -6,7 +6,6 @@
     #region Imports
 
     using System;
-    using System.Security.Cryptography;
     using System.Web;
     using System.Text;
     using System.Web.Script.Serialization;
@@ -18,18 +17,6 @@
 
     public class PostError : IHttpHandler
     {
-        static readonly HashAlgorithm _hash = new MD5CryptoServiceProvider();
-
-        string HashData(string data)
-        {
-            byte[] bytes = (new UnicodeEncoding()).GetBytes(data);
-            byte[] hashed = _hash.ComputeHash(bytes);
-            var sb = new StringBuilder(64);
-            foreach (var b in hashed)
-                sb.AppendFormat("{0:x2}", b);
-            return sb.ToString();
-        }
-
         public void ProcessRequest(HttpContext context)
         {
             var error           = Decode(context.Request.Params["error"]);
