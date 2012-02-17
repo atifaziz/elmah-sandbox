@@ -1,7 +1,11 @@
-﻿using System.Web;
-
-namespace Elmah.SignalR.Test
+﻿namespace Elmah.SignalR.Test
 {
+    #region Imports
+
+    using System.Web;
+
+    #endregion
+
     /// <summary>
     /// Summary description for YellowScreenOfDeath
     /// </summary>
