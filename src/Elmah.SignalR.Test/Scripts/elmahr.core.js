@@ -102,11 +102,19 @@ $(function () {
 
     var elmahrConnector = $.connection.elmahr;
 
-    $.connection.hub.start(function () {
-        elmahrConnector.connect();
-    });
+    var d = Rx.Observable.Create(function(observer) {
 
-    elmahrConnector.notifyError = function (envelope) {
+        $.connection.hub.start(function() {
+            elmahrConnector.connect();
+        });
+
+        elmahrConnector.notifyError = function (envelope) {            
+            observer.OnNext(envelope);
+        };
+        
+    })
+    .Subscribe(function(envelope) {
+
         var infoUrl = envelope.infoUrl;
 
         elmahr.addApplication(envelope.applicationName, infoUrl);
@@ -120,7 +128,9 @@ $(function () {
         }
 
         elmahr.addError(envelope);
-    };
+        
+    });
 
     ko.applyBindings(elmahr);
+    
 });
