@@ -78,13 +78,20 @@
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR.js" />
     <Content Include="Scripts\jquery.signalR.min.js" />
+    <Content Include="Scripts\json2.js" />
+    <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\knockout-2.0.0.debug.js" />
     <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\raphael.js" />
+    <Content Include="Scripts\rx.html.js" />
+    <Content Include="Scripts\rx.jQuery.js" />
+    <Content Include="Scripts\rx.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Styles\elmahr.basic.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
