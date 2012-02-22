@@ -17,7 +17,7 @@
 <body>
     <div class="colStats">
         <h1>
-            SignalR-ed <span>Unhandled exceptions</span></h1>
+            ElmahR <span>Unhandled exceptions</span></h1>
         <div class="box">
             <p>
                 Total errors: <span id="total"></span>
@@ -26,7 +26,7 @@
                 Error types: <span id="types"></span>
             </p>
             <ul id="errorTypes" data-bind="foreach: stats">
-                <li><span data-bind="text: key" class="type"></span>: <span data-bind="text: value"
+                <li><span data-bind="text: key" class="type"></span>&nbsp;<span data-bind="text: value"
                     class="value"></span></li>
             </ul>
         </div>
@@ -47,8 +47,10 @@
                         <li class="host">Host:<span data-bind="text: host"></span></li>
                         <li>Type:<span data-bind="text: type"></span> </li>
                         <li><strong data-bind="text: message"></strong></li>
+                        <!-- ko if: hasYsod -->
                         <li><a data-bind="attr: { href: url, title: message }" target="_blank">Yellow screen
-                            of death</a></li>
+                                of death</a></li>
+                        <!-- /ko -->
                     </ul>
                 </li>
             </ul>
@@ -56,7 +58,7 @@
     </div>
     <div id="footer">
         <p>
-            footer info</p>
+            Copyright (c) 2012 - wasp.net</p>
     </div>
 </body>
 </html>

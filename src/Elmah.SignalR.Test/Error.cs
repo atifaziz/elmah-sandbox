@@ -29,5 +29,9 @@ namespace Elmah.SignalR.Test
         public DateTime                     time;
 
         public string                       url;
+
+        public string                       shortType;
+
+        public bool                         hasYsod;
     }
 }
