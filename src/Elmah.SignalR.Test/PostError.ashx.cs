@@ -36,9 +36,9 @@ namespace Elmah.SignalR.Test
 
             var e = js.Deserialize<Error>(error);
 
-            var match = Regex.Match(e.type, @"(\w+\.)+(?'type'\w+)");
+            var match = Regex.Match(e.type, @"(\w+\.)+(?'type'\w+)Exception");
             e.shortType = match.Success 
-                          ? match.Groups["type"].Value.Replace("Exception", "") 
+                          ? match.Groups["type"].Value 
                           : e.type;
 
             var browserSupportUrl = "http://www.w3schools.com/images/{0}.gif";
