@@ -24,6 +24,7 @@ function ErrorViewModel(envelope) {
     self.webHostHtmlMessage = e.webHostHtmlMessage;
     self.hasYsod = e.hasYsod;
     self.url = e.url;
+    self.browserSupportUrl = e.browserSupportUrl;
 
     self.serverVariables = ko.observableArray([]);
     self.form = ko.observableArray([]);

@@ -41,6 +41,23 @@ namespace Elmah.SignalR.Test
                           ? match.Groups["type"].Value.Replace("Exception", "") 
                           : e.type;
 
+            var browserSupportUrl = "http://www.w3schools.com/images/{0}.gif";
+
+            if (e.serverVariables.ContainsKey("HTTP_USER_AGENT"))
+            {
+                var userAgent = e.serverVariables["HTTP_USER_AGENT"];
+                if (userAgent.IndexOf("MSIE", StringComparison.OrdinalIgnoreCase) >= 0)
+                    e.browserSupportUrl = string.Format(browserSupportUrl, "compatible_ie");
+                else if (userAgent.IndexOf("Chrome", StringComparison.OrdinalIgnoreCase) >= 0)
+                    e.browserSupportUrl = string.Format(browserSupportUrl, "compatible_chrome");
+                else if (userAgent.IndexOf("Firefox", StringComparison.OrdinalIgnoreCase) >= 0)
+                    e.browserSupportUrl = string.Format(browserSupportUrl, "compatible_firefox");
+                else if (userAgent.IndexOf("Safari", StringComparison.OrdinalIgnoreCase) >= 0)
+                    e.browserSupportUrl = string.Format(browserSupportUrl, "compatible_safari");
+                else if (userAgent.IndexOf("Opera", StringComparison.OrdinalIgnoreCase) >= 0)
+                    e.browserSupportUrl = string.Format(browserSupportUrl, "compatible_opera");
+            }
+
             var a = new Envelope {id = source.Id, applicationName = source.ApplicationName, error = e, infoUrl = infoUrl};
 
             var connectionManager = AspNetHost.DependencyResolver.Resolve<IConnectionManager>();
