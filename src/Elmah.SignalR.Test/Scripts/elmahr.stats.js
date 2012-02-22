@@ -77,7 +77,7 @@ elmahr.doStats = function (errors) {
 
     if (values.length > 1) {
         $("#holder").html("");
-        Raphael("holder", 500, 300).pieChart(250, 150, 80, values, labels, "#999");
+        Raphael("holder", 200, 200).pieChart(100, 100, 80, values, labels, "#999");
     }
 
 };
