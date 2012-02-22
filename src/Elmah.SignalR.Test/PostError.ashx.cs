@@ -1,4 +1,6 @@
-﻿namespace Elmah.SignalR.Test
+﻿using System.Text.RegularExpressions;
+
+namespace Elmah.SignalR.Test
 {
     // PostError is a handler which expects a base64-encoded
     // json representation of an error. 
@@ -33,6 +35,12 @@
             var js = new JavaScriptSerializer();
 
             var e = js.Deserialize<Error>(error);
+
+            var match = Regex.Match(e.type, @"(\w+\.)+(?'type'\w+)");
+            e.shortType = match.Success 
+                          ? match.Groups["type"].Value.Replace("Exception", "") 
+                          : e.type;
+
             var a = new Envelope {id = source.Id, applicationName = source.ApplicationName, error = e, infoUrl = infoUrl};
 
             var connectionManager = AspNetHost.DependencyResolver.Resolve<IConnectionManager>();

@@ -16,11 +16,13 @@ function ErrorViewModel(envelope) {
     self.time = time;
     self.host = e.host;
     self.type = e.type;
+    self.shortType = e.shortType;
     self.source = e.source;
     self.detail = e.detail;
     self.user = e.user;
     self.statusCode = e.statusCode;
     self.webHostHtmlMessage = e.webHostHtmlMessage;
+    self.hasYsod = e.hasYsod;
     self.url = e.url;
 
     self.serverVariables = ko.observableArray([]);
