@@ -112,8 +112,9 @@ $(function () {
             observer.onNext(envelope);
         };
         
-    })
-    .subscribe(function(envelope) {
+    });
+    
+    d.subscribe(function(envelope) {
 
         var infoUrl = envelope.infoUrl;
 
