@@ -83,6 +83,8 @@
     <Content Include="Scripts\knockout-2.0.0.debug.js" />
     <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\raphael.js" />
+    <Content Include="Scripts\rx-vsdoc.js" />
+    <Content Include="Scripts\rx.min.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Styles\elmahr.basic.css" />

@@ -81,3 +81,4 @@ elmahr.doStats = function (errors) {
     }
 
 };
+
