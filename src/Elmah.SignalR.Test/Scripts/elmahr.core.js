@@ -102,18 +102,18 @@ $(function () {
 
     var elmahrConnector = $.connection.elmahr;
 
-    var d = Rx.Observable.Create(function(observer) {
+    var d = Rx.Observable.create(function(observer) {
 
         $.connection.hub.start(function() {
             elmahrConnector.connect();
         });
 
         elmahrConnector.notifyError = function (envelope) {            
-            observer.OnNext(envelope);
+            observer.onNext(envelope);
         };
         
     })
-    .Subscribe(function(envelope) {
+    .subscribe(function(envelope) {
 
         var infoUrl = envelope.infoUrl;
 
