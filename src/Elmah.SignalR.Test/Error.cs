@@ -30,7 +30,8 @@ namespace Elmah.SignalR.Test
 
         public string                       url,
                                             shortType,
-                                            browserSupportUrl;
+                                            browserSupportUrl,
+                                            isoTime;
 
         public bool                         hasYsod;
     }

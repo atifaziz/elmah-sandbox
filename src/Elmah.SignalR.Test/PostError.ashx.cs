@@ -58,6 +58,8 @@ namespace Elmah.SignalR.Test
                     e.browserSupportUrl = string.Format(browserSupportUrl, "compatible_opera");
             }
 
+            e.isoTime = e.time.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+
             var a = new Envelope {id = source.Id, applicationName = source.ApplicationName, error = e, infoUrl = infoUrl};
 
             var connectionManager = AspNetHost.DependencyResolver.Resolve<IConnectionManager>();

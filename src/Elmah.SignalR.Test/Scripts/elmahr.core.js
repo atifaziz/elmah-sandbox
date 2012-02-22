@@ -14,6 +14,7 @@ function ErrorViewModel(envelope) {
     self.id = envelope.id;
     self.message = e.message;
     self.time = time;
+    self.isoTime = e.isoTime;
     self.host = e.host;
     self.type = e.type;
     self.shortType = e.shortType;
@@ -59,7 +60,12 @@ function ApplicationViewModel(applicationName, infoUrl, doStats) {
         });
     };
 
-    this.fadeIn = function (elem) { if (elem.nodeType === 1) $(elem).hide().slideDown(1200); };
+    this.fadeIn = function (elem) {
+         if (elem.nodeType === 1) {
+             $(elem).hide().slideDown(1200);
+             $("abbr.timeago", elem).timeago();
+         }
+    };
 }
 
 function ElmahrViewModel() {
@@ -132,6 +138,7 @@ $(function () {
         }
 
         elmahr.addError(envelope);
+        
         
     });
 
