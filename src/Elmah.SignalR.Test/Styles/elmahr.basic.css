@@ -1,109 +1,150 @@
 ﻿body
 {
-	background-color: #29A6B8;
-	font-size: small;
-	font-family: Arial, Helvetica, Sans-Serif;
-	margin: 0;
-	padding: 0;
-	color: #3D1B1C;
+    background-color: #29A6B8;
+    font-size: small;
+    font-family: Arial, Helvetica, Sans-Serif;
+    margin: 0;
+    padding: 0;
+    color: #3D1B1C;
 }
 
 a:link, a:visited
 {
-	color: #00a4a6;
-	text-decoration: none;
+    color: #00a4a6;
+    text-decoration: none;
 }
 
 a:hover, a:active
 {
-	color: #00a4a6;
-	background-color: white;
-	
+    color: #00a4a6;
+    background-color: white;
 }
 p, h1, h2, h3, h4, h5, h6
-{ margin: .5em; }
-ul, li 
-{margin:0; padding:0;list-style-type:none;}
-li {	margin: .6em; }
+{
+    margin: .5em;
+}
+ul, li
+{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+li
+{
+    margin: .6em;
+}
 
-div { display: block; }
+div
+{
+    display: block;
+}
 
 /* HEADINGS   
 ----------------------------------------------------------*/
 h1, h2, h3, h4, h5, h6
 {
-	color: #006c8e;
-	font-family: Arial, Helvetica, sans-serif;
+    color: #006c8e;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 h1
-{	font-size: 1.5em;
-	font-weight: normal;
-	color:#fff;
-	text-align: center;
+{
+    font-size: 1.5em;
+    font-weight: normal;
+    color: #fff;
+    text-align: center;
 }
-h1 span {
-	text-transform: uppercase;
-	font-size: .7em;
-	display:block;
+h1 span
+{
+    text-transform: uppercase;
+    font-size: .7em;
+    display: block;
 }
 h2
 {
-	font-size: 1.2em;
+    font-size: 1.2em;
 }
 h3
 {
-	font-size: 1.1em;
+    font-size: 1.1em;
 }
 h4
 {
-	font-size: 1em;
+    font-size: 1em;
 }
 h5, h6
 {
-	font-size: 1em;
+    font-size: 1em;
 }
 #footer
 {
-	clear: both;
-	border-top: 1px solid #48d1cc;
+    clear: both;
+    border-top: 1px solid #48d1cc;
 }
 
 
-.colStats {
-	 float: left; width:200px; margin-left:1em; margin-right:1em;
+.colStats
+{
+    float: left;
+    width: 300px;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 .colApp
-{ float: left; margin-right: 1em;  margin-bottom: 1em; 
-	border-radius: 8px; width:25%; background-color: #eee8aa ; 
-}	
+{
+    float: left;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    border-radius: 8px;
+    width: 25%;
+    background-color: #eee8aa;
+}
 
 .colStats .box
 {
-	background-color: #ffcc33; margin-bottom:1em; border-radius:8px; padding-top:.5em;padding-bottom:.5em;
+    background-color: #ffcc33;
+    margin-bottom: 1em;
+    border-radius: 8px;
+    padding-top: .5em;
+    padding-bottom: .5em;
 }
- #holder.box
- { height: 200px; background-color: #fff; }
-.colStats .box p {
-	font-size: larger;
+#holder.box
+{
+    height: 200px;
+    background-color: #fff;
+}
+.colStats .box p
+{
+    font-size: larger;
 }
 
 .colStats .box #total, .colStats .box #types
 {
-	font-weight: bold;
+    font-weight: bold;
 }
-#errorTypes li {
-	margin:1em;
+
+#errorTypes li
+{
+    margin: 1em;
 }
 #errorTypes .type
-{ float: left; width: 80%; overflow: hidden; } 
+{
+    float: left;
+    width: 80%;
+    overflow: hidden;
+}
 #errorTypes .value
-{ 	float:right; with:18%; text-align:right;  }
+{
+    float: right;
+    with: 18%;
+    text-align: right;
+}
 
-.colApp ul ul{
-	border-bottom: 1px dotted #fff;
+.colApp ul ul
+{
+    border-bottom: 1px dotted #fff;
 }
 .colApp li.date, .colApp li.host
 {
-	font-size: smaller;
+    font-size: smaller;
 }
