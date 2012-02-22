@@ -28,9 +28,9 @@ namespace Elmah.SignalR.Test
                                             cookies = new Dictionary<string, string>();
         public DateTime                     time;
 
-        public string                       url;
-
-        public string                       shortType;
+        public string                       url,
+                                            shortType,
+                                            browserSupportUrl;
 
         public bool                         hasYsod;
     }
