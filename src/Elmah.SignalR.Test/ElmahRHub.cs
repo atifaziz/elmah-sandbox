@@ -21,7 +21,8 @@
                            Id = source.Id,
                            ApplicationName = source.ApplicationName,
                            Error = error,
-                           InfoUrl = source.InfoUrl
+                           InfoUrl = source.InfoUrl,
+                           Class = "onReconnect"
                        };
 
             Caller.notifyErrors(envs.ToArray());
