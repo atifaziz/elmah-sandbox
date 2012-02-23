@@ -28,10 +28,10 @@
                 return;
             }
 
-            if (error.webHostHtmlMessage.Length == 0)
+            if (error.WebHostHtmlMessage.Length == 0)
                 return;
 
-            response.Write(error.webHostHtmlMessage);
+            response.Write(error.WebHostHtmlMessage);
         }
 
         public bool IsReusable

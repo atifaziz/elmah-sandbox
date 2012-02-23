@@ -32,35 +32,15 @@ namespace Elmah.SignalR.Test
 
             source.SetInfoUrl(infoUrl);
 
-            var js = new JavaScriptSerializer();
+            var e = Error.Build(error);
 
-            var e = js.Deserialize<Error>(error);
-
-            var match = Regex.Match(e.type, @"(\w+\.)+(?'type'\w+)Exception");
-            e.shortType = match.Success 
-                          ? match.Groups["type"].Value 
-                          : e.type;
-
-
-            const string browserSupportUrl = "http://www.w3schools.com/images/{0}.gif";
-            if (e.serverVariables.ContainsKey("HTTP_USER_AGENT"))
-            {
-                var userAgent = e.serverVariables["HTTP_USER_AGENT"];
-
-                e.browserSupportUrl = userAgent.IndexOf("MSIE", StringComparison.OrdinalIgnoreCase) >= 0
-                                    ? string.Format(browserSupportUrl, "compatible_ie")
-                                    : userAgent.IndexOf("Chrome", StringComparison.OrdinalIgnoreCase) >= 0
-                                    ? e.browserSupportUrl = string.Format(browserSupportUrl, "compatible_chrome")
-                                    : userAgent.IndexOf("Safari", StringComparison.OrdinalIgnoreCase) >= 0
-                                    ? e.browserSupportUrl = string.Format(browserSupportUrl, "compatible_safari")
-                                    : userAgent.IndexOf("Opera", StringComparison.OrdinalIgnoreCase) >= 0
-                                    ? e.browserSupportUrl = string.Format(browserSupportUrl, "compatible_opera")
-                                    : string.Empty;
-            }
-
-            e.isoTime = e.time.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
-
-            var a = new Envelope {id = source.Id, applicationName = source.ApplicationName, error = e, infoUrl = infoUrl};
+            var a = new Envelope
+                        {
+                            Id = source.Id,
+                            ApplicationName = source.ApplicationName, 
+                            Error = e, 
+                            InfoUrl = infoUrl
+                        };
 
             var connectionManager = AspNetHost.DependencyResolver.Resolve<IConnectionManager>();
             connectionManager.GetClients<ElmahRHub>().notifyError(a);
