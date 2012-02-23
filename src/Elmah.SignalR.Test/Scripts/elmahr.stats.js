@@ -67,13 +67,14 @@ elmahr.doStats = function (errors) {
         .sortBy(function (kvp) { return kvp.key; })
         .each(function (kvp) { elmahr.stats.push(kvp); });
 
-
+    //pie chart
     var values = [],
         labels = [];
-    $("#errorTypes li").each(function () {
-        values.push(parseInt($("span", this).get(1).innerText, 10));
-        labels.push($("span", this).get(0).innerText);
-    });
+    for (k in elmahr.stats()) {
+        var kvp = elmahr.stats()[k];
+        labels.push(kvp.key);
+        values.push(kvp.value);
+    }
 
     if (values.length > 1) {
         $("#holder").html("");
