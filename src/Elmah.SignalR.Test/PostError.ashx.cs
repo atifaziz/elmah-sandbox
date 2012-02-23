@@ -34,16 +34,16 @@ namespace Elmah.SignalR.Test
 
             var e = Error.Build(error);
 
-            var a = new Envelope
-                        {
-                            Id = source.Id,
-                            ApplicationName = source.ApplicationName, 
-                            Error = e, 
-                            InfoUrl = infoUrl
-                        };
+            var envelope = new Envelope
+                           {
+                               Id = source.Id,
+                               ApplicationName = source.ApplicationName, 
+                               Error = e, 
+                               InfoUrl = infoUrl
+                           };
 
             var connectionManager = AspNetHost.DependencyResolver.Resolve<IConnectionManager>();
-            connectionManager.GetClients<ElmahRHub>().notifyError(a);
+            connectionManager.GetClients<ElmahRHub>().notifyErrors(new [] { envelope });
 
             source.AppendError(e, errorId);
         }
