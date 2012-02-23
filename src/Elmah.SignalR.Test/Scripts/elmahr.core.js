@@ -64,6 +64,10 @@ function ApplicationViewModel(applicationName, infoUrl, doStats) {
          if (elem.nodeType === 1) {
              $(elem).hide().slideDown(1200);
              $("abbr.timeago", elem).timeago();
+             for(var i=0;i<20;i++) {
+                 $(elem).fadeTo(1000, 0)
+                        .fadeTo(1000, 1);
+             }
          }
     };
 }

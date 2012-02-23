@@ -140,7 +140,7 @@ h5, h6
     text-align: right;
 }
 
-.colApp ul ul
+.colApp > ul > li
 {
     border-bottom: 1px dotted #fff;
 }
