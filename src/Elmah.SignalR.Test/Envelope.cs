@@ -7,5 +7,6 @@ namespace Elmah.SignalR.Test
         public string InfoUrl { get; set; }
         public string ErrorId { get; set; }
         public Error Error { get; set; }
+        public string Class { get; set; }
     }
 }

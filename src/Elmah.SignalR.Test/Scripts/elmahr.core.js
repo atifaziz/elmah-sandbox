@@ -26,6 +26,7 @@ function ErrorViewModel(envelope) {
     self.hasYsod = e.HasYsod;
     self.url = e.Url;
     self.browserSupportUrl = e.BrowserSupportUrl;
+    self.reconnectClass = envelope.Class;
 
     self.serverVariables = ko.observableArray([]);
     self.form = ko.observableArray([]);
@@ -64,9 +65,11 @@ function ApplicationViewModel(applicationName, infoUrl, doStats) {
          if (elem.nodeType === 1) {
              $(elem).hide().slideDown(1200);
              $("abbr.timeago", elem).timeago();
-             for(var i=0;i<20;i++) {
-                 $(elem).fadeTo(1000, 0)
-                        .fadeTo(1000, 1);
+             if (!$(elem).hasClass("onReconnect")) {
+                 for(var i=0;i<20;i++) {
+                     $(elem).fadeTo(1000, 0)
+                         .fadeTo(1000, 1);
+                 }
              }
          }
     };

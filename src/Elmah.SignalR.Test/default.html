@@ -43,7 +43,7 @@
                     Info</a></p>
             <hr />
             <ul data-bind="template: { foreach: errors, afterAdd: fadeIn }">
-                <li><strong><span data-bind="text: type"></span></strong>has occurred <strong>
+                <li data-bind="attr: { class: reconnectClass }"><strong><span data-bind="text: type"></span></strong>has occurred <strong>
                     <abbr class="timeago" data-bind="attr: { title: isoTime }, text: time">
                     </abbr>
                 </strong>on host <strong><span data-bind="text: host"></span></strong>for user <strong>
@@ -62,7 +62,6 @@
             </ul>
         </div>
     </div>
-   
     <div id="footer">
         <p>
             Copyright (c) 2012 - wasp.net</p>
