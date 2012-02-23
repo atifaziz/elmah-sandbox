@@ -105,10 +105,10 @@
 
         public ErrorsSource AppendError(Error error, string errorId)
         {
-            if (!string.IsNullOrWhiteSpace(error.webHostHtmlMessage))
+            if (!string.IsNullOrWhiteSpace(error.WebHostHtmlMessage))
             {
-                error.url = "YellowScreenOfDeath.ashx?id=" + errorId;
-                error.hasYsod = true;
+                error.Url = "YellowScreenOfDeath.ashx?id=" + errorId;
+                error.HasYsod = true;
             }
 
             _errors.Add(error);

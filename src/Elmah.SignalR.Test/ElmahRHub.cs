@@ -18,10 +18,10 @@
                        from error in source
                        select new Envelope
                        {
-                           id = source.Id,
-                           applicationName = source.ApplicationName,
-                           error = error,
-                           infoUrl = source.InfoUrl
+                           Id = source.Id,
+                           ApplicationName = source.ApplicationName,
+                           Error = error,
+                           InfoUrl = source.InfoUrl
                        };
 
             foreach (var env in envs)
