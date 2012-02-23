@@ -78,6 +78,10 @@ function ElmahrViewModel() {
     self.doStats = function (errors) {
     };
 
+    self.refreshStats = function () {
+        self.doStats(self.allErrors());
+    };
+    
     self.addApplication = function (applicationName, infoUrl) {
         var found = false;
         var apps = self.applications();
@@ -101,7 +105,6 @@ function ElmahrViewModel() {
             return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
         });
 
-        self.doStats(self.allErrors());
     };
 }
 
@@ -118,32 +121,32 @@ $(function () {
         });
 
         elmahrConnector.notifyErrors = function (envelopes) {            
-            
-            for (k in envelopes) {
-                var envelope = envelopes[k];
-                observer.onNext(envelope);
-            }
+            observer.onNext(envelopes);
         };
         
     });
     
-    d.subscribe(function(envelope) {
+    d.subscribe(function(envelopes) {
 
-        var infoUrl = envelope.InfoUrl;
+        for (k in envelopes) {
+            var envelope = envelopes[k];
 
-        elmahr.addApplication(envelope.ApplicationName, infoUrl);
+            var infoUrl = envelope.InfoUrl;
 
-        var apps = elmahr.applications();
-        for (a in apps) {
-            var appName = apps[a].applicationName;
-            if (appName == envelope.ApplicationName) {
-                elmahr.applications()[a].addError(envelope);
+            elmahr.addApplication(envelope.ApplicationName, infoUrl);
+
+            var apps = elmahr.applications();
+            for (a in apps) {
+                var appName = apps[a].applicationName;
+                if (appName == envelope.ApplicationName) {
+                    elmahr.applications()[a].addError(envelope);
+                }
             }
+
+            elmahr.addError(envelope);
         }
 
-        elmahr.addError(envelope);
-        
-        
+        elmahr.refreshStats();
     });
 
     ko.applyBindings(elmahr);
