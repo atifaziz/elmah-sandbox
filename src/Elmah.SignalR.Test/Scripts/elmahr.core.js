@@ -117,8 +117,12 @@ $(function () {
             elmahrConnector.connect();
         });
 
-        elmahrConnector.notifyError = function (envelope) {            
-            observer.onNext(envelope);
+        elmahrConnector.notifyErrors = function (envelopes) {            
+            
+            for (k in envelopes) {
+                var envelope = envelopes[k];
+                observer.onNext(envelope);
+            }
         };
         
     });

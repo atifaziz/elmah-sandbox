@@ -24,8 +24,7 @@
                            InfoUrl = source.InfoUrl
                        };
 
-            foreach (var env in envs)
-                Caller.notifyError(env);
+            Caller.notifyErrors(envs.ToArray());
         }
     }
 }
