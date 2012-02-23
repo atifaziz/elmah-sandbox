@@ -8,37 +8,37 @@
 function ErrorViewModel(envelope) {
     var self = this;
 
-    var time = new Date(parseFloat(envelope.error.time.slice(6, 19))).toLocaleString();
-    var e = envelope.error;
+    var time = new Date(parseFloat(envelope.Error.Time.slice(6, 19))).toLocaleString();
+    var e = envelope.Error;
 
     self.id = envelope.id;
-    self.message = e.message;
+    self.message = e.Message;
     self.time = time;
-    self.isoTime = e.isoTime;
-    self.host = e.host;
-    self.type = e.type;
-    self.shortType = e.shortType;
-    self.source = e.source;
-    self.detail = e.detail;
-    self.user = e.user;
-    self.statusCode = e.statusCode;
-    self.webHostHtmlMessage = e.webHostHtmlMessage;
-    self.hasYsod = e.hasYsod;
-    self.url = e.url;
-    self.browserSupportUrl = e.browserSupportUrl;
+    self.isoTime = e.IsoTime;
+    self.host = e.Host;
+    self.type = e.Type;
+    self.shortType = e.ShortType;
+    self.source = e.Source;
+    self.detail = e.Detail;
+    self.user = e.User;
+    self.statusCode = e.StatusCode;
+    self.webHostHtmlMessage = e.WebHostHtmlMessage;
+    self.hasYsod = e.HasYsod;
+    self.url = e.Url;
+    self.browserSupportUrl = e.BrowserSupportUrl;
 
     self.serverVariables = ko.observableArray([]);
     self.form = ko.observableArray([]);
     self.cookies = ko.observableArray([]);
 
-    for (var sv in e.serverVariables) {
-        self.serverVariables.push(new KeyValuePair(sv, e.serverVariables[sv]));
+    for (var sv in e.ServerVariables) {
+        self.serverVariables.push(new KeyValuePair(sv, e.ServerVariables[sv]));
     };
-    for (var f in e.form) {
-        self.form.push(new KeyValuePair(f, e.form[f]));
+    for (var f in e.Form) {
+        self.form.push(new KeyValuePair(f, e.Form[f]));
     };
-    for (var c in e.cookies) {
-        self.cookies.push(new KeyValuePair(c, e.cookies[c]));
+    for (var c in e.Cookies) {
+        self.cookies.push(new KeyValuePair(c, e.Cookies[c]));
     };
 }
 
@@ -125,14 +125,14 @@ $(function () {
     
     d.subscribe(function(envelope) {
 
-        var infoUrl = envelope.infoUrl;
+        var infoUrl = envelope.InfoUrl;
 
-        elmahr.addApplication(envelope.applicationName, infoUrl);
+        elmahr.addApplication(envelope.ApplicationName, infoUrl);
 
         var apps = elmahr.applications();
         for (a in apps) {
             var appName = apps[a].applicationName;
-            if (appName == envelope.applicationName) {
+            if (appName == envelope.ApplicationName) {
                 elmahr.applications()[a].addError(envelope);
             }
         }
