@@ -39,25 +39,30 @@
             <h2 data-bind="text: applicationName">
             </h2>
             <p>
-                Info: <a target="_blank" data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">
+                For more info: <a target="_blank" data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">
                     Info</a></p>
+            <hr />
             <ul data-bind="template: { foreach: errors, afterAdd: fadeIn }">
-                <li>
+                <li><strong><span data-bind="text: type"></span></strong>has occurred <strong>
+                    <abbr class="timeago" data-bind="attr: { title: isoTime }, text: time">
+                    </abbr>
+                </strong>on host <strong><span data-bind="text: host"></span></strong>for user <strong>
+                    <span data-bind="text: user"></span></strong>:
                     <ul>
-                        <li class="date">When: <strong><abbr class="timeago" data-bind="attr: { title: isoTime }, text: time"></abbr></strong> [<span data-bind="text: time"></span>]</li>
-                        <li class="host">Host: <span data-bind="text: host"></span></li>
-                        <li>Type: <span data-bind="text: type"></span> </li>
+                        <li>Code: <span data-bind="text: statusCode"></span></li>
                         <li><strong data-bind="text: message"></strong></li>
                         <!-- ko if: hasYsod -->
                         <li><a data-bind="attr: { href: url, title: message }" target="_blank">Yellow screen
-                                of death</a></li>
+                            of death</a></li>
                         <!-- /ko -->
-                        <li><img data-bind="attr: { src: browserSupportUrl, alt: browserSupportUrl }"/></li>
+                        <li>
+                            <img data-bind="attr: { src: browserSupportUrl, alt: browserSupportUrl }" /></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
+   
     <div id="footer">
         <p>
             Copyright (c) 2012 - wasp.net</p>
