@@ -1,4 +1,6 @@
-﻿namespace Elmah.SignalR.Test
+﻿using System.Web;
+
+namespace Elmah.SignalR.Test
 {
     #region Imports
 
@@ -25,6 +27,13 @@
         }
 
         public static readonly ErrorsStore Store = new ErrorsStore();
+
+        public void LoadSourcesFromConfig(HttpContext context)
+        {
+            var sections = (ElmahRSection[])context.GetSection("elmahr");
+            foreach (var section in sections)
+                AddSource(section.ApplicationName, section.HandshakeToken);
+        }
 
         public ErrorsStore AddSource(string applicationName, string handshakeToken)
         {
