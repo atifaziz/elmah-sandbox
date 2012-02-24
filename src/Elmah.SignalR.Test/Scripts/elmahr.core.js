@@ -26,7 +26,7 @@ function ErrorViewModel(envelope) {
     self.hasYsod = e.HasYsod;
     self.url = e.Url;
     self.browserSupportUrl = e.BrowserSupportUrl;
-    self.reconnectClass = envelope.Class;
+    self.reconnectClass = envelope.Class != null;
 
     self.serverVariables = ko.observableArray([]);
     self.form = ko.observableArray([]);
