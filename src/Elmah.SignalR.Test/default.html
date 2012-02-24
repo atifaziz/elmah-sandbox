@@ -45,7 +45,7 @@
             </div>
             <hr />
             <ul data-bind="template: { foreach: errors, afterAdd: fadeIn }">
-                <li id="msg" data-bind="attr: { class: reconnectClass }">
+                <li id="msg" data-bind="css: { onReconnect: reconnectClass }">
                     <img data-bind="attr: { src: browserSupportUrl, alt: browserSupportUrl }" /><strong><span
                         data-bind="attr: { style: 'color:red' }, text: type"></span></strong> has occurred
                     <strong>
