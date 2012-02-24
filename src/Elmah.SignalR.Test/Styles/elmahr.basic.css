@@ -1,11 +1,11 @@
-body
+﻿body
 {
-	background-color: #A0B9BD;
-	font-size: small;
-	font-family: Arial, Helvetica, Sans-Serif;
-	margin: 0;
-	padding: 0;
-	color: #432209;
+    background-color: #A0B9BD;
+    font-size: small;
+    font-family: Arial, Helvetica, Sans-Serif;
+    margin: 0;
+    padding: 0;
+    color: #432209;
 }
 
 a:link, a:visited
@@ -17,46 +17,47 @@ a:link, a:visited
 a:hover, a:active
 {
     color: #666;
-    text-decoration:underline;
+    text-decoration: underline;
 }
 
 ul
 {
     margin: 0;
-    padding:0 .5em 0;
+    padding: 0 .5em 0;
     list-style-type: none;
 }
 li, p
 {
-    padding:0;
-	 margin: .5em;
-	 list-style-type: none;
+    padding: 0;
+    margin: .5em;
+    list-style-type: none;
 }
 
-hr {
-	border:none;
-	height:1px;
-	background-color: #C6E5D9;
+hr
+{
+    border: none;
+    height: 1px;
+    background-color: #C6E5D9;
 }
 /* HEADINGS   
 ----------------------------------------------------------*/
 h1, h2, h3, h4, h5, h6
 {
-	 color: #F3036E;
+    color: #F3036E;
     font-family: Arial, Helvetica, sans-serif;
-	 padding:.5em;
-	 margin:0;
+    padding: .5em;
+    margin: 0;
 }
 
 h1
 {
     font-size: 1.5em;
-    color:#fff;
+    color: #fff;
 }
 h1 span
 {
     text-transform: uppercase;
-    font-size: .7em;   
+    font-size: .7em;
 }
 h2
 {
@@ -79,48 +80,49 @@ h5, h6
 {
     clear: both;
     border-top: 1px dotted #C6E5D9;
-	 color:#7E8F91;
-	 padding: 1em;
+    color: #7E8F91;
+    padding: 1em;
 }
 /* = stats+graph column, application column */
 .stats, .apps
 {
-	float: left;
-	width: 24%;	
-	margin-right: 1em;
-	margin-bottom: 1em;
+    float: left;
+    width: 24%;
+    margin-right: 1em;
+    margin-bottom: 1em;
 }
 .stats
 {
-	width: 300px;
-	height: 100%;
-	margin-left: 1em;
+    width: 300px;
+    height: 100%;
+    margin-left: 1em;
 }
 .apps
 {
     border-radius: 8px;
-	 background-color: #EFEFEF;
+    background-color: #EFEFEF;
 }
 .stats .totStats
 {
-	background-color: #F5DBCB;
-	margin-bottom: 1em;
-	border-radius: 8px;
-	padding:1em;
+    background-color: #F5DBCB;
+    margin-bottom: 1em;
+    border-radius: 8px;
+    padding: 1em;
 }
 #holder
-{	border-radius: 8px;
+{
+    border-radius: 8px;
     height: 250px;
     background-color: #fff;
 }
 .stats .totStats p
 {
     font-size: larger;
-	 text-align:center;
+    text-align: center;
 }
 .totStats p span
 {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 
@@ -135,25 +137,30 @@ h5, h6
     with: 18%;
     text-align: right;
 }
-.apps h2 {
-	padding-bottom: 0;
-	margin-bottom:0;
+.apps h2
+{
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
-.apps .title {
-	margin-bottom: .5em;
-	color: #F3036E;
+.apps .title
+{
+    margin-bottom: .5em;
+    color: #F3036E;
 }
 .apps > ul > li
 {
-    border-bottom: 1px dotted #C6E5D9;
+    border-bottom: 2px dotted #C6E5D9;
 }
 .apps #msg img
 {
-    float:right; margin:3px;
+    float: right;
+    margin: 3px;
 }
-.apps #msg {
-	font-size: smaller;
+.apps #msg
+{
+    font-size: smaller;
 }
-.apps #msg ul {
-	font-size: small;
+.apps #msg ul
+{
+    font-size: small;
 }
