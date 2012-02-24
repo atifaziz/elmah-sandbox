@@ -47,14 +47,17 @@
             <ul data-bind="template: { foreach: errors, afterAdd: fadeIn }">
                 <li id="msg" data-bind="attr: { class: reconnectClass }">
                     <img data-bind="attr: { src: browserSupportUrl, alt: browserSupportUrl }" /><strong><span
-                        data-bind="text: type"></span></strong> has occurred <strong>
-                            <abbr class="timeago" data-bind="attr: { title: isoTime }, text: time">
-                            </abbr>
-                        </strong>on host <strong><span data-bind="text: host"></span></strong>for user
-                    <strong><span data-bind="text: user"></span></strong>:
+                        data-bind="attr: { style: 'color:red' }, text: type"></span></strong> has occurred
+                    <strong>
+                        <abbr class="timeago" data-bind="attr: { title: isoTime }, text: time">
+                        </abbr>
+                    </strong> on host <strong><span data-bind="text: host"></span></strong> for user <strong>
+                        <span data-bind="text: user"></span></strong>:
                     <ul>
-                        <li>Code: <span data-bind="text: statusCode"></span></li>
                         <li><strong data-bind="text: message"></strong></li>
+                        <!-- ko if: statusCode -->
+                        <li>Code: <span data-bind="text: statusCode"></span></li>
+                        <!-- /ko -->
                         <!-- ko if: hasYsod -->
                         <li><a data-bind="attr: { href: url, title: message }" target="_blank">Yellow screen
                             of death</a></li>
