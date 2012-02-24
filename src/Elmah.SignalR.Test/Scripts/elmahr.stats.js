@@ -21,7 +21,7 @@
                 delta = -30,
                 bcolor = Raphael.hsb(start, 1, 1),
                 p = sector(cx, cy, r, angle, angle + angleplus, { fill: "90-" + bcolor + "-" + color, stroke: stroke, "stroke-width": 3 }),
-                txt = paper.text(cx + (r + delta + 55) * Math.cos(-popangle * rad), cy + (r + delta + 25) * Math.sin(-popangle * rad), labels[j]).attr({ fill: "#222", stroke: "none", opacity: 0, "font-size": 11, "font-weight": "bold" });
+                txt = paper.text(cx + (r + delta + 55) * Math.cos(-popangle * rad), cy + (r + delta + 25) * Math.sin(-popangle * rad), labels[j]).attr({ fill: "#222", stroke: "none", opacity: 0, "font-size": 12, "font-weight": "bold" });
             p.mouseover(function () {
                 p.stop().animate({ transform: "s1.1 1.1 " + cx + " " + cy }, ms, "elastic");
                 txt.stop().animate({ opacity: 1 }, ms, "elastic");
@@ -78,7 +78,7 @@ elmahr.doStats = function (errors) {
 
     if (values.length > 1) {
         $("#holder").html("");
-        Raphael("holder", 300, 200).pieChart(150, 100, 80, values, labels, "#999");
+        Raphael("holder", 300, 250).pieChart(150, 125, 80, values, labels, "#999");
     }
 
 };
