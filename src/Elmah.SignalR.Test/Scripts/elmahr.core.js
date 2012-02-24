@@ -57,7 +57,7 @@ function ApplicationViewModel(applicationName, infoUrl, doStats) {
         self.errors.push(new ErrorViewModel(envelope));
         self.errors.sort(function (l, r) {
             //descending by time
-            return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
+            return l.isoTime > r.isoTime ? -1 : (l.isoTime == r.isoTime ? 0 : 1);
         });
     };
 
