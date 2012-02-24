@@ -16,10 +16,10 @@
     <link href="Styles/elmahr.basic.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div class="colStats">
+    <div class="stats">
         <h1>
             ElmahR <span>Unhandled exceptions</span></h1>
-        <div class="box">
+        <div class="totStats">
             <p>
                 Total errors: <span id="total"></span>
             </p>
@@ -31,23 +31,27 @@
                     class="value"></span></li>
             </ul>
         </div>
-        <div id="holder" class="box">
+        <div id="holder">
         </div>
     </div>
     <div data-bind="foreach: applications">
-        <div class="colApp">
-            <h2 data-bind="text: applicationName">
-            </h2>
-            <p>
-                For more info: <a target="_blank" data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">
-                    Info</a></p>
+        <div class="apps">
+            <div class="title">
+                <h2 data-bind="text: applicationName">
+                </h2>
+                <p>
+                    For more info: <a target="_blank" data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">
+                        Info</a></p>
+            </div>
             <hr />
             <ul data-bind="template: { foreach: errors, afterAdd: fadeIn }">
-                <li data-bind="attr: { class: reconnectClass }"><strong><span data-bind="text: type"></span></strong>has occurred <strong>
-                    <abbr class="timeago" data-bind="attr: { title: isoTime }, text: time">
-                    </abbr>
-                </strong>on host <strong><span data-bind="text: host"></span></strong>for user <strong>
-                    <span data-bind="text: user"></span></strong>:
+                <li id="msg" data-bind="attr: { class: reconnectClass }">
+                    <img data-bind="attr: { src: browserSupportUrl, alt: browserSupportUrl }" /><strong><span
+                        data-bind="text: type"></span></strong> has occurred <strong>
+                            <abbr class="timeago" data-bind="attr: { title: isoTime }, text: time">
+                            </abbr>
+                        </strong>on host <strong><span data-bind="text: host"></span></strong>for user
+                    <strong><span data-bind="text: user"></span></strong>:
                     <ul>
                         <li>Code: <span data-bind="text: statusCode"></span></li>
                         <li><strong data-bind="text: message"></strong></li>
@@ -55,8 +59,7 @@
                         <li><a data-bind="attr: { href: url, title: message }" target="_blank">Yellow screen
                             of death</a></li>
                         <!-- /ko -->
-                        <li>
-                            <img data-bind="attr: { src: browserSupportUrl, alt: browserSupportUrl }" /></li>
+                        <li></li>
                     </ul>
                 </li>
             </ul>
