@@ -11,7 +11,7 @@ namespace Elmah.SignalR.Test
 
     public class Error
     {
-        const string BrowserSupportUrlTemplate = "http://www.w3schools.com/images/{0}.gif";
+        const string BrowserSupportUrlTemplate = "images/{0}.gif";
 
         public string Host { get; set; }
         public string Type { get; set; }
