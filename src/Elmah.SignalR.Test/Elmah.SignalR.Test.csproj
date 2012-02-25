@@ -71,6 +71,12 @@
     <Content Include="default.html" />
     <Content Include="ErrorSource.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Images\compatible_chrome.gif" />
+    <Content Include="Images\compatible_firefox.gif" />
+    <Content Include="Images\compatible_ie.gif" />
+    <Content Include="Images\compatible_opera.gif" />
+    <Content Include="Images\compatible_safari.gif" />
+    <Content Include="Images\questionmark.gif" />
     <Content Include="Scripts\elmahr.core.js" />
     <Content Include="Scripts\elmahr.stats.js" />
     <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
