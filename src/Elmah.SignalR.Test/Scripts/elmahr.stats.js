@@ -10,9 +10,8 @@
         return paper.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]).attr(params);
     }
     var angle = 0,
-        total = 0,
         start = 0,
-        process = function (j) {
+        process = function (j, total) {
             var value = values[j],
                 angleplus = 360 * value / total,
                 popangle = angle + (angleplus / 2),
@@ -26,7 +25,7 @@
                 p.stop().animate({ transform: "s1.1 1.1 " + cx + " " + cy }, ms, "elastic");
                 txt.stop().animate({ opacity: 1 }, ms, "elastic");
             }).mouseout(function () {
-                p.stop().animate({ transform: "" }, ms, "elastic"); 
+                p.stop().animate({ transform: "" }, ms, "elastic");
                 txt.stop().animate({ opacity: 0 }, ms);
             });
             angle += angleplus;
@@ -34,11 +33,14 @@
             chart.push(txt);
             start += .1;
         };
+    var t = 0;
     for (var i = 0, ii = values.length; i < ii; i++) {
-        total += values[i];
+        var v = values[i];
+        t += v;
     }
+    var wasp = 0;
     for (i = 0; i < ii; i++) {
-        process(i);
+        process(i, t);
     }
     return chart;
 };
@@ -65,15 +67,21 @@ elmahr.doStats = function (errors) {
         .groupBy(function (q) { return q.shortType; })
         .map(function (val, key) { return new KeyValuePair(key, val.length); })
         .sortBy(function (kvp) { return kvp.key; })
-        .each(function (kvp) { elmahr.stats.push(kvp); });
+        .each(function (kvp) {
+            if (kvp.key != undefined) 
+                elmahr.stats.push(kvp);
+        });
 
     //pie chart
     var values = [],
         labels = [];
     for (k in elmahr.stats()) {
         var kvp = elmahr.stats()[k];
-        labels.push(kvp.key);
-        values.push(kvp.value);
+        var key = kvp.key;
+        if (key != undefined) {
+            labels.push(key);
+            values.push(kvp.value);
+        }
     }
 
     if (values.length > 1) {
