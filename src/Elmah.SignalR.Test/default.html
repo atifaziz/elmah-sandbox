@@ -43,18 +43,18 @@
                 </h2>
                 <p>
                     For more info: <a target="_blank" data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">
-                        Info</a></p>
+                                       Info</a></p>
             </div>
             <hr />
             <ul data-bind="template: { foreach: errors, afterAdd: fadeIn }">
                 <li id="msg" data-bind="css: { onReconnect: reconnectClass }">
                     <img data-bind="attr: { src: browserSupportUrl, alt: browserSupportUrl }" /><strong><span
-                        data-bind="attr: { style: 'color:red' }, text: type"></span></strong> has occurred
+                                                                                                            data-bind="attr: { style: 'color:red' }, text: type"></span></strong> has occurred
                     <strong>
                         <abbr class="timeago" data-bind="attr: { title: isoTime }, text: time">
                         </abbr>
-                    </strong>on host <strong><span data-bind="text: host"></span></strong>for user <strong>
-                        <span data-bind="text: user"></span></strong>:
+                    </strong> on host <strong><span data-bind="text: host"></span></strong> for user <strong>
+                                                                                                         <span data-bind="text: user"></span></strong>:
                     <ul>
                         <li><strong data-bind="text: message"></strong></li>
                         <!-- ko if: statusCode -->
@@ -62,7 +62,7 @@
                         <!-- /ko -->
                         <!-- ko if: hasYsod -->
                         <li><a data-bind="attr: { href: url, title: message }" target="_blank">Yellow screen
-                            of death</a></li>
+                                of death</a></li>
                         <!-- /ko -->
                         <li></li>
                     </ul>
@@ -70,29 +70,88 @@
             </ul>
         </div>
     </div>
-    <div id="details" title="Error details">
-        <p id="message">
-            <img data-bind="attr: { src: browserSupportUrl, alt: browserSupportUrl }" /><strong><span
-                data-bind="attr: { style: 'color:red' }, text: type"></span></strong> has occurred
+    
+    <div id="details" title="Error details" data-bind="with: selected">
+        <p>
+            <strong><span data-bind="attr: { style: 'color:red' }, text: type"></span></strong> has occurred
             <strong>
                 <abbr class="timeago" data-bind="attr: { title: isoTime }, text: time">
                 </abbr>
-            </strong>on host <strong><span data-bind="text: host"></span></strong>for user <strong>
-                <span data-bind="text: user"></span></strong>:
-            <ul>
-                <li><strong data-bind="text: message"></strong></li>
-                <!-- ko if: statusCode -->
-                <li>Code: <span data-bind="text: statusCode"></span></li>
-                <!-- /ko -->
-                <!-- ko if: hasYsod -->
-                <li><a data-bind="attr: { href: url, title: message }" target="_blank">Yellow screen
-                    of death</a></li>
-                <!-- /ko -->
-                <li></li>
-            </ul>
+            </strong>on host <strong><span data-bind="text: host"></span></strong> for user <strong>
+                                                                                                <span data-bind="text: user"></span></strong>:
         </p>
+        <p>
+            Message: <strong data-bind="text: message"></strong>
+        </p>
+        <!-- ko if: statusCode -->
+        <p>
+            Code: <strong data-bind="text: statusCode"></strong>
+        </p>
+        <!-- /ko -->
+        <p>
+            Source: <strong data-bind="text: source"></strong>
+        </p>
+        
         <pre data-bind="text: detail"></pre>
+        
+        <h3>Server variables</h3>
+        <table>
+            <thead>
+                <tr>
+                    <td>Name</td><td>Value</td>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: serverVariables">
+                <tr>
+                    <td>
+                        <span data-bind='text: key'></span>
+                    </td>
+                    <td>
+                        <span data-bind='text: value'></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>Form</h3>
+        <table>
+            <thead>
+                <tr>
+                    <td>Name</td><td>Value</td>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: form">
+                <tr>
+                    <td>
+                        <span data-bind='text: key'></span>
+                    </td>
+                    <td>
+                        <span data-bind='text: value'></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>Cookies</h3>
+        <table>
+            <thead>
+                <tr>
+                    <td>Name</td><td>Value</td>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: cookies">
+                <tr>
+                    <td>
+                        <span data-bind='text: key'></span>
+                    </td>
+                    <td>
+                        <span data-bind='text: value'></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+    
     <div id="footer">
         <p>
             Copyright (c) 2012 - wasp.net</p>
