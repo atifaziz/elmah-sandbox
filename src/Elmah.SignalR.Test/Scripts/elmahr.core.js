@@ -81,15 +81,16 @@ function ElmahrViewModel() {
     self.applications = ko.observableArray([]);
     self.allErrors = ko.observableArray([]);
     self.stats = ko.observableArray([]);
+    self.selected = ko.observable(null);
 
-    self.doStats = function (errors) {
+    self.doStats = function(errors) {
     };
 
-    self.refreshStats = function () {
+    self.refreshStats = function() {
         self.doStats(self.allErrors());
     };
-    
-    self.addApplication = function (applicationName, infoUrl) {
+
+    self.addApplication = function(applicationName, infoUrl) {
         var found = false;
         var apps = self.applications();
         for (a in apps) {
@@ -104,22 +105,31 @@ function ElmahrViewModel() {
         }
     };
 
-    self.addError = function (envelope) {
+    self.addError = function(envelope) {
 
         self.allErrors.push(new ErrorViewModel(envelope));
-        self.allErrors.sort(function (l, r) {
+        self.allErrors.sort(function(l, r) {
             //descending by time
             return l.time > r.time ? -1 : (l.time == r.time ? 0 : 1);
         });
 
     };
+
+    self.selectTarget = function(target) {
+        self.selected(target);
+    };
+
+    self.hasSelected = ko.computed(function() {
+        return self.selected() != null;
+    }, this);
 }
 
 var elmahr = new ElmahrViewModel();
 
 function popup(target) {
-    ko.applyBindings(target, $("#details")[0]);
-    $("#message abbr.timeago").timeago();
+    elmahr.selectTarget(target);
+    
+    $("#details abbr.timeago").timeago();
     return $("#details").dialog("open");
 };
 
@@ -162,8 +172,7 @@ $(function () {
         elmahr.refreshStats();
     });
 
-    ko.applyBindings(elmahr, $("#stats")[0]);
-    ko.applyBindings(elmahr, $("#apps")[0]);
+    ko.applyBindings(elmahr);
 
     $("#details").dialog({
         autoOpen: false,
