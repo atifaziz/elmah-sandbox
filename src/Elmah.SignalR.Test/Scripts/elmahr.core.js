@@ -117,6 +117,12 @@ function ElmahrViewModel() {
 
 var elmahr = new ElmahrViewModel();
 
+function popup(target) {
+    ko.applyBindings(target, $("#details")[0]);
+    $("#message abbr.timeago").timeago();
+    return $("#details").dialog("open");
+};
+
 $(function () {
 
     var elmahrConnector = $.connection.elmahr;
@@ -156,6 +162,14 @@ $(function () {
         elmahr.refreshStats();
     });
 
-    ko.applyBindings(elmahr);
+    ko.applyBindings(elmahr, $("#stats")[0]);
+    ko.applyBindings(elmahr, $("#apps")[0]);
+
+    $("#details").dialog({
+        autoOpen: false,
+        height: 550,
+        width: 780,
+        modal: true
+    });
     
 });
