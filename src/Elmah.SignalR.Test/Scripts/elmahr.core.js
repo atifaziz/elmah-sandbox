@@ -62,16 +62,17 @@ function ApplicationViewModel(applicationName, infoUrl, doStats) {
     };
 
     this.fadeIn = function (elem) {
-         if (elem.nodeType === 1) {
-             $(elem).hide().slideDown(1200);
-             $("abbr.timeago", elem).timeago();
-             if (!$(elem).hasClass("onReconnect")) {
-                 for(var i=0;i<20;i++) {
-                     $(elem).fadeTo(1000, 0)
-                         .fadeTo(1000, 1);
-                 }
-             }
-         }
+        if (elem.nodeType === 1) {
+            $(elem).hide().slideDown(1200);
+            $("abbr.timeago", elem).timeago();
+            if (!$(elem).hasClass("onReconnect")) {
+                $(elem).addClass("hilite");
+                var handle = window.setTimeout(10000, function () {
+                    $(elem).removeClass("hilite");
+                    window.clearTimeout(handle);
+                });
+            }
+        }
     };
 }
 
