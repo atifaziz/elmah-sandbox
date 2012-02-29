@@ -1,6 +1,6 @@
-body
+﻿body
 {
-	 background-color: #727D1A;
+    background-color: #727D1A;
     font-size: small;
     font-family: Arial, Helvetica, Sans-Serif;
     margin: 0;
@@ -12,14 +12,14 @@ a:link, a:visited
 {
     color: #666;
     text-decoration: none;
-	 background-color: #fff;
+    background-color: #fff;
 }
 
 a:hover, a:active
 {
     color: Black;
     text-decoration: none;
-	 background-color: #fff;
+    background-color: #fff;
 }
 
 ul
@@ -30,8 +30,8 @@ ul
 }
 li, p
 {
-    padding:.3em .5em .3em;
-    margin:0;
+    padding: .5em;
+    margin: 0;
     list-style-type: none;
 }
 
@@ -40,13 +40,13 @@ hr
     border: none;
     height: 1px;
     background-color: #C4DE56;
-	 margin:0;
+    margin: 0;
 }
 /* HEADINGS   
 ----------------------------------------------------------*/
 h1, h2, h3, h4, h5, h6
 {
-    color: #C4DE56;	 
+    color: #C4DE56;
     font-family: Arial, Helvetica, sans-serif;
     padding: 1em 1em .5em;
     margin: 0;
@@ -83,11 +83,11 @@ h5, h6
 /* = Main title, stats box, stats graph wrapped in statsCol */
 .statsCol
 {
-	float:left;
-	width: 300px;
-	height: 100%;
-	margin-right:1em;	
-	margin-bottom: 1em;
+    float: left;
+    width: 300px;
+    height: 100%;
+    margin-right: 1em;
+    margin-bottom: 1em;
 }
 .statsCol .statsBox
 {
@@ -149,26 +149,26 @@ h5, h6
 .appsCol img
 {
     float: right;
-    margin:.3em .5em;
+    margin: .3em .5em;
 }
 .appsCol #msg
 {
     font-size: smaller;
-	 padding-left:1em;
+    padding-left: 1em;
 }
 .appsCol .msgLink
 {
     font-size: 1.2em;
-	 list-style-type: disc;
-	 list-style-position: inside;
+    padding-top: 0.8em;
 }
 .hilite
 {
-	background-color: #FFFF90;
+    background-color: #FFFF90;
 }
 
 /* = Details Popup ---------*/
-pre {
+pre
+{
     border: 1px dashed #888;
     padding: 5px 10px;
     margin: 0 0 1em 0;
@@ -177,24 +177,24 @@ pre {
 
 #details h3
 {
-	color:#727d1a;
-	padding-left: 2px;
+    color: #727d1a;
+    padding-left: 2px;
 }
-#details table 
+#details table
 {
     font-size: 1em;
-	 width: 100%;
+    width: 100%;
 }
 #details table thead
 {
-	background-color: #E6F18D;
-	font-weight: bold;
+    background-color: #E6F18D;
+    font-weight: bold;
 }
 #details table td
 {
     vertical-align: top;
-	 font-size: .8em;
-	 padding: .5em;
+    font-size: .8em;
+    padding: .5em;
 }
 
 
@@ -203,5 +203,5 @@ pre {
 {
     clear: both;
     border-top: 1px dotted #C4DE56;
-    color: #C4DE56;  
+    color: #C4DE56;
 }

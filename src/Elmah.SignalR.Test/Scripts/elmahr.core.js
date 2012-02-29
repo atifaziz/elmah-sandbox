@@ -67,10 +67,10 @@ function ApplicationViewModel(applicationName, infoUrl, doStats) {
             $("abbr.timeago", elem).timeago();
             if (!$(elem).hasClass("onReconnect")) {
                 $(elem).addClass("hilite");
-                var handle = window.setTimeout(10000, function () {
+                var handle = window.setTimeout(function () {
                     $(elem).removeClass("hilite");
                     window.clearTimeout(handle);
-                });
+                }, 15000);
             }
         }
     };
