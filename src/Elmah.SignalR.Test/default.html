@@ -18,10 +18,10 @@
     <link href="Styles/elmahr.basic.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div id="stats" class="stats">
+    <div id="stats" class="statsCol">
         <h1>
             ElmahR <span>Unhandled exceptions</span></h1>
-        <div class="totStats">
+        <div class="statsBox">
             <p>
                 Total errors: <span id="total"></span>
             </p>
@@ -37,48 +37,48 @@
         </div>
     </div>
     <div id="apps" data-bind="foreach: applications">
-        <div class="apps">
-            <div class="title">
+        <div class="appsCol">
+            
                 <h2 data-bind="text: applicationName">
                 </h2>
-                <p>
-                    For more info: <a target="_blank" data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">
-                                       Info</a></p>
-            </div>
+                <p class="info">
+                    More info: <a target="_blank" data-bind="attr: { href: infoUrl, title: 'Info' }, text: infoUrl">
+                        Info</a></p>
+            
             <hr />
             <ul data-bind="template: { foreach: errors, afterAdd: fadeIn }">
                 <li id="msg" data-bind="css: { onReconnect: reconnectClass }">
                     <img data-bind="attr: { src: browserSupportUrl, alt: browserSupportUrl }" /><strong><span
-                                                                                                            data-bind="attr: { style: 'color:red' }, text: type"></span></strong> has occurred
+                        data-bind="attr: { style: 'color:red' }, text: type"></span></strong> has occurred
                     <strong>
                         <abbr class="timeago" data-bind="attr: { title: isoTime }, text: time">
                         </abbr>
                     </strong> on host <strong><span data-bind="text: host"></span></strong> for user <strong>
-                                                                                                         <span data-bind="text: user"></span></strong>:
+                        <span data-bind="text: user"></span></strong>:
                     <ul>
-                        <li><strong data-bind="text: message"></strong></li>
+                        <li class="msgLink"><a href="#" title="Click for Details" data-bind="event: { click: popup }"><strong data-bind="text: message">
+                        </strong></a></li>
                         <!-- ko if: statusCode -->
                         <li>Code: <span data-bind="text: statusCode"></span></li>
                         <!-- /ko -->
                         <!-- ko if: hasYsod -->
                         <li><a data-bind="attr: { href: url, title: message }" target="_blank">Yellow screen
-                                of death</a></li>
+                            of death</a></li>
                         <!-- /ko -->
-                        <li></li>
+                       
                     </ul>
-                    <a href="#" data-bind="event: { click: popup }">Details</a> </li>
+                </li>
             </ul>
         </div>
     </div>
-    
     <div id="details" title="Error details" data-bind="with: selected">
         <p>
-            <strong><span data-bind="attr: { style: 'color:red' }, text: type"></span></strong> has occurred
-            <strong>
+            <strong><span data-bind="attr: { style: 'color:red' }, text: type"></span></strong>
+            has occurred <strong>
                 <abbr class="timeago" data-bind="attr: { title: isoTime }, text: time">
                 </abbr>
-            </strong>on host <strong><span data-bind="text: host"></span></strong> for user <strong>
-                                                                                                <span data-bind="text: user"></span></strong>:
+            </strong>on host <strong><span data-bind="text: host"></span></strong>for user <strong>
+                <span data-bind="text: user"></span></strong>:
         </p>
         <p>
             Message: <strong data-bind="text: message"></strong>
@@ -91,14 +91,18 @@
         <p>
             Source: <strong data-bind="text: source"></strong>
         </p>
-        
         <pre data-bind="text: detail"></pre>
-        
-        <h3>Server variables</h3>
+        <h3>
+            Server variables</h3>
         <table>
             <thead>
                 <tr>
-                    <td>Name</td><td>Value</td>
+                    <td>
+                        Name
+                    </td>
+                    <td>
+                        Value
+                    </td>
                 </tr>
             </thead>
             <tbody data-bind="foreach: serverVariables">
@@ -112,12 +116,17 @@
                 </tr>
             </tbody>
         </table>
-        
-        <h3>Form</h3>
+        <h3>
+            Form</h3>
         <table>
             <thead>
                 <tr>
-                    <td>Name</td><td>Value</td>
+                    <td>
+                        Name
+                    </td>
+                    <td>
+                        Value
+                    </td>
                 </tr>
             </thead>
             <tbody data-bind="foreach: form">
@@ -131,12 +140,17 @@
                 </tr>
             </tbody>
         </table>
-        
-        <h3>Cookies</h3>
+        <h3>
+            Cookies</h3>
         <table>
             <thead>
                 <tr>
-                    <td>Name</td><td>Value</td>
+                    <td>
+                        Name
+                    </td>
+                    <td>
+                        Value
+                    </td>
                 </tr>
             </thead>
             <tbody data-bind="foreach: cookies">
@@ -151,7 +165,6 @@
             </tbody>
         </table>
     </div>
-    
     <div id="footer">
         <p>
             Copyright (c) 2012 - wasp.net</p>
