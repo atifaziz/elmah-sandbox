@@ -1,10 +1,10 @@
-﻿body
+body
 {
-    background-color: #A0B9BD;
+	 background-color: #727D1A;
     font-size: small;
     font-family: Arial, Helvetica, Sans-Serif;
     margin: 0;
-    padding: 0;
+    padding: 1em;
     color: #432209;
 }
 
@@ -12,24 +12,26 @@ a:link, a:visited
 {
     color: #666;
     text-decoration: none;
+	 background-color: #fff;
 }
 
 a:hover, a:active
 {
-    color: #666;
-    text-decoration: underline;
+    color: Black;
+    text-decoration: none;
+	 background-color: #fff;
 }
 
 ul
 {
     margin: 0;
-    padding: 0 .5em 0;
+    padding: 0;
     list-style-type: none;
 }
 li, p
 {
-    padding: 0;
-    margin: .5em;
+    padding:.3em .5em .3em;
+    margin:0;
     list-style-type: none;
 }
 
@@ -37,15 +39,16 @@ hr
 {
     border: none;
     height: 1px;
-    background-color: #C6E5D9;
+    background-color: #C4DE56;
+	 margin:0;
 }
 /* HEADINGS   
 ----------------------------------------------------------*/
 h1, h2, h3, h4, h5, h6
 {
-    color: #F3036E;
+    color: #C4DE56;	 
     font-family: Arial, Helvetica, sans-serif;
-    padding: .5em;
+    padding: 1em 1em .5em;
     margin: 0;
 }
 
@@ -76,56 +79,32 @@ h5, h6
     font-size: 1em;
 }
 /* ------------------- */
-#footer
+
+/* = Main title, stats box, stats graph wrapped in statsCol */
+.statsCol
 {
-    clear: both;
-    border-top: 1px dotted #C6E5D9;
-    color: #7E8F91;
-    padding: 1em;
+	float:left;
+	width: 300px;
+	height: 100%;
+	margin-right:1em;	
+	margin-bottom: 1em;
 }
-/* = stats+graph column, application column */
-.stats, .apps
+.statsCol .statsBox
 {
-    float: left;
-    width: 24%;
-    margin-right: 1em;
-    margin-bottom: 1em;
-}
-.stats
-{
-    width: 300px;
-    height: 100%;
-    margin-left: 1em;
-}
-.apps
-{
-    border-radius: 8px;
-    background-color: #EFEFEF;
-}
-.stats .totStats
-{
-    background-color: #F5DBCB;
+    background-color: #C4DE56;
     margin-bottom: 1em;
     border-radius: 8px;
     padding: 1em;
 }
-#holder
-{
-    border-radius: 8px;
-    height: 250px;
-    background-color: #fff;
-}
-.stats .totStats p
+.statsCol .statsBox p
 {
     font-size: larger;
     text-align: center;
 }
-.totStats p span
+.statsCol .statsBox p span
 {
     font-weight: bold;
 }
-
-
 #errorTypes .type
 {
     float: left;
@@ -137,40 +116,92 @@ h5, h6
     width: 18%;
     text-align: right;
 }
-.apps h2
+#holder
+{
+    border-radius: 8px;
+    height: 250px;
+    background-color: #fff;
+}
+
+/* = Applications columns ----------------------- */
+.appsCol
+{
+    float: left;
+    width: 24%;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    border-radius: 8px;
+    background-color: #F8FBDD;
+}
+.appsCol h2
 {
     padding-bottom: 0;
-    margin-bottom: 0;
 }
-.apps .title
+.info
 {
-    margin-bottom: .5em;
-    color: #F3036E;
+    padding: .3em 1em .5em;
+    color: #727D1A;
 }
-.apps > ul > li
+.appsCol > ul > li
 {
-    border-bottom: 2px dotted #C6E5D9;
+    border-bottom: 2px dotted #C4DE56;
 }
-.apps #msg img
+.appsCol img
 {
     float: right;
-    margin: 3px;
+    margin:.3em .5em;
 }
-.apps #msg
+.appsCol #msg
 {
     font-size: smaller;
+	 padding-left:1em;
 }
-.apps #msg ul
+.appsCol .msgLink
 {
-    font-size: small;
+    font-size: 1.2em;
+	 list-style-type: disc;
+	 list-style-position: inside;
+}
+.hilite
+{
+	background-color: #FFFF90;
 }
 
+/* = Details Popup ---------*/
+pre {
+    border: 1px dashed #888;
+    padding: 5px 10px;
+    margin: 0 0 1em 0;
+    overflow: auto;
+}
+
+#details h3
+{
+	color:#727d1a;
+	padding-left: 2px;
+}
 #details table 
 {
-    font-size: small;
+    font-size: 1em;
+	 width: 100%;
 }
-
+#details table thead
+{
+	background-color: #E6F18D;
+	font-weight: bold;
+}
 #details table td
 {
     vertical-align: top;
+	 font-size: .8em;
+	 padding: .5em;
+}
+
+
+/* = Footer -------------  */
+#footer
+{
+    clear: both;
+    border-top: 1px dotted #C4DE56;
+    color: #C4DE56;  
 }
