@@ -35,8 +35,8 @@
         public static ErrorsStore BuildSourcesFromConfig(HttpContext context)
         {
             _store = new ErrorsStore();
-            var sections = (ElmahRSection[])context.GetSection("elmahr");
-            foreach (var section in sections)
+            var sections = (ElmahRSection)context.GetSection("elmahr");
+            foreach (var section in sections.Applications)
                 _store.AddSource(section.ApplicationName, section.HandshakeToken);
             return _store;
         }

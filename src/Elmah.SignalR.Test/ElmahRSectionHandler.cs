@@ -9,11 +9,11 @@ namespace Elmah.SignalR.Test
         public virtual object Create(object parent, object configContext, XmlNode section)
         {
             var configurators = from XmlNode node in section.SelectNodes("application")
-                                select new ElmahRSection(
+                                select new ElmahRApplicationSection(
                                     GetStringValue(node, "name"),
                                     GetStringValue(node, "handshakeToken"));
 
-            return configurators.ToArray();
+            return new ElmahRSection(configurators.ToArray());
         }
 
         static string GetStringValue(XmlNode node, string attribute)
@@ -30,7 +30,17 @@ namespace Elmah.SignalR.Test
 
     public class ElmahRSection
     {
-        public ElmahRSection(string applicationName, string handshakeToken)
+        public ElmahRApplicationSection[] Applications { get; private set; }
+
+        public ElmahRSection(ElmahRApplicationSection[] applications)
+        {
+            Applications = applications;
+        }
+    }
+
+    public class ElmahRApplicationSection
+    {
+        public ElmahRApplicationSection(string applicationName, string handshakeToken)
         {
             ApplicationName = applicationName;
             HandshakeToken = handshakeToken;
