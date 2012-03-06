@@ -48,14 +48,14 @@
         }
     }
 
-    public class HttpContextErrorsStorePersistor : IErrorsStorePersistor
+    public class HttpApplicationErrorsStorePersistor : IErrorsStorePersistor
     {
         private readonly HttpContext context;
-        IDictionary<string, ErrorsSource> Sources { get { return (IDictionary<string, ErrorsSource>)context.Items["_sources"]; } }
+        IDictionary<string, ErrorsSource> Sources { get { return (IDictionary<string, ErrorsSource>)context.Application["_sources"]; } }
 
-        public HttpContextErrorsStorePersistor(HttpContext context)
+        public HttpApplicationErrorsStorePersistor(HttpContext context)
         {
-            context.Items.Add("_sources", new Dictionary<string, ErrorsSource>());
+            context.Application.Add("_sources", new Dictionary<string, ErrorsSource>());
             this.context = context;
         }
 
