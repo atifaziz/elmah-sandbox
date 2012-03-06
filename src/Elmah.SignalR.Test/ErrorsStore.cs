@@ -1,6 +1,4 @@
-﻿using System.Web;
-
-namespace Elmah.SignalR.Test
+﻿namespace Elmah.SignalR.Test
 {
     #region Imports
 
@@ -8,6 +6,7 @@ namespace Elmah.SignalR.Test
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Web;
 
     #endregion
 
@@ -19,6 +18,8 @@ namespace Elmah.SignalR.Test
 
     public class ErrorsStore : IEnumerable<ErrorsSource>
     {
+        private static ErrorsStore _store;
+
         private readonly Dictionary<string, ErrorsSource> _sources = new Dictionary<string, ErrorsSource>();
         private int _counter = 0;
 
@@ -26,13 +27,18 @@ namespace Elmah.SignalR.Test
         {   
         }
 
-        public static readonly ErrorsStore Store = new ErrorsStore();
-
-        public void LoadSourcesFromConfig(HttpContext context)
+        public static ErrorsStore Store
         {
+            get { return _store; }
+        }
+
+        public static ErrorsStore BuildSourcesFromConfig(HttpContext context)
+        {
+            _store = new ErrorsStore();
             var sections = (ElmahRSection[])context.GetSection("elmahr");
             foreach (var section in sections)
-                AddSource(section.ApplicationName, section.HandshakeToken);
+                _store.AddSource(section.ApplicationName, section.HandshakeToken);
+            return _store;
         }
 
         public ErrorsStore AddSource(string applicationName, string handshakeToken)

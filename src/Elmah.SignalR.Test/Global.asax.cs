@@ -7,7 +7,7 @@ namespace Elmah.SignalR.Test
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            ErrorsStore.Store.LoadSourcesFromConfig(HttpContext.Current);
+            ErrorsStore.BuildSourcesFromConfig(HttpContext.Current);
 
             //ErrorsStore .Store
             //            .AddSource(
