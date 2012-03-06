@@ -16,15 +16,75 @@
     // on static member, this should be enhanced
     // to other mechanisms.
 
+    public interface IErrorsStorePersistor
+    {
+        void Add(string handshakeToken, ErrorsSource source);
+        ErrorsSource Get(string handshakeToken);
+        IEnumerable<ErrorsSource> GetValues();
+    }
+
+    public class MemoryErrorsStorePersistor : IErrorsStorePersistor
+    {
+        private readonly Dictionary<string, ErrorsSource> _sources = new Dictionary<string, ErrorsSource>();
+
+        public MemoryErrorsStorePersistor(HttpContext context)
+        {
+            
+        }
+
+        public void Add(string handshakeToken, ErrorsSource source)
+        {
+            _sources.Add(handshakeToken, source);
+        }
+
+        public ErrorsSource Get(string handshakeToken)
+        {
+            return _sources.ContainsKey(handshakeToken) ? _sources[handshakeToken] : null;    
+        }
+
+        public IEnumerable<ErrorsSource> GetValues()
+        {
+            return _sources.Values;
+        }
+    }
+
+    public class HttpContextErrorsStorePersistor : IErrorsStorePersistor
+    {
+        private readonly HttpContext context;
+        IDictionary<string, ErrorsSource> Sources { get { return (IDictionary<string, ErrorsSource>)context.Items["_sources"]; } }
+
+        public HttpContextErrorsStorePersistor(HttpContext context)
+        {
+            context.Items.Add("_sources", new Dictionary<string, ErrorsSource>());
+            this.context = context;
+        }
+
+        public void Add(string handshakeToken, ErrorsSource source)
+        {
+            Sources.Add(handshakeToken, source);
+        }
+
+        public ErrorsSource Get(string handshakeToken)
+        {
+            return Sources.ContainsKey(handshakeToken) ? Sources[handshakeToken] : null;    
+        }
+
+        public IEnumerable<ErrorsSource> GetValues()
+        {
+            return Sources.Values;
+        }
+    }
+
     public class ErrorsStore : IEnumerable<ErrorsSource>
     {
+        private readonly IErrorsStorePersistor _persistor;
         private static ErrorsStore _store;
 
-        private readonly Dictionary<string, ErrorsSource> _sources = new Dictionary<string, ErrorsSource>();
         private int _counter = 0;
 
-        private ErrorsStore()
-        {   
+        private ErrorsStore(IErrorsStorePersistor persistor)
+        {
+            _persistor = persistor;
         }
 
         public static ErrorsStore Store
@@ -34,10 +94,17 @@
 
         public static ErrorsStore BuildSourcesFromConfig(HttpContext context)
         {
-            _store = new ErrorsStore();
-            var sections = (ElmahRSection)context.GetSection("elmahr");
-            foreach (var section in sections.Applications)
-                _store.AddSource(section.ApplicationName, section.HandshakeToken);
+            var section = (ElmahRSection)context.GetSection("elmahr");
+
+            var type = string.IsNullOrWhiteSpace(section.PersistorType) 
+                     ? typeof(MemoryErrorsStorePersistor)
+                     : Type.GetType(section.PersistorType);
+
+            var errorsStorePersistor = Activator.CreateInstance(type, context) as IErrorsStorePersistor;
+
+            _store = new ErrorsStore(errorsStorePersistor);
+            foreach (var app in section.Applications)
+                _store.AddSource(app.ApplicationName, app.HandshakeToken);
             return _store;
         }
 
@@ -47,7 +114,7 @@
                 throw new ArgumentException("This application is already registered.", handshakeToken);
 
             var source = new ErrorsSource(applicationName, handshakeToken, ++_counter);
-            _sources.Add(source.HandshakeToken, source);
+            _persistor.Add(source.HandshakeToken, source);
             return this;
         }
 
@@ -55,13 +122,13 @@
         {
             get
             {
-                return _sources.ContainsKey(handshakeToken) ? _sources[handshakeToken] : null;    
+                return _persistor.Get(handshakeToken);    
             }
         }
 
         public IEnumerator<ErrorsSource> GetEnumerator()
         {
-            return _sources.Values.GetEnumerator();
+            return _persistor.GetValues().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -76,7 +143,7 @@
 
         public Error GetError(string id)
         {
-            return _sources.Values.Select(source => source.GetError(id))
+            return _persistor.GetValues().Select(source => source.GetError(id))
                                   .FirstOrDefault(error => error != null);
         }
     }
