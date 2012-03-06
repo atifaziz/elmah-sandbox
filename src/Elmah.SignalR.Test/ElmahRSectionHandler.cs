@@ -8,12 +8,14 @@ namespace Elmah.SignalR.Test
     {
         public virtual object Create(object parent, object configContext, XmlNode section)
         {
+            var type = GetStringValue(section, "persistorType");
+
             var configurators = from XmlNode node in section.SelectNodes("application")
                                 select new ElmahRApplicationSection(
                                     GetStringValue(node, "name"),
                                     GetStringValue(node, "handshakeToken"));
 
-            return new ElmahRSection(configurators.ToArray());
+            return new ElmahRSection(type, configurators.ToArray());
         }
 
         static string GetStringValue(XmlNode node, string attribute)
@@ -30,10 +32,12 @@ namespace Elmah.SignalR.Test
 
     public class ElmahRSection
     {
+        public string PersistorType { get; private set; }
         public ElmahRApplicationSection[] Applications { get; private set; }
 
-        public ElmahRSection(ElmahRApplicationSection[] applications)
+        public ElmahRSection(string type, ElmahRApplicationSection[] applications)
         {
+            PersistorType = type;
             Applications = applications;
         }
     }
