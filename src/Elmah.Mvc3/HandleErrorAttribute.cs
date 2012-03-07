@@ -41,7 +41,7 @@ namespace Elmah
                 return;
 
             var e = context.Exception;
-            var httpContext = GetCurrentHttpContext(context.HttpContext);
+            var httpContext = context.HttpContext.ApplicationInstance.Context;
             if (httpContext != null && 
                 (RaiseErrorSignal(e, httpContext) // prefer signaling, if possible
                  || IsFiltered(e, httpContext))) // filtered?
@@ -73,13 +73,6 @@ namespace Elmah
         private static void LogException(Exception e, HttpContext context)
         {
             ErrorLog.GetDefault(context).Log(new Error(e, context));
-        }
-
-        private static HttpContext GetCurrentHttpContext(HttpContextBase contextBase)
-        {
-            // http://stackoverflow.com/questions/1992141/how-do-i-get-an-httpcontext-object-from-httpcontextbase-in-asp-net-mvc-1/4567707#4567707
-            var application = (HttpApplication)contextBase.GetService(typeof(HttpApplication));
-            return application.Context;
         }
     }
 }
