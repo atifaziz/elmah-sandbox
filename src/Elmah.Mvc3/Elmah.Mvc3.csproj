@@ -35,6 +35,7 @@
       <HintPath>..\..\lib\Elmah.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -45,7 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ElmahController.cs" />
     <Compile Include="ElmahEnabledMvcApplication.cs" />
+    <Compile Include="ElmahResult.cs" />
+    <Compile Include="ElmahSecurityConstraint.cs" />
+    <Compile Include="ErrorMvc3Module.cs" />
     <Compile Include="HandleErrorAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
