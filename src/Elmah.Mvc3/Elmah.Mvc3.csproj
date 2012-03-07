@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ElmahController.cs" />
-    <Compile Include="ElmahEnabledMvcApplication.cs" />
     <Compile Include="ElmahResult.cs" />
     <Compile Include="ElmahSecurityConstraint.cs" />
     <Compile Include="ErrorMvc3Module.cs" />
