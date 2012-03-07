@@ -1,9 +1,13 @@
-using System.Configuration;
-using System.Linq;
-using System.Xml;
-
 namespace Elmah.SignalR.Test
 {
+    #region Imports
+
+    using System.Configuration;
+    using System.Linq;
+    using System.Xml;
+
+    #endregion
+
     public class ElmahRSectionHandler : IConfigurationSectionHandler
     {
         public virtual object Create(object parent, object configContext, XmlNode section)
