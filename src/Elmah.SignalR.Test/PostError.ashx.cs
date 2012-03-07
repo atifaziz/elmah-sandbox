@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Elmah.SignalR.Test
+﻿namespace Elmah.SignalR.Test
 {
     // PostError is a handler which expects a base64-encoded
     // json representation of an error. 
@@ -10,7 +8,6 @@ namespace Elmah.SignalR.Test
     using System;
     using System.Web;
     using System.Text;
-    using System.Web.Script.Serialization;
     using global::SignalR;
     using global::SignalR.Hosting.AspNet;
     using global::SignalR.Infrastructure;
