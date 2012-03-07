@@ -1,8 +1,12 @@
-﻿using System;
-using System.Web;
-
-namespace Elmah.SignalR.Test
+﻿namespace Elmah.SignalR.Test
 {
+    #region Imports
+
+    using System;
+    using System.Web;
+
+    #endregion
+
     public class Global : HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e)
