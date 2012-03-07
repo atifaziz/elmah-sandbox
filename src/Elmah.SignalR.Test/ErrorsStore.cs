@@ -16,11 +16,10 @@
     // on static member, this should be enhanced
     // to other mechanisms.
 
-    public interface IErrorsStorePersistor
+    public interface IErrorsStorePersistor : IEnumerable<ErrorsSource>
     {
-        void Add(string handshakeToken, ErrorsSource source);
-        ErrorsSource Get(string handshakeToken);
-        IEnumerable<ErrorsSource> GetValues();
+        void Add(string key, ErrorsSource source);
+        ErrorsSource this[string key] { get; }
     }
 
     public class MemoryErrorsStorePersistor : IErrorsStorePersistor
@@ -32,19 +31,24 @@
             
         }
 
-        public void Add(string handshakeToken, ErrorsSource source)
+        public void Add(string key, ErrorsSource source)
         {
-            _sources.Add(handshakeToken, source);
+            _sources.Add(key, source);
         }
 
-        public ErrorsSource Get(string handshakeToken)
+        public ErrorsSource this[string key]
         {
-            return _sources.ContainsKey(handshakeToken) ? _sources[handshakeToken] : null;    
+            get { return _sources.ContainsKey(key) ? _sources[key] : null; }
         }
 
-        public IEnumerable<ErrorsSource> GetValues()
+        public IEnumerator<ErrorsSource> GetEnumerator()
         {
-            return _sources.Values;
+            return _sources.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 
@@ -59,19 +63,24 @@
             this.context = context;
         }
 
-        public void Add(string handshakeToken, ErrorsSource source)
+        public void Add(string key, ErrorsSource source)
         {
-            Sources.Add(handshakeToken, source);
+            Sources.Add(key, source);
         }
 
-        public ErrorsSource Get(string handshakeToken)
+        public ErrorsSource this[string key]
         {
-            return Sources.ContainsKey(handshakeToken) ? Sources[handshakeToken] : null;    
+            get { return Sources.ContainsKey(key) ? Sources[key] : null; }
         }
 
-        public IEnumerable<ErrorsSource> GetValues()
+        public IEnumerator<ErrorsSource> GetEnumerator()
         {
-            return Sources.Values;
+            return Sources.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 
@@ -122,13 +131,13 @@
         {
             get
             {
-                return _persistor.Get(handshakeToken);    
+                return _persistor[handshakeToken];    
             }
         }
 
         public IEnumerator<ErrorsSource> GetEnumerator()
         {
-            return _persistor.GetValues().GetEnumerator();
+            return _persistor.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -143,8 +152,8 @@
 
         public Error GetError(string id)
         {
-            return _persistor.GetValues().Select(source => source.GetError(id))
-                                  .FirstOrDefault(error => error != null);
+            return _persistor.Select(source => source.GetError(id))
+                             .FirstOrDefault(error => error != null);
         }
     }
 
