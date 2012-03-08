@@ -24,6 +24,8 @@
 namespace Elmah
 {
     #region Imports
+
+    using System;
     using System.Web.Mvc;
     #endregion
 
@@ -39,7 +41,7 @@ namespace Elmah
                 // alternatively, try the {action} 
                 var action = routeDataValues["action"].ToString();
                 // but only if it is elmah/Detail/{resource}
-                if (action == "Detail")
+                if ("Detail".Equals(action, StringComparison.OrdinalIgnoreCase))
                     resource = action;
             }
 
