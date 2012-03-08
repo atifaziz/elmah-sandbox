@@ -25,6 +25,7 @@ namespace Elmah
 {
     #region Imports
     using System;
+    using System.Collections.Specialized;
     using System.Configuration;
     using System.Linq;
     using System.Web;
@@ -39,12 +40,13 @@ namespace Elmah
 
         public ElmahSecurityConstraint()
         {
-            var allowedRoles = ConfigurationManager.AppSettings["elmah$mvc$allowedRoles"] ?? string.Empty;
+            var appSettings = ConfigurationManager.AppSettings;
+            var allowedRoles = appSettings["elmah$mvc$allowedRoles"] ?? string.Empty;
             _allowedRoles = allowedRoles.Split(',')
-                .Where(r => !string.IsNullOrWhiteSpace(r))
-                .Select(r => r.Trim())
-                .ToArray();
-            var isHandlerEnabled = ConfigurationManager.AppSettings["elmah$mvc$enableHandler"];
+                                        .Where(r => !string.IsNullOrWhiteSpace(r))
+                                        .Select(r => r.Trim())
+                                        .ToArray();
+            var isHandlerEnabled = appSettings["elmah$mvc$enableHandler"];
             bool.TryParse(isHandlerEnabled, out _isHandlerEnabled);
         }
 
