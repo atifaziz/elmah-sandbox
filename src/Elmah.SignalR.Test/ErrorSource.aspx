@@ -46,19 +46,19 @@
 
     private static void ThrowSampleException()
     {
-        var exceptions = new Action[]
+        var exceptions = new Func<Exception>[]
             {
-                () => { throw new System.ApplicationException(); }, 
-                () => { throw new ArgumentException(); }, 
-                () => { throw new ArgumentNullException(); }, 
-                () => { throw new InvalidCastException(); }, 
-                () => { throw new NullReferenceException(); }, 
-                () => { throw new AccessViolationException(); }, 
-                () => { throw new HttpException(); }, 
+                () => new System.ApplicationException(), 
+                () => new ArgumentException(), 
+                () => new ArgumentNullException(), 
+                () => new InvalidCastException(), 
+                () => new NullReferenceException(), 
+                () => new AccessViolationException(), 
+                () => new HttpException(), 
             };
 
         var r = new Random(DateTime.Now.Millisecond);
-        exceptions[r.Next(exceptions.Length)]();
+        throw exceptions[r.Next(exceptions.Length)]();
     }
 
 </script>
