@@ -44,7 +44,7 @@ namespace Elmah
                 return;
 
             var e = context.Exception;
-            var httpContext = context.HttpContext.GetImplementation();
+            var httpContext = context.HttpContext.ApplicationInstance.Context;
             if (httpContext != null && 
                 (RaiseErrorSignal(e, httpContext) // prefer signaling, if possible
                  || IsFiltered(e, httpContext))) // filtered?
