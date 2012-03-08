@@ -32,18 +32,21 @@ namespace Elmah
         public override void ExecuteResult(ControllerContext context)
         {
             // try and get the resource from the {resource} part of the route
-            var resource = context.RequestContext.RouteData.Values["resource"];
+            var routeDataValues = context.RequestContext.RouteData.Values;
+            var resource = routeDataValues["resource"];
             if (resource == null)
             {
                 // alternatively, try the {action} 
-                var action = context.RequestContext.RouteData.Values["action"].ToString();
+                var action = routeDataValues["action"].ToString();
                 // but only if it is elmah/Detail/{resource}
                 if (action == "Detail")
                     resource = action;
             }
 
             var httpContext = context.HttpContext;
-            var currentPath = httpContext.Request.Path;
+            var request = httpContext.Request;
+            var currentPath = request.Path;
+            var queryString = request.QueryString;
             if (resource != null)
             {
                 // make sure that ELMAH knows what the resource is
@@ -51,7 +54,7 @@ namespace Elmah
                 // also remove the resource from the path - else it will start chaining
                 // e.g. /elmah/detail/detail/stylesheet
                 var newPath = currentPath.Remove(currentPath.Length - pathInfo.Length);
-                httpContext.RewritePath(newPath, pathInfo, httpContext.Request.QueryString.ToString());
+                httpContext.RewritePath(newPath, pathInfo, queryString.ToString());
             }
             else
             {
@@ -59,7 +62,7 @@ namespace Elmah
                 if (currentPath.EndsWith("/"))
                 {
                     var newPath = currentPath.Remove(currentPath.Length - 1);
-                    httpContext.RewritePath(newPath, null, httpContext.Request.QueryString.ToString());
+                    httpContext.RewritePath(newPath, null, queryString.ToString());
                 }
             }
 
