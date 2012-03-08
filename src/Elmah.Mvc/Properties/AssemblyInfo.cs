@@ -10,7 +10,7 @@ using System.Web;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Elmah.Mvc")]
-[assembly: AssemblyCopyright("Copyright © Atif Aziz, James Driscoll 2011")]
+[assembly: AssemblyCopyright("Copyright \u00a9 Atif Aziz, James Driscoll 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
