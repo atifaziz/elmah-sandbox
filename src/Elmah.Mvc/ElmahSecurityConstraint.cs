@@ -34,6 +34,9 @@ namespace Elmah
 
     class ElmahSecurityConstraint : IRouteConstraint
     {
+        private readonly string[] _allowedRoles;
+        private readonly bool _isHandlerEnabled;
+
         public ElmahSecurityConstraint()
         {
             var allowedRoles = ConfigurationManager.AppSettings["elmah$mvc$allowedRoles"] ?? string.Empty;
@@ -48,9 +51,6 @@ namespace Elmah
             bool.TryParse(isHandlerEnabled, out _isHandlerEnabled);
         }
 
-        private readonly string[] _allowedRoles;
-        private readonly bool _isHandlerEnabled;
-            
         public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
         {
             if (!_isHandlerEnabled)
