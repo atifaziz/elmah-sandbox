@@ -24,14 +24,21 @@
 namespace Elmah
 {
     #region Imports
+
     using System.Web.Mvc;
+
     #endregion
 
-    public static class ElmahEnabledMvcApplication
+    public class ElmahController : Controller
     {
-        public static void Start()
+        public ElmahResult Index(string resource)
         {
-            GlobalFilters.Filters.Add(new HandleErrorAttribute());
+            return new ElmahResult();
+        }
+
+        public ElmahResult Detail(string resource)
+        {
+            return new ElmahResult();
         }
     }
 }

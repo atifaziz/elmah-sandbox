@@ -1,0 +1,8 @@
+<configuration>
+  <appSettings>
+    <add key="elmah$mvc$enableHandler" value="true" />
+    <!--
+    <add key="elmah$mvc$allowedRoles" value="admin, developer" />
+    -->
+  </appSettings>
+</configuration>
