@@ -7,7 +7,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Elmah.Export", "Export\Elma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.Bootstrapper", "Elmah.Bootstrapper\Elmah.Bootstrapper.csproj", "{BA4487F4-AD1B-4743-B08B-D8BEE1789EB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.Mvc3", "Elmah.Mvc3\Elmah.Mvc3.csproj", "{40749E0E-D3FA-4EE1-B51C-1F9A9B57CF82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.Mvc", "Elmah.Mvc\Elmah.Mvc.csproj", "{40749E0E-D3FA-4EE1-B51C-1F9A9B57CF82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
