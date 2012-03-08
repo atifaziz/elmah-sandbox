@@ -45,9 +45,6 @@ namespace Elmah
                 .Select(r => r.Trim())
                 .ToArray();
             var isHandlerEnabled = ConfigurationManager.AppSettings["elmah$mvc$enableHandler"];
-            if (string.IsNullOrEmpty(isHandlerEnabled))
-                isHandlerEnabled = "true";
-
             bool.TryParse(isHandlerEnabled, out _isHandlerEnabled);
         }
 
