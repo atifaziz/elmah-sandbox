@@ -5,11 +5,11 @@ using System.Web;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Elmah.Mvc3")]
+[assembly: AssemblyTitle("Elmah.Mvc")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Elmah.Mvc3")]
+[assembly: AssemblyProduct("Elmah.Mvc")]
 [assembly: AssemblyCopyright("Copyright © Atif Aziz, James Driscoll 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
