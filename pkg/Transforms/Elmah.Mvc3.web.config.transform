@@ -5,15 +5,4 @@
     <add key="elmah$mvc$allowedRoles" value="admin, developer" />
     -->
   </appSettings>
-  <system.web>
-    <httpModules>
-      <add name="ErrorMvc3" type="Elmah.ErrorMvc3Module, Elmah" />
-    </httpModules>
-  </system.web>
-  <system.webServer>
-    <validation validateIntegratedModeConfiguration="false" />
-    <modules>
-      <add name="ErrorMvc3" type="Elmah.ErrorMvc3Module, Elmah" preCondition="managedHandler" />
-    </modules>
-  </system.webServer>
 </configuration>
