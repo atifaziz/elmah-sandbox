@@ -27,6 +27,7 @@ namespace Elmah
     using System;
     using System.Collections.Specialized;
     using System.Configuration;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web;
     using System.Web.Routing;
@@ -52,13 +53,12 @@ namespace Elmah
 
         public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
         {
-            if (!_isHandlerEnabled)
-                return false;
+            Debug.Assert(_allowedRoles != null);
 
-            if (_allowedRoles == null || _allowedRoles.Length == 0)
-                return true;
-
-            return httpContext.Request.IsAuthenticated && _allowedRoles.Any(httpContext.User.IsInRole);
+            return _isHandlerEnabled 
+                && (_allowedRoles.Length == 0 
+                    || (httpContext.Request.IsAuthenticated 
+                        && _allowedRoles.Any(httpContext.User.IsInRole)));
         }
     }
 }
