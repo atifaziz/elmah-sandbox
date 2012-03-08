@@ -59,7 +59,7 @@ namespace Elmah
             if (_allowedRoles == null || _allowedRoles.Length == 0)
                 return true;
 
-            return httpContext.Request.IsAuthenticated && _allowedRoles.Any(Roles.IsUserInRole);
+            return httpContext.Request.IsAuthenticated && _allowedRoles.Any(httpContext.User.IsInRole);
         }
     }
 }
