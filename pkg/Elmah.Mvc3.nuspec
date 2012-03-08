@@ -3,23 +3,21 @@
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <id>ELMAH.Mvc3</id>
     <version>1.2</version>
-    <authors>Atif Aziz</authors>
+    <authors>Atif Aziz, James Driscoll</authors>
     <owners>Atif Aziz, James Driscoll</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <projectUrl>http://elmah-sandbox.googlecode.com</projectUrl>
-    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Additional hooks to allow ELMAH to work with ASP.NET MVC3</description>
-    <summary>Additional hooks to allow ELMAH to work with ASP.NET MVC3. ELMAH (Error Logging Modules and Handlers) is an application-wide error logging facility that is completely pluggable. It can be dynamically added to a running ASP.NET web application, or even all ASP.NET web applications on a machine, without any need for re-compilation or re-deployment.</summary>
+    <description>Additional module to allow ELMAH to work with ASP.NET MVC3</description>
+    <summary>Additional module to allow ELMAH to work with ASP.NET MVC3. ELMAH (Error Logging Modules and Handlers) is an application-wide error logging facility that is completely pluggable. It can be dynamically added to a running ASP.NET web application, or even all ASP.NET web applications on a machine, without any need for re-compilation or re-deployment.</summary>
     <language>en-US</language>
     <tags>mvc3 elmah error logging unhandled exception</tags>
     <dependencies>
       <dependency id="ELMAH" version="1.2" />
-      <dependency id="WebActivator" version="1.4" />
     </dependencies>
   </metadata>
   <files>
-    <file src="Content\App_Start\Elmah.Mvc3.cs.pp" target="content\App_Start" />
-    <file src="..\bin\Release\Elmah.Mvc3.dll" target="lib" />
+    <file src="Transforms\Elmah.Mvc3.web.config.transform" target="content\web.config.transform" />
+    <file src="..\src\Elmah.Mvc3\bin\Release\Elmah.Mvc3.dll" target="lib\net40" />
   </files>
 </package>
