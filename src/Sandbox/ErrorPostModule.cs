@@ -45,9 +45,8 @@ namespace Elmah.Sandbox
 
     public class ErrorPostModule : HttpModuleBase
     {
-        private Uri _url;
+        private Uri _targetUrl;
         private Uri _infoUrl;
-        private string _handshakeToken; 
 
         protected override void OnInit(HttpApplication application)
         {
@@ -62,19 +61,14 @@ namespace Elmah.Sandbox
             if (config == null)
                 return;
 
-            // The module so far is  expecting one parameter,
-            // caller 'url', which identifies the destination
+            // The module is expecting one parameter,
+            // called 'targetUrl', which identifies the destination
             // of the HTTP POST that the module will perform.
-            // It also requires a handshake
-            // token which 'authorizes' the application to post
-            // to the destination. This is a simple authorization
-            // mechanism which does not replace available
-            // authentication/authorizations systems.
-            // You can also optionally supply an info url.
+            // You can also optionally supply an 'infoUrl' which 
+            // can be used to call back for infos (the most logical
+            // use is to specify where elmah.axd can be reached).
 
-            var url             = new Uri(GetSetting(config, "url"), UriKind.Absolute);
-            var handshakeToken  = GetOptionalSetting(config, "handshakeToken");
-
+            var targetUrl       = new Uri(GetSetting(config, "targetUrl"), UriKind.Absolute);
             var infoUrlSetting  = GetOptionalSetting(config, "infoUrl", "");
             var infoUrl         = !string.IsNullOrEmpty(infoUrlSetting) 
                                 ? new Uri(infoUrlSetting, UriKind.Absolute) 
@@ -95,8 +89,7 @@ namespace Elmah.Sandbox
                 SetError(/* HttpContext.Current, */ args.Entry);
             };
 
-            _url = url;
-            _handshakeToken = handshakeToken;
+            _targetUrl = targetUrl;
             _infoUrl = infoUrl;
         }
 
@@ -109,7 +102,7 @@ namespace Elmah.Sandbox
 
             try
             {
-                var request = (HttpWebRequest)WebRequest.Create(_url);
+                var request = (HttpWebRequest)WebRequest.Create(_targetUrl);
                 request.Method = "POST"; 
                 request.ContentType = "application/x-www-form-urlencoded";
 
@@ -123,13 +116,13 @@ namespace Elmah.Sandbox
                 // better way to do this?). We post also the application
                 // name and the handshaking token.
 
-                var token = GetHandshakeToken();
+                var token = GetSourceId();
 
                 var form = new NameValueCollection
                 {
                     { "error",          Base64Encode(ErrorJson.EncodeString(error)) },
                     { "errorId",        entry.Id },
-                    { "handshakeToken", token },
+                    { "sourceId",       token },
                     { "infoUrl",        _infoUrl != null ? _infoUrl.AbsoluteUri : null },
                 };
 
@@ -179,9 +172,9 @@ namespace Elmah.Sandbox
             };
         }
 
-        protected virtual string GetHandshakeToken()
+        protected virtual string GetSourceId()
         {
-            return _handshakeToken ?? string.Empty;
+            return string.Empty;
         }
 
         public static string Base64Encode(string str)
@@ -226,7 +219,7 @@ namespace Elmah.Sandbox
             if (value.Length == 0)
             {
                 throw new Elmah.ApplicationException(string.Format(
-                    "The required configuration setting '{0}' is missing for the error tweeting module.", name));
+                    "The required configuration setting '{0}' is missing for the error posting module.", name));
             }
 
             return value;
