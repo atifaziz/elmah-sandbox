@@ -5,7 +5,6 @@
 //
 //  Author(s):
 //
-//      Atif Aziz, http://www.raboof.com
 //      James Driscoll
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,19 +23,22 @@
 
 namespace Elmah
 {
-    using System;
-    using System.Web;
+    #region Imports
 
-    static class HttpContextBaseExtensions
+    using System.Web.Mvc;
+
+    #endregion
+
+    public class ElmahController : Controller
     {
-        public static HttpContext GetImplementation(this HttpContextBase context)
+        public ElmahResult Index(string resource)
         {
-            if (context == null) throw new ArgumentNullException("context");
-            // http://stackoverflow.com/questions/1992141/how-do-i-get-an-httpcontext-object-from-httpcontextbase-in-asp-net-mvc-1/4567707#4567707
-            var application = (HttpApplication) context.GetService(typeof(HttpApplication));
-            if (application == null)
-                throw new Exception(string.Format("Service {0} is not available from given context.", typeof(HttpApplication)));
-            return application.Context;
+            return new ElmahResult();
+        }
+
+        public ElmahResult Detail(string resource)
+        {
+            return new ElmahResult();
         }
     }
 }
