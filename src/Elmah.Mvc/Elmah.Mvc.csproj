@@ -46,6 +46,7 @@
     <Compile Include="ElmahMvcBootstrap.cs" />
     <Compile Include="ElmahResult.cs" />
     <Compile Include="ElmahSecurityConstraint.cs" />
+    <Compile Include="HttpExtensions.cs" />
     <Compile Include="HandleErrorAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
