@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.Sandbox", "Sandbox\Elmah.Sandbox.csproj", "{4ECE273D-21E1-4366-923B-6DBA92299FD4}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Elmah.Export", "Export\Elmah.Export.fsproj", "{0B5D9A27-DC97-483F-A779-13C0546C6FDC}"
