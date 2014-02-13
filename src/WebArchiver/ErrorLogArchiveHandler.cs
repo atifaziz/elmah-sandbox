@@ -36,7 +36,7 @@ namespace Elmah.WebArchiver
 
     #endregion
 
-    public class ErrorLogArchiveHandler : HttpTaskAsyncHandler
+    public sealed class ErrorLogArchiveHandler : HttpTaskAsyncHandler
     {
         public override Task ProcessRequestAsync(HttpContext context)
         {
