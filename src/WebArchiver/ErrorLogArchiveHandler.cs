@@ -27,11 +27,8 @@ namespace Elmah.WebArchiver
 
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Diagnostics;
     using System.IO;
     using System.IO.Compression;
-    using System.Linq;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -41,25 +38,28 @@ namespace Elmah.WebArchiver
 
     public class ErrorLogArchiveHandler : HttpTaskAsyncHandler
     {
-        public async override Task ProcessRequestAsync(HttpContext context)
+        public override Task ProcessRequestAsync(HttpContext context)
         {
-            var log = GetErrorLog(context);
+            var log = ErrorLog.GetDefault(context.ApplicationInstance.Context);
+            return ProcessRequestAsync(new HttpContextWrapper(context), log);
+        }
+
+        public async static Task ProcessRequestAsync(HttpContextBase context, ErrorLog log)
+        {
+            if (context == null) throw new ArgumentNullException("context");
+            if (log == null) throw new ArgumentNullException("log");
+
             var response = context.Response;
             response.BufferOutput = false;
             response.ContentType = "application/zip";
             response.Headers["Content-Disposition"] = "attachement; filename=errorlog.zip";
 
             using (var zip = new ZipArchive(new PositionTrackingOutputStream(response.OutputStream), ZipArchiveMode.Create, leaveOpen: true))
-            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(context.Request.TimedOutToken, context.Response.ClientDisconnectedToken))
+            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(context.Request.TimedOutToken, response.ClientDisconnectedToken))
             {
                 // ReSharper disable once AccessToDisposedClosure
                 await Archive(log, Encoding.UTF8, e => zip.CreateEntry(string.Format("error-{0}.xml", e.Id)).Open(), cts.Token);
             }
-        }
-
-        protected virtual ErrorLog GetErrorLog(HttpContext context)
-        {
-            return ErrorLog.GetDefault(context);
         }
 
         static Task Archive(ErrorLog log, Encoding encoding, Func<ErrorLogEntry, Stream> opener, CancellationToken cancellationToken)
