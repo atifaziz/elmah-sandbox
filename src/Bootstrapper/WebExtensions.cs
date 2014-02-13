@@ -60,23 +60,7 @@ namespace Elmah.Bootstrapper
             string url, string pathTranslated)
         {
             if (factory == null) throw new ArgumentNullException("factory");
-            return factory.GetHandler(context.GetRuntimeContext(), requestType, url, pathTranslated);
-        }
-
-        /// <summary>
-        /// Gets the <see cref="HttpContext"/> object that may be associated
-        /// with a given <see cref="HttpContextBase"/> object.
-        /// </summary>
-        /// <remarks>
-        /// An exception is thrown if <paramref name="context"/> does not
-        /// support a query for <see cref="HttpApplication"/> as a service.
-        /// </remarks>
-
-        public static HttpContext GetRuntimeContext(this HttpContextBase context)
-        {
-            if (context == null) throw new ArgumentNullException("context");            
-            // http://stackoverflow.com/questions/1992141/how-do-i-get-an-httpcontext-object-from-httpcontextbase-in-asp-net-mvc-1/4567707#4567707
-            return context.GetRequiredService<HttpApplication>().Context;
+            return factory.GetHandler(context.ApplicationInstance.Context, requestType, url, pathTranslated);
         }
     }
 }
